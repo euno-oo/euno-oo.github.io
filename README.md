@@ -1,14 +1,10 @@
 # Study Hub
 
 ## Overview
-**Study Hub** is a cozy productivity application designed to help users manage their study routines in a warm fall-themed environment. It combines several study tools into one desktop app, built with **HTML, CSS, JavaScript, and Electron**.
-
-You can use it either:
-- As a **web app** (open `index.html` in your browser), or  
-- As a **desktop app** (Windows installer provided).
+**Study Hub** is a cozy productivity application designed to help users manage their study routines in a warm fall-themed environment. It combines several study tools into one desktop app, built with **HTML, CSS, and JavaScript**.
 
 ## Demo
-Try the web version here: [ive Demo](https://rainier-ps.github.io/Study-Hub/)
+Try the web version here: [Live Demo](https://rainier-ps.github.io/Study-Hub/)
 
 ## Features
 - **Pomodoro, Stopwatch, and Clock** – Stay focused with structured study sessions, or track time with a stopwatch and live clock.  
@@ -17,12 +13,6 @@ Try the web version here: [ive Demo](https://rainier-ps.github.io/Study-Hub/)
 - **Calendar** – Create events, reminders, and deadlines with multiple view modes.  
 - **Flashcards** – Create and review flashcards for efficient memorization.  
 - **Lo-Fi Music Player** – Stream background study music without leaving the app.  
-
-## Installation (Desktop App)
-1. Download the latest release:  
-   `Study Hub Setup.exe` (Windows installer).  
-2. Run the installer and follow the setup prompts.  
-3. Launch **Study Hub** from your desktop or start menu.  
 
 ## Development Setup
 If you want to run or build the app yourself:
