@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-<meta name="description" content="Euno — Your all-in-one wellness and study companion. Track moods, build habits, focus with Pomodoro, journal your thoughts, and gain insights into your mental wellbeing.">
-<meta name="keywords" content="wellness app, mood tracker, habit tracker, student health, mental wellbeing, pomodoro timer, study tools, journal app, meditation">
+<meta name="description" content="Euno is an all-in-one wellness and study companion supporting SDG goals for student emotional wellbeing. Track moods, build habits, and improve mental health.">
+<meta name="keywords" content="Euno, SDG, APYLS, mental health, wellness, student wellbeing, mood tracker, habit tracker, meditation, self-care">
 <meta name="author" content="Euno">
 <meta name="theme-color" content="#6750A4">
 <meta name="language" content="English">
@@ -24,7 +24,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
 <link rel="stylesheet" href="css/index.css">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Euno","description":"Student wellness and study companion app with mood tracking, habit formation, journaling, and meditation features","applicationCategory":"EducationalApplication","operatingSystem":"Web","url":"https://rainier-ps.github.io/Euno/","publisher":{"@type":"Organization","name":"Euno"},"aggregateRating":{"@type":"AggregateRating","ratingValue":"4.8","ratingCount":"250"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Euno","description":"Student wellness and study companion app with mood tracking, habit formation, diarying, and meditation features","applicationCategory":"EducationalApplication","operatingSystem":"Web","url":"https://rainier-ps.github.io/Euno/","publisher":{"@type":"Organization","name":"Euno"},"aggregateRating":{"@type":"AggregateRating","ratingValue":"4.8","ratingCount":"250"}}</script>
 </head>
 <body>
 
@@ -77,14 +77,14 @@
         <span class="material-icons-round nav-icon" aria-hidden="true">sentiment_satisfied</span>
         <span class="nav-label">Check-In</span>
       </a>
-      <a href="journal.html" class="nav-item" aria-label="Journal">
+      <a href="diary.html" class="nav-item" aria-label="Diary">
         <span class="nav-indicator" aria-hidden="true"></span>
         <span class="material-icons-round nav-icon" aria-hidden="true">menu_book</span>
-        <span class="nav-label">Journal</span>
+        <span class="nav-label">Diary</span>
       </a>
       <a href="wellness.html" class="nav-item" aria-label="Wellness">
         <span class="nav-indicator" aria-hidden="true"></span>
-        <span class="material-icons-round nav-icon" aria-hidden="true">spa</span>
+        <span class="material-icons-round nav-icon" aria-hidden="true">extension</span>
         <span class="nav-label">Wellness</span>
       </a>
       <a href="shop.html" class="nav-item" aria-label="Shop">
@@ -118,10 +118,10 @@
             <span class="material-icons-round" aria-hidden="true">close</span>
           </button>
         </div>
-        <a href="index.html" class="drawer-item"><span class="material-icons-round" aria-hidden="true">sentiment_satisfied</span>Home</a>
+        <a href="index.html" class="drawer-item"><span class="material-icons-round" aria-hidden="true">home</span>Home</a>
         <a href="checkin.html" class="drawer-item"><span class="material-icons-round" aria-hidden="true">sentiment_satisfied</span>Check-In</a>
-        <a href="journal.html" class="drawer-item"><span class="material-icons-round" aria-hidden="true">menu_book</span>Journal</a>
-        <a href="wellness.html" class="drawer-item"><span class="material-icons-round" aria-hidden="true">spa</span>Wellness</a>
+        <a href="diary.html" class="drawer-item"><span class="material-icons-round" aria-hidden="true">menu_book</span>Diary</a>
+        <a href="wellness.html" class="drawer-item"><span class="material-icons-round" aria-hidden="true">extension</span>Wellness</a>
         <a href="shop.html" class="drawer-item"><span class="material-icons-round" aria-hidden="true">storefront</span>Shop</a>
         <div class="drawer-divider" role="separator"></div>
         <a href="settings.html" class="drawer-item"><span class="material-icons-round" aria-hidden="true">settings</span>Settings</a>
@@ -157,11 +157,7 @@
           </div>
         </div>
         <div class="mood-hero-card" id="today-mood-banner">
-          <div class="mood-hero-left">
-            <p class="mood-hero-label">Today's mood</p>
-            <p class="mood-hero-value" id="home-mood-display">Not logged yet</p>
-          </div>
-          <a href="checkin.html" class="btn-filled-tonal mood-hero-btn">Log Mood</a>
+          <div id="hero-typing-text" class="hero-typing-text" aria-live="polite"></div>
         </div>
         <div class="stats-grid">
           <div class="stat-card stat-card--streak" id="home-streak-card" style="cursor:pointer" role="button" tabindex="0" aria-label="View streak calendar">
@@ -176,14 +172,14 @@
             <div class="stat-icon-wrap"><span class="material-icons-round stat-icon" aria-hidden="true">mood</span></div>
             <div><p class="stat-value">Log</p><p class="stat-label">Mood</p></div>
           </a>
-          <div class="stat-card stat-card--journal" id="home-journal-card" style="cursor:pointer" role="button" tabindex="0" aria-label="Go to journal">
+          <div class="stat-card stat-card--diary" id="home-diary-card" style="cursor:pointer" role="button" tabindex="0" aria-label="Go to diary">
             <div class="stat-icon-wrap"><span class="material-icons-round stat-icon" aria-hidden="true">edit_note</span></div>
-            <div><p class="stat-value" id="home-entries">0</p><p class="stat-label">Journal entries</p></div>
+            <div><p class="stat-value" id="home-entries">0</p><p class="stat-label">Diary entries</p></div>
           </div>
         </div>
         <section aria-label="This week's moods">
-          <h2 class="section-heading">This Week's Moods</h2>
-          <div class="week-moods-strip" id="week-moods-home" aria-label="Weekly mood overview"></div>
+          <h2 class="section-heading">This Week's Wellness</h2>
+          <div class="week-moods-strip" id="week-moods-home" aria-label="Weekly wellness overview"></div>
         </section>
         <section aria-label="Latest insight" id="home-insight-teaser">
           <h2 class="section-heading">Latest Insight</h2>
@@ -202,9 +198,9 @@
       <div class="bnav-icon-wrap"><span class="material-icons-round bnav-icon" aria-hidden="true">sentiment_satisfied</span></div>
     </a>
     <a href="wellness.html" class="bnav-item bnav-center" aria-label="Wellness">
-      <span class="bnav-fab" aria-hidden="true"><span class="material-icons-round" aria-hidden="true">spa</span></span>
+      <span class="bnav-fab" aria-hidden="true"><span class="material-icons-round" aria-hidden="true">extension</span></span>
     </a>
-    <a href="journal.html" class="bnav-item" aria-label="Journal">
+    <a href="diary.html" class="bnav-item" aria-label="Diary">
       <div class="bnav-icon-wrap"><span class="material-icons-round bnav-icon" aria-hidden="true">menu_book</span></div>
     </a>
     

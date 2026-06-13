@@ -4,6 +4,16 @@ export const MOOD_LABELS = ['','Struggling','Low','Okay','Good','Amazing'];
 
 export const MOOD_COLORS = ['','#B3261E','#E8650A','#8B5E00','#186A3B','#6750A4'];
 
+export const WELLNESS_LEVEL_LABELS = ['','Needs Support','Low','Moderate','Good','Thriving'];
+
+export const DIARY_PROMPTS = [
+  'What made today meaningful?',
+  'What challenged you today?',
+  'What are you grateful for today?',
+  'What is one thing you learned today?',
+  'How are you feeling right now?'
+];
+
 export const PRIORITY_ORDER = { Urgent: 0, High: 1, Medium: 2, Low: 3 };
 
 export const ONBOARDING_STEPS = [
@@ -31,7 +41,7 @@ export const ONBOARDING_STEPS = [
   {
     icon: 'sentiment_satisfied',
     title: 'Daily Check-In',
-    body: 'Log your mood, energy, and sleep each day to track your emotional wellbeing over time.',
+    body: 'Log your daily mental health check-in across six dimensions to track emotional wellbeing over time.',
     targetSelector: '#sidebar, #bottom-nav',
     padding: 8
   },
@@ -68,7 +78,7 @@ export const CHALLENGES = [
   { icon:'phone_disabled', title:'Screen Break', desc:'30 mins without phone' },
   { icon:'night_shelter', title:'Sleep Early', desc:'Bed by 10 PM' },
   { icon:'fitness_center', title:'Exercise', desc:'15 mins movement' },
-  { icon:'edit_note', title:'Journaling', desc:'Write 3 sentences' }
+  { icon:'edit_note', title:'Diarying', desc:'Write 3 sentences' }
 ];
 
 export const REFLECTION_PROMPTS = [

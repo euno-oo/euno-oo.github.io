@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-<meta name="description" content="Euno — Your all-in-one wellness and study companion. Track moods, build habits, focus with Pomodoro, journal your thoughts, and gain insights into your mental wellbeing.">
-<meta name="keywords" content="student wellness, mood tracker, habit tracker, pomodoro timer, study tools, mental health, journal, flashcards">
+<meta name="description" content="Euno is an all-in-one wellness and study companion supporting SDG goals for student emotional wellbeing. Track moods, build habits, and improve mental health.">
+<meta name="keywords" content="Euno, SDG, APYLS, mental health, wellness, student wellbeing, mood tracker, habit tracker, meditation, self-care">
 <meta name="author" content="Euno">
 <meta name="theme-color" content="#6750A4">
 <meta property="og:title" content="Euno — Wellness &amp; Study Companion">
@@ -13,7 +13,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Euno — Wellness &amp; Study Companion">
 <meta name="twitter:description" content="Track your mood, build healthy habits, and stay focused with Euno.">
-<title>Euno - Journal</title>
+<title>Wellness Diary - Euno Mental Health App</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
@@ -71,14 +71,14 @@
         <span class="material-icons-round nav-icon" aria-hidden="true">sentiment_satisfied</span>
         <span class="nav-label">Check-In</span>
       </a>
-      <a href="journal.html" class="nav-item active" aria-label="Journal">
+      <a href="diary.html" class="nav-item active" aria-label="Diary">
         <span class="nav-indicator" aria-hidden="true"></span>
         <span class="material-icons-round nav-icon" aria-hidden="true">menu_book</span>
-        <span class="nav-label">Journal</span>
+        <span class="nav-label">Diary</span>
       </a>
       <a href="wellness.html" class="nav-item" aria-label="Wellness">
         <span class="nav-indicator" aria-hidden="true"></span>
-        <span class="material-icons-round nav-icon" aria-hidden="true">spa</span>
+        <span class="material-icons-round nav-icon" aria-hidden="true">extension</span>
         <span class="nav-label">Wellness</span>
       </a>
       <a href="shop.html" class="nav-item" aria-label="Shop">
@@ -114,46 +114,54 @@
         </div>
         <a href="index.html" class="drawer-item"><span class="material-icons-round" aria-hidden="true">home</span>Home</a>
         <a href="checkin.html" class="drawer-item"><span class="material-icons-round" aria-hidden="true">sentiment_satisfied</span>Check-In</a>
-        <a href="journal.html" class="drawer-item active"><span class="material-icons-round" aria-hidden="true">menu_book</span>Journal</a>
-        <a href="wellness.html" class="drawer-item"><span class="material-icons-round" aria-hidden="true">spa</span>Wellness</a>
+        <a href="diary.html" class="drawer-item active"><span class="material-icons-round" aria-hidden="true">menu_book</span>Diary</a>
+        <a href="wellness.html" class="drawer-item"><span class="material-icons-round" aria-hidden="true">extension</span>Wellness</a>
         <a href="shop.html" class="drawer-item"><span class="material-icons-round" aria-hidden="true">storefront</span>Shop</a>
         <div class="drawer-divider" role="separator"></div>
         <a href="settings.html" class="drawer-item"><span class="material-icons-round" aria-hidden="true">settings</span>Settings</a>
       </nav>
     </div>
 
-    <section class="page" id="page-journal" aria-label="Journal">
+    <section class="page" id="page-diary" aria-label="Diary">
       <div class="page-inner">
         <div class="mobile-page-header">
           <a href="index.html" class="mobile-back-btn" aria-label="Back to home">
             <span class="material-icons-round" aria-hidden="true">arrow_back</span>
           </a>
-          <span class="mobile-page-title">Journal</span>
+          <span class="mobile-page-title">Diary</span>
         </div>
         <div class="card">
             <div class="notes-header-row">
-              <h2 class="card-title" style="margin-bottom:0">Journal Entry</h2>
+              <h2 class="card-title" style="margin-bottom:0">Diary Entry</h2>
               <div class="notes-mode-toggle" role="group" aria-label="Editor mode">
-                <button type="button" class="mode-btn active" id="journal-edit-mode-btn" aria-pressed="true">
+                <button type="button" class="mode-btn active" id="diary-edit-mode-btn" aria-pressed="true">
                   <span class="material-icons-round" aria-hidden="true">edit</span>Edit
                 </button>
-                <button type="button" class="mode-btn" id="journal-preview-mode-btn" aria-pressed="false">
+                <button type="button" class="mode-btn" id="diary-preview-mode-btn" aria-pressed="false">
                   <span class="material-icons-round" aria-hidden="true">preview</span>Preview
                 </button>
-                <button type="button" class="mode-btn" id="journal-split-mode-btn" aria-pressed="false">
+                <button type="button" class="mode-btn" id="diary-split-mode-btn" aria-pressed="false">
                   <span class="material-icons-round" aria-hidden="true">vertical_split</span>Split
                 </button>
               </div>
             </div>
             <div class="field-group" style="margin-top:1rem;">
-              <label class="field-label" for="journal-date">Date</label>
+              <label class="field-label" for="diary-title">Title</label>
+              <input type="text" id="diary-title" class="input-field" maxlength="120" placeholder="Give your entry a title…" aria-label="Diary entry title">
+            </div>
+            <div class="field-group">
+              <label class="field-label" for="diary-date">Date</label>
               <div class="date-picker-wrap">
-                <input type="text" id="journal-date" class="input-field date-display-input" placeholder="Select date…" aria-label="Journal date" readonly>
-                <button type="button" class="date-picker-trigger" id="journal-date-trigger" aria-label="Open date picker" aria-haspopup="dialog">
+                <input type="text" id="diary-date" class="input-field date-display-input" placeholder="Select date…" aria-label="Diary date" readonly>
+                <button type="button" class="date-picker-trigger" id="diary-date-trigger" aria-label="Open date picker" aria-haspopup="dialog">
                   <span class="material-icons-round" aria-hidden="true">calendar_month</span>
                 </button>
-                <input type="hidden" id="journal-date-value">
+                <input type="hidden" id="diary-date-value">
               </div>
+            </div>
+            <div class="field-group">
+              <span class="field-label">Writing prompts</span>
+              <div class="diary-prompt-grid" id="diary-prompt-grid" role="group" aria-label="Optional writing prompts"></div>
             </div>
             <div class="editor-toolbar" role="toolbar" aria-label="Text formatting options">
               <button type="button" class="toolbar-btn" data-md="bold" aria-label="Bold"><span class="material-icons-round" aria-hidden="true">format_bold</span></button>
@@ -164,41 +172,41 @@
               <button type="button" class="toolbar-btn" data-md="image" aria-label="Image"><span class="material-icons-round" aria-hidden="true">image</span></button>
               <label class="toolbar-btn img-upload-label" aria-label="Upload image" title="Upload image">
                 <span class="material-icons-round" aria-hidden="true">upload</span>
-                <input type="file" id="journal-img-upload" accept="image/*" style="display:none;" aria-label="Upload image file">
+                <input type="file" id="diary-img-upload" accept="image/*" style="display:none;" aria-label="Upload image file">
               </label>
             </div>
-            <div class="editor-container" id="journal-editor-container">
-              <button type="button" class="editor-copy-btn" id="journal-copy-btn" aria-label="Copy journal entry"><span class="material-icons-round" aria-hidden="true">content_copy</span></button>
-              <textarea id="journal-entry" class="notes-editor-textarea journal-textarea" rows="8" maxlength="10000" placeholder="Write your thoughts, feelings, and reflections… (Markdown supported)" aria-describedby="journal-count journal-draft-status"></textarea>
-              <div id="journal-preview" class="notes-preview md-preview" aria-label="Journal preview" style="display:none;"></div>
+            <div class="editor-container" id="diary-editor-container">
+              <button type="button" class="editor-copy-btn" id="diary-copy-btn" aria-label="Copy diary entry"><span class="material-icons-round" aria-hidden="true">content_copy</span></button>
+              <textarea id="diary-entry" class="notes-editor-textarea diary-textarea" rows="8" maxlength="10000" placeholder="Write your thoughts, feelings, and reflections… (Markdown supported)" aria-describedby="diary-count diary-draft-status"></textarea>
+              <div id="diary-preview" class="notes-preview md-preview" aria-label="Diary preview" style="display:none;"></div>
             </div>
             <div class="draft-status-row">
-              <span class="draft-status" id="journal-draft-status" aria-live="polite"></span>
-              <span class="char-count" id="journal-count" aria-live="polite">0 / 10000</span>
+              <span class="draft-status" id="diary-draft-status" aria-live="polite"></span>
+              <span class="char-count" id="diary-count" aria-live="polite">0 / 10000</span>
             </div>
             <div class="note-label-row" style="margin-top:0.75rem;">
-              <input type="text" id="journal-label-input" class="input-field input-field--sm" placeholder="Add labels… (comma separated)" maxlength="200" aria-label="Journal labels">
+              <input type="text" id="diary-label-input" class="input-field input-field--sm" placeholder="Add labels… (comma separated)" maxlength="200" aria-label="Diary labels">
             </div>
             <div class="draft-status-row" style="margin-top:0.875rem;">
               <div style="display:flex;gap:0.5rem;align-items:center;">
-                <button id="cancel-journal-edit" class="btn-outlined" type="button" style="display:none;"><span class="material-icons-round" aria-hidden="true">close</span>Cancel</button>
-                <button id="save-journal" class="btn-filled" type="button"><span class="material-icons-round" aria-hidden="true">save</span>Save Entry</button>
+                <button id="cancel-diary-edit" class="btn-outlined" type="button" style="display:none;"><span class="material-icons-round" aria-hidden="true">close</span>Cancel</button>
+                <button id="save-diary" class="btn-filled" type="button"><span class="material-icons-round" aria-hidden="true">save</span>Save Entry</button>
               </div>
             </div>
           </div>
-          <div class="search-sort-bar" id="journal-search-sort-bar">
+          <div class="search-sort-bar" id="diary-search-sort-bar">
             <div class="search-sort-bar__search">
               <span class="material-icons-round search-sort-bar__icon" aria-hidden="true">search</span>
-              <input type="search" id="journal-search" class="input-field input-field--sm search-sort-bar__input" placeholder="Search journal…" maxlength="200" aria-label="Search journal entries">
+              <input type="search" id="diary-search" class="input-field input-field--sm search-sort-bar__input" placeholder="Search diary…" maxlength="200" aria-label="Search diary entries">
             </div>
-            <select id="journal-sort" class="input-field input-field--sm search-sort-bar__sort" aria-label="Sort journal entries">
+            <select id="diary-sort" class="input-field input-field--sm search-sort-bar__sort" aria-label="Sort diary entries">
               <option value="date-desc">Newest first</option>
               <option value="date-asc">Oldest first</option>
               <option value="alpha-asc">A → Z</option>
               <option value="alpha-desc">Z → A</option>
             </select>
           </div>
-          <div id="journal-history" class="journal-history" aria-label="Journal entry history"></div>
+          <div id="diary-history" class="diary-history" aria-label="Diary entry history"></div>
         </div>
       </div>
     </section>
@@ -210,9 +218,9 @@
       <div class="bnav-icon-wrap"><span class="material-icons-round bnav-icon" aria-hidden="true">sentiment_satisfied</span></div>
     </a>
     <a href="wellness.html" class="bnav-item bnav-center" aria-label="Wellness">
-      <span class="bnav-fab" aria-hidden="true"><span class="material-icons-round" aria-hidden="true">spa</span></span>
+      <span class="bnav-fab" aria-hidden="true"><span class="material-icons-round" aria-hidden="true">extension</span></span>
     </a>
-    <a href="journal.html" class="bnav-item active" aria-label="Journal">
+    <a href="diary.html" class="bnav-item active" aria-label="Diary">
       <div class="bnav-icon-wrap"><span class="material-icons-round bnav-icon" aria-hidden="true">menu_book</span></div>
     </a>
   </nav>

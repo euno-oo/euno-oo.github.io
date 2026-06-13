@@ -6,15 +6,14 @@
 
 ### Core Features
 - **Home Dashboard**: Greeting display, mood preview, quick stats, weekly mood visualization, coin balance display
-- **Daily Check-In**: Mood selection (emoji + slider), energy level, sleep hours, stress level, thoughts entry, wellness score calculation, streak tracking, insights (summary statistics, mood charts, habit consistency, emotional patterns, PDF report generation)
-- **Journal System**:
-  - Journal Entries: Markdown editor, labels, reminders, search/sort, draft auto-save
-  - Habit Tracker: Weekly grid, completion tracking, metrics, CSV export
+- **Daily Check-In**: Six-question mental health assessment (emotion multi-select, stress, worry, thought loops, energy, social connection), multi-dimensional scoring (stress, anxiety, burnout, overthinking, loneliness), challenge detection with severity levels, live assessment preview, streak tracking, insights (summary statistics, wellness trend charts, emotion frequency, emotional patterns, PDF report generation)
+- **Diary System**:
+  - Diary Entries: Title, long-form content, optional writing prompts, markdown editor, labels, reminders, search/sort, draft auto-save
 - **Wellness**:
   - Breathing Exercises: 4-7-8, Box, Calm techniques with visual feedback
-  - Gratitude Journal: 3 daily entries with history
+  - Gratitude Diary: 3 daily entries with history
   - Self-Care Challenges: Daily micro-challenges with completion tracking
-  - Reflection Prompts: Rotating prompts for journaling
+  - Reflection Prompts: Rotating prompts for diarying
 - **Shop**: StudyCoins system, item purchasing, inventory management, coin history, power-ups (streak freeze, double coins, lucky spin, focus boost)
 - **Settings**: Profile (name, gender), theme selection (light/dark/system), data export/import, data clearing, onboarding restart
 - **Onboarding**: Interactive tour with spotlight highlighting, step navigation
@@ -28,8 +27,8 @@
 - Confirmation Dialogs: User confirmation for destructive actions
 
 ### Background Services
-- Reminder System: Browser notifications for notes/journals, 60-second polling
-- Draft Auto-Save: Debounced localStorage writes for notes/journals
+- Reminder System: Browser notifications for notes/diarys, 60-second polling
+- Draft Auto-Save: Debounced localStorage writes for notes/diarys
 - Coin Earning: Daily check-in rewards, habit completion bonuses
 - Streak Calculation: With freeze support for missed days
 
@@ -39,21 +38,21 @@
 ```
 Home Dashboard
   ├─ Check-in data (mood, streaks)
-  ├─ Journal data (recent entries count)
+  ├─ Diary data (recent entries count)
   ├─ Habit data (completion tracking)
   └─ Coins (balance display)
 
-Journal System
+Diary System
   ├─ Date/Time Pickers (for deadlines/reminders)
   ├─ Markdown Parser (for content rendering)
   ├─ Reminder System (for notifications)
-  ├─ Storage (journals, habits)
+  ├─ Storage (diarys, habits)
   └─ Draft Auto-Save (debounced writes)
 
 Daily Check-In (includes Insights)
   ├─ Check-in data (mood trends, streaks)
   ├─ Habit data (consistency, weekly completion)
-  ├─ Journal data (entry count, streaks)
+  ├─ Diary data (entry count, streaks)
   └─ jsPDF library (report generation)
 
 Wellness
@@ -87,8 +86,8 @@ Navigation
 ### Cross-Cutting Dependencies
 - **Storage Layer**: All features depend on localStorage access via getStorage/setStorage
 - **Theme System**: All UI components depend on theme CSS variables and data-theme attribute
-- **Date/Time Utilities**: Check-in, Journal, Reminders
-- **Markdown Parser**: Journal
+- **Date/Time Utilities**: Check-in, Diary, Reminders
+- **Markdown Parser**: Diary
 - **Notification System**: Reminders, Toast messages
 - **Coin System**: Check-in, Habits, Shop
 - **Sanitization**: All user input rendering
@@ -101,7 +100,7 @@ Euno/
 ├── about.html              # About page
 ├── checkin.html            # Daily check-in page (includes insights)
 ├── credits.html            # Credits page
-├── journal.html            # Journal page
+├── diary.html            # Diary page
 ├── privacy.html            # Privacy policy page
 ├── settings.html           # Settings page
 ├── shop.html               # Shop page
@@ -131,7 +130,7 @@ Euno/
 │   ├── features/
 │   │   ├── home.css        # Home page feature styles
 │   │   ├── checkin.css     # Daily check-in feature styles
-│   │   ├── journal.css     # Journal feature styles
+│   │   ├── diary.css     # Diary feature styles
 │   │   ├── pickers.css     # Date/time picker component styles
 │   │   ├── habits.css      # Habit tracker feature styles
 │   │   ├── wellness.css    # Wellness (breathing, gratitude, challenges) feature styles
@@ -156,7 +155,7 @@ Euno/
 │   │   ├── checkin.html    # Daily check-in page content (includes insights)
 │   │   ├── credits.html    # Credits page content
 │   │   ├── home.html       # Home page content
-│   │   ├── journal.html    # Journal page content
+│   │   ├── diary.html    # Diary page content
 │   │   ├── privacy.html    # Privacy policy page content
 │   │   ├── settings.html   # Settings page content
 │   │   ├── shop.html       # Shop page content
@@ -176,27 +175,28 @@ Euno/
     │   └── pickers.js      # Date picker + time picker (merged)
     ├── features/
     │   ├── home.js         # Dashboard, streak calc, week moods, insight teaser
-    │   ├── checkin.js      # Daily check-in, wellness score, history
+    │   ├── checkin.js      # Daily check-in form, history, live assessment
+    │   ├── checkinScoring.js # Scoring formula, challenge detection, severity levels
     │   ├── theme.js        # Theme init/apply, system preference listener
     │   └── onboarding.js   # Spotlight tour; exposes initOnboarding.restart
-    ├── journal/
-    │   ├── journal.js      # Journal editor, history, save/load
+    ├── diary/
+    │   ├── diary.js      # Diary editor, history, save/load
     │   └── editor.js       # Shared markdown editor helpers
     ├── habits/habits.js
     ├── wellness/wellness.js
     ├── shop/shop.js
     ├── settings/settings.js
     ├── streak/streakCalendar.js
-    └── migrations/migrateJournalReminders.js
+    └── migrations/migrateDiaryReminders.js
 ```
 
 ## Entry Point & Bootstrap
 
 Each HTML page loads `css/index.css` (modular CSS), jsPDF CDN, and `<script type="module" src="js/script.js">`.
 
-`js/script.js` on `DOMContentLoaded` initializes all features. Side-effect imports: `migrateJournalReminders.js`.
+`js/script.js` on `DOMContentLoaded` initializes all features. Side-effect imports: `migrateDiaryReminders.js`.
 
-**Still in `js/script.js` (not extracted):** `initNavigation()` (page routing, drawer), `initJournal()` (journal section tabs).
+**Still in `js/script.js` (not extracted):** `initNavigation()` (page routing, drawer), `initDiary()` (diary section tabs).
 
 ## Module Responsibilities
 
@@ -212,24 +212,61 @@ Each HTML page loads `css/index.css` (modular CSS), jsPDF CDN, and `<script type
 | `features/theme.js` | `initTheme`, `applyTheme`, `updateThemeBtns` |
 | `features/onboarding.js` | `initOnboarding` |
 | `features/home.js` | `initHome`, `updateHomeDashboard`, `calcCheckinStreak` |
-| `features/checkin.js` | `initCheckin`, `getCurrentWeekDates` (includes insights functionality) |
-| `journal/editor.js` | `setDraftStatus`, `applyMarkdown`, `insertAtCursor`, `setEditorMode` |
-| `journal/journal.js` | `initJournalEditor` |
+| `features/checkin.js` | `initCheckin`, `getCurrentWeekDates` |
+| `features/checkinScoring.js` | `calculateScores`, `detectChallenges`, `getSeverity`, `isCheckinPositive`, `getCheckinWellnessLevel` |
+| `insights/insights.js` | `initInsights`, `renderInsights` |
+| `diary/editor.js` | `setDraftStatus`, `applyMarkdown`, `insertAtCursor`, `setEditorMode` |
+| `diary/diary.js` | `initDiaryEditor` |
 | `habits/habits.js` | `initHabits`, `renderHabits` |
 | `wellness/wellness.js` | `initWellness` |
 | `shop/shop.js` | `addCoins`, `updateCoinDisplay`, `initShop`, `renderShop`, `calcCheckinStreakWithFreezes` |
 | `settings/settings.js` | `initSettings` |
 | `streak/streakCalendar.js` | `initStreakCalendar` |
-| `migrations/migrateJournalReminders.js` | Side-effect only — runs one-time migration on import |
+| `migrations/migrateDiaryReminders.js` | Side-effect only — runs one-time migration on import |
 
 ## Cross-Feature Imports (Actual)
 
-- `checkin.js` → `home.js` (includes insights functionality)
-- `habits.js`, `journal.js`, `checkin.js`, `settings.js` → `home.js`
-- `checkin.js`, `habits.js`, `journal.js` → `shop.js` (for `addCoins`)
+- `checkin.js` → `home.js`, `insights.js`, `checkinScoring.js`
+- `habits.js`, `diary.js`, `checkin.js`, `settings.js` → `home.js`
+- `checkin.js`, `habits.js`, `diary.js` → `shop.js` (for `addCoins`)
 - `streakCalendar.js` → `shop.js`
 - `onboarding.js` → `home.js`
 - `settings.js` → `onboarding.js`
+- `checkin.js` → `checkinScoring.js`, `insights.js`
+- `home.js`, `insights.js` → `checkinScoring.js`
+
+## Check-In Scoring System
+
+Implemented in `js/features/checkinScoring.js`.
+
+### Questions
+1. **Emotions** (`moods: string[]`) — multi-select chips, 1–3 selections from 12 options (6 positive, 6 negative)
+2. **Stress** (`stress_level: 1–5`) — graduated buttons
+3. **Worry** (`worry_level: 1–5`) — graduated buttons
+4. **Thought loops** (`thought_loop_level: 1–5`) — graduated buttons
+5. **Energy** (`energy_level: 1–5`, 5 = very energetic) — graduated buttons
+6. **Social connection** (`social_connection_level: 1–5`, 5 = very connected) — graduated buttons
+
+### Score dimensions
+Each check-in produces five scores: `stress_score`, `anxiety_score`, `burnout_score`, `overthinking_score`, `loneliness_score`. Emotion selections and graduated-button answers each contribute points per the spec.
+
+### Challenge detection
+| Dimension | Threshold |
+|-----------|-----------|
+| Stress | >= 5 |
+| Anxiety | >= 5 |
+| Burnout | >= 5 |
+| Overthinking | >= 4 |
+| Loneliness | >= 5 |
+
+### Severity levels
+Per-dimension ranges: Low, Mild, Moderate, High (see `getSeverity()` in `checkinScoring.js`).
+
+### Home dashboard messaging
+The hero typing animation uses `isCheckinPositive()` — positive when no challenges are detected, supportive otherwise.
+
+### Legacy data
+Older check-ins using the previous `mood`/`stress`/`energy`/`sleep` format are adapted at read time via `normalizeCheckinEntry()`.
 
 ## Function Reference (by module file)
 
@@ -258,14 +295,14 @@ Each HTML page loads `css/index.css` (modular CSS), jsPDF CDN, and `<script type
 Each feature module exports `init*` (and render helpers where needed). See **Module Responsibilities** table above for file locations. Private helpers stay unexported within each file.
 
 ### Reminders & migrations
-- `notes/notes.js`: `scheduleNoteReminder`, `scheduleJournalReminder`, `checkReminders` (+ 60s interval)
-- `migrations/migrateJournalReminders.js`: runs once on import
+- `notes/notes.js`: `scheduleNoteReminder`, `scheduleDiaryReminder`, `checkReminders` (+ 60s interval)
+- `migrations/migrateDiaryReminders.js`: runs once on import
 
 ## Shared State Map
 
 ### Global Variables
 - `_notesState`: `{ query: '', sort: 'date-desc' }` - Notes search/sort state (module-scoped in `notes.js`)
-- `_journalState`: `{ query: '', sort: 'date-desc' }` - Journal search/sort state (module-scoped in `journal.js`)
+- `_diaryState`: `{ query: '', sort: 'date-desc' }` - Diary search/sort state (module-scoped in `diary.js`)
 - `_todoState`: `{ query: '', sort: 'date-desc' }` - To-Do search/sort state (module-scoped in `todo.js`)
 - `calendarState`: `{ viewMode, month, year, day, selectedDate, notifications }` - Calendar view state
 - `dpCallback`: Function - Date picker callback
@@ -304,7 +341,7 @@ Each feature module exports `init*` (and render helpers where needed). See **Mod
 - `SHOP_ITEMS`: Array of shop item objects
 
 ### State Ownership
-- **Notes/Journal/To-Do State**: Owned by respective feature modules, shared search/sort pattern
+- **Notes/Diary/To-Do State**: Owned by respective feature modules, shared search/sort pattern
 - **Calendar State**: Owned by calendar module
 - **Picker State**: Owned by respective picker modules (date, time)
 - **Timer State**: Owned by respective timer modules (pomodoro, stopwatch, countdown, breathing)
@@ -323,7 +360,7 @@ Each feature module exports `init*` (and render helpers where needed). See **Mod
 ### Feature-Specific DOM Elements
 - **Home**: `greeting-name`, `greeting-label-text`, `home-mood-display`, `home-streak`, `home-habits-today`, `home-focus`, `home-entries`, `week-moods-home`, `insight-teaser-content`
 - **Check-in**: Mood buttons, sliders, input fields, check-in history
-- **Journal**: Notes editor, journal editor, tabs, lists, search/sort inputs
+- **Diary**: Notes editor, diary editor, tabs, lists, search/sort inputs
 - **To-Do**: Todo input, deadline fields, priority/status selects, todo list
 - **Habits**: Habit input, habit grid, metrics, motivation text
 - **Calendar**: Calendar view, event form, notification inputs
@@ -361,7 +398,7 @@ Each feature module exports `init*` (and render helpers where needed). See **Mod
 
 ### Feature Event Listeners
 - **Check-in**: Mood buttons, sliders, save button
-- **Journal**: Tab buttons, editor inputs, save/delete buttons, search/sort inputs
+- **Diary**: Tab buttons, editor inputs, save/delete buttons, search/sort inputs
 - **To-Do**: Add button, checkbox changes, delete buttons, search/sort inputs
 - **Habits**: Add button, habit checkboxes, delete buttons, download button
 - **Calendar**: View mode select, month/year selects, navigation buttons, event form inputs
@@ -387,7 +424,7 @@ Each feature module exports `init*` (and render helpers where needed). See **Mod
 - **Theme**: `theme`, `onboarding_done`
 - **Profile**: `profile_name`, `profile_gender`
 - **Check-in**: `checkins`
-- **Journal**: `journals`, `journal_meta`, `notes`, `notes_draft`, `journal_draft_{date}`
+- **Diary**: `diarys`, `diary_meta`, `notes`, `notes_draft`, `diary_draft_{date}`
 - **To-Do**: `todos`
 - **Habits**: `habits`
 - **Calendar**: `calendarEvents`
@@ -395,13 +432,13 @@ Each feature module exports `init*` (and render helpers where needed). See **Mod
 - **Pomodoro**: `pomodoro_sessions`
 - **Wellness**: `gratitude_entries`, `challenges_done_{date}`
 - **Shop**: `coins_balance`, `coins_history`, `inventory`, `streak_freezes`
-- **Reminders**: `note_reminders` (migrated from `journal_reminders`)
+- **Reminders**: `note_reminders` (migrated from `diary_reminders`)
 
 ### Storage Patterns
 - **Simple Values**: Strings, numbers (theme, profile_name, profile_gender, coins_balance)
 - **Arrays**: Lists of objects (checkins, notes, todos, habits, flashcard_decks, pomodoro_sessions, gratitude_entries, coins_history, note_reminders)
-- **Objects**: Key-value maps (journals, journal_meta, calendarEvents, inventory)
-- **Dynamic Keys**: Per-date drafts (`journal_draft_{date}`), per-day challenges (`challenges_done_{date}`)
+- **Objects**: Key-value maps (diarys, diary_meta, calendarEvents, inventory)
+- **Dynamic Keys**: Per-date drafts (`diary_draft_{date}`), per-day challenges (`challenges_done_{date}`)
 
 ### Storage Access Functions
 - `getStorage(key, fallback)`: Read with JSON parse, fallback on error
@@ -425,7 +462,7 @@ These IDs/classes are not in `index.html` but are created by JS:
 - `checkin-done-banner` — after saving check-in (`features/checkin.js`)
 - `add-event-day-btn` — day view in calendar (`calendar/calendar.js`)
 - `ob-dot` — onboarding step dots (`features/onboarding.js`)
-- List item classes: `note-item`, `journal-item`, `todo-item`, `checkin-item`, `week-mood-item`, etc.
+- List item classes: `note-item`, `diary-item`, `todo-item`, `checkin-item`, `week-mood-item`, etc.
 
 ## Coding Standards (current)
 

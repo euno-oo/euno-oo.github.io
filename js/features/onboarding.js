@@ -116,6 +116,7 @@ export function initOnboarding() {
 
     overlay.style.display = '';
     overlay.removeAttribute('aria-hidden');
+    overlay.classList.add('active');
 
     const tooltip  = document.getElementById('onboarding-tooltip');
     const titleEl  = document.getElementById('onboarding-tooltip-title');
@@ -215,6 +216,7 @@ export function initOnboarding() {
       setStorage('onboarding_done', true);
       overlay.style.display = 'none';
       overlay.setAttribute('aria-hidden', 'true');
+      overlay.classList.remove('active');
       const hole = document.getElementById('spotlight-hole');
       if (hole) { hole.setAttribute('width', '0'); hole.setAttribute('height', '0'); }
       if (app) app.style.display = 'flex';
@@ -261,6 +263,7 @@ export function initOnboarding() {
   if (seen) {
     overlay.style.display = 'none';
     overlay.setAttribute('aria-hidden', 'true');
+    overlay.classList.remove('active');
     if (app) app.style.display = 'flex';
     return;
   }

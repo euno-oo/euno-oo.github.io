@@ -111,7 +111,7 @@ export function renderShop() {
   if (historyList) {
     const hist = getStorage('coins_history', []).slice(0, 20);
     if (!hist.length) {
-      historyList.innerHTML = '<p style="color:var(--md-on-surface-variant);font-size:0.875rem;">No coin history yet. Earn coins by checking in, journaling, and completing habits!</p>';
+      historyList.innerHTML = '<p style="color:var(--md-on-surface-variant);font-size:0.875rem;">No coin history yet. Earn coins by checking in, diarying, and completing habits!</p>';
     } else {
       historyList.innerHTML = hist.map(h => `
         <div class="coin-history-item">

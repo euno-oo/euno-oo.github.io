@@ -1,15 +1,16 @@
 import { getStorage } from '../core/storage.js';
 import { calcCheckinStreakWithFreezes } from '../shop/shop.js';
+import { openOverlayDialog, closeOverlayDialog } from '../utils/ui.js';
 
 let streakCalMonth = new Date().getMonth();
 let streakCalYear = new Date().getFullYear();
 
 export function initStreakCalendar() {
   const btn = document.getElementById('streak-cal-btn');
-  btn && btn.addEventListener('click', openStreakCalendar);
+  btn && btn.addEventListener('click', (e) => openStreakCalendar(e.currentTarget));
 
   const desktopBtn = document.getElementById('streak-cal-btn-desktop');
-  desktopBtn && desktopBtn.addEventListener('click', openStreakCalendar);
+  desktopBtn && desktopBtn.addEventListener('click', (e) => openStreakCalendar(e.currentTarget));
 
   const closeBtn = document.getElementById('streak-cal-close');
   closeBtn && closeBtn.addEventListener('click', closeStreakCalendar);
@@ -32,23 +33,18 @@ export function initStreakCalendar() {
   });
 }
 
-function openStreakCalendar() {
+export function openStreakCalendar(triggerEl) {
   streakCalMonth = new Date().getMonth();
   streakCalYear = new Date().getFullYear();
   const dialog = document.getElementById('streak-calendar-dialog');
-  if (dialog) {
-    dialog.setAttribute('aria-hidden', 'false');
-    dialog.style.display = 'flex';
-  }
+  if (!dialog) return;
+  openOverlayDialog(dialog, triggerEl);
   renderStreakCalendar();
 }
 
-function closeStreakCalendar() {
+export function closeStreakCalendar() {
   const dialog = document.getElementById('streak-calendar-dialog');
-  if (dialog) {
-    dialog.setAttribute('aria-hidden', 'true');
-    dialog.style.display = 'none';
-  }
+  closeOverlayDialog(dialog);
 }
 
 function renderStreakCalendar() {

@@ -149,3 +149,15 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+.mobile-home-greeting.no-name #mobile-greeting-time {
+  font-family: var(--font-display);
+  font-size: 1.75rem; /* same as mobile badge diameter */
+  font-weight: 800;
+  color: var(--md-on-surface);
+  letter-spacing: -0.02em;
+}
+
+.mobile-home-greeting.no-name #mobile-greeting-name {
+  display: none;
+}

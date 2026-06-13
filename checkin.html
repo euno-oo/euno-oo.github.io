@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-<meta name="description" content="Euno — Your all-in-one wellness and study companion. Track moods, build habits, focus with Pomodoro, journal your thoughts, and gain insights into your mental wellbeing.">
-<meta name="keywords" content="student wellness, mood tracker, habit tracker, pomodoro timer, study tools, mental health, journal, flashcards">
+<meta name="description" content="Euno is an all-in-one wellness and study companion supporting SDG goals for student emotional wellbeing. Track moods, build habits, and improve mental health.">
+<meta name="keywords" content="Euno, SDG, APYLS, mental health, wellness, student wellbeing, mood tracker, habit tracker, meditation, self-care">
 <meta name="author" content="Euno">
 <meta name="theme-color" content="#6750A4">
 <meta property="og:title" content="Euno — Wellness &amp; Study Companion">
@@ -71,14 +71,14 @@
         <span class="material-icons-round nav-icon" aria-hidden="true">sentiment_satisfied</span>
         <span class="nav-label">Check-In</span>
       </a>
-      <a href="journal.html" class="nav-item" aria-label="Journal">
+      <a href="diary.html" class="nav-item" aria-label="Diary">
         <span class="nav-indicator" aria-hidden="true"></span>
         <span class="material-icons-round nav-icon" aria-hidden="true">menu_book</span>
-        <span class="nav-label">Journal</span>
+        <span class="nav-label">Diary</span>
       </a>
       <a href="wellness.html" class="nav-item" aria-label="Wellness">
         <span class="nav-indicator" aria-hidden="true"></span>
-        <span class="material-icons-round nav-icon" aria-hidden="true">spa</span>
+        <span class="material-icons-round nav-icon" aria-hidden="true">extension</span>
         <span class="nav-label">Wellness</span>
       </a>
       <a href="shop.html" class="nav-item" aria-label="Shop">
@@ -114,8 +114,8 @@
         </div>
         <a href="index.html" class="drawer-item"><span class="material-icons-round" aria-hidden="true">home</span>Home</a>
         <a href="checkin.html" class="drawer-item active"><span class="material-icons-round" aria-hidden="true">sentiment_satisfied</span>Check-In</a>
-        <a href="journal.html" class="drawer-item"><span class="material-icons-round" aria-hidden="true">menu_book</span>Journal</a>
-        <a href="wellness.html" class="drawer-item"><span class="material-icons-round" aria-hidden="true">spa</span>Wellness</a>
+        <a href="diary.html" class="drawer-item"><span class="material-icons-round" aria-hidden="true">menu_book</span>Diary</a>
+        <a href="wellness.html" class="drawer-item"><span class="material-icons-round" aria-hidden="true">extension</span>Wellness</a>
         <a href="shop.html" class="drawer-item"><span class="material-icons-round" aria-hidden="true">storefront</span>Shop</a>
         <div class="drawer-divider" role="separator"></div>
         <a href="settings.html" class="drawer-item"><span class="material-icons-round" aria-hidden="true">settings</span>Settings</a>
@@ -136,86 +136,99 @@
         <header class="page-header checkin-page-header">
           <div class="checkin-header-text">
             <h1 class="page-title">Daily Check-In</h1>
-            <p class="page-subtitle">How are you feeling today?</p>
+            <p class="page-subtitle">Daily mental health check-in</p>
           </div>
           <button id="streak-cal-btn-desktop" aria-label="View streak calendar" type="button">
             <span class="material-icons-round" aria-hidden="true">calendar_month</span>
           </button>
         </header>
-        <div class="card" role="form" aria-label="Mood check-in form">
-          <fieldset class="mood-emoji-grid" id="mood-emoji-grid" aria-label="Select your mood">
-            <legend class="fieldset-legend">Select your mood</legend>
-            <button class="mood-btn" data-mood="1" data-label="Struggling" aria-label="Struggling mood" type="button"><span class="material-icons-round" aria-hidden="true">sentiment_very_dissatisfied</span><span class="mood-btn-label">Struggling</span></button>
-            <button class="mood-btn" data-mood="2" data-label="Low" aria-label="Low mood" type="button"><span class="material-icons-round" aria-hidden="true">sentiment_dissatisfied</span><span class="mood-btn-label">Low</span></button>
-            <button class="mood-btn" data-mood="3" data-label="Okay" aria-label="Okay mood" type="button"><span class="material-icons-round" aria-hidden="true">sentiment_neutral</span><span class="mood-btn-label">Okay</span></button>
-            <button class="mood-btn" data-mood="4" data-label="Good" aria-label="Good mood" type="button"><span class="material-icons-round" aria-hidden="true">sentiment_satisfied</span><span class="mood-btn-label">Good</span></button>
-            <button class="mood-btn" data-mood="5" data-label="Amazing" aria-label="Amazing mood" type="button"><span class="material-icons-round" aria-hidden="true">sentiment_very_satisfied</span><span class="mood-btn-label">Amazing</span></button>
-          </fieldset>
-          <p class="selected-mood-label" id="selected-mood-label" aria-live="polite" aria-atomic="true"></p>
-          <div class="field-group mood-finetune-group" id="mood-finetune-group" style="display:none;">
-            <div class="mood-finetune-header">
-              <span class="field-label">Fine-tune</span>
-              <span class="mood-finetune-zone-pill" id="mood-finetune-zone-label"></span>
-            </div>
-            <div class="mood-slider-track-wrap">
-              <input type="range" id="mood-slider" min="1" max="10" value="5" class="range-slider mood-slider-colored" aria-label="Mood fine-tune">
-              <div class="mood-slider-dots" id="mood-slider-dots" aria-hidden="true"></div>
-            </div>
-            <div class="mood-slider-ticks" aria-hidden="true">
-              <span>← Worse</span>
-              <span class="mood-finetune-center-lbl" id="mood-finetune-center-label"></span>
-              <span>Better →</span>
-            </div>
-          </div>
-          <h3 class="subsection-heading">Quick Reflection</h3>
-          <div class="field-group">
-            <label class="field-label" for="checkin-thoughts">What's on your mind today?</label>
-            <textarea id="checkin-thoughts" class="textarea" rows="3" maxlength="500" placeholder="Share a few thoughts…" aria-describedby="thoughts-count"></textarea>
-            <span class="char-count" id="thoughts-count" aria-live="polite">0 / 500</span>
-          </div>
+        <div class="card" role="form" aria-label="Mental health check-in form">
           <fieldset class="field-group checkin-fieldset">
-            <legend class="field-label">Energy level today</legend>
-            <div class="chip-group chip-group--full" role="group" aria-label="Energy level">
-              <button class="chip chip--full" data-energy="low" type="button" aria-pressed="false"><span class="material-icons-round chip-icon" aria-hidden="true">battery_1_bar</span>Low</button>
-              <button class="chip chip--full" data-energy="medium" type="button" aria-pressed="false"><span class="material-icons-round chip-icon" aria-hidden="true">battery_5_bar</span>Medium</button>
-              <button class="chip chip--full" data-energy="high" type="button" aria-pressed="false"><span class="material-icons-round chip-icon" aria-hidden="true">bolt</span>High</button>
+            <legend class="field-label">How are you feeling right now?</legend>
+            <p class="field-hint" id="emotion-hint">Select 1 to 3 emotions</p>
+            <div class="emotion-chip-grid" id="emotion-chip-grid" role="group" aria-label="Select emotions">
+              <button class="chip emotion-chip emotion-chip--positive" data-emotion="Happy" type="button" aria-pressed="false"><span class="material-icons-round chip-icon" aria-hidden="true">mood</span>Happy</button>
+              <button class="chip emotion-chip emotion-chip--positive" data-emotion="Calm" type="button" aria-pressed="false"><span class="material-icons-round chip-icon" aria-hidden="true">spa</span>Calm</button>
+              <button class="chip emotion-chip emotion-chip--positive" data-emotion="Relaxed" type="button" aria-pressed="false"><span class="material-icons-round chip-icon" aria-hidden="true">weekend</span>Relaxed</button>
+              <button class="chip emotion-chip emotion-chip--positive" data-emotion="Motivated" type="button" aria-pressed="false"><span class="material-icons-round chip-icon" aria-hidden="true">rocket_launch</span>Motivated</button>
+              <button class="chip emotion-chip emotion-chip--positive" data-emotion="Excited" type="button" aria-pressed="false"><span class="material-icons-round chip-icon" aria-hidden="true">celebration</span>Excited</button>
+              <button class="chip emotion-chip emotion-chip--positive" data-emotion="Grateful" type="button" aria-pressed="false"><span class="material-icons-round chip-icon" aria-hidden="true">favorite</span>Grateful</button>
+              <button class="chip emotion-chip emotion-chip--negative" data-emotion="Stressed" type="button" aria-pressed="false"><span class="material-icons-round chip-icon" aria-hidden="true">psychology_alt</span>Stressed</button>
+              <button class="chip emotion-chip emotion-chip--negative" data-emotion="Nervous" type="button" aria-pressed="false"><span class="material-icons-round chip-icon" aria-hidden="true">psychology</span>Nervous</button>
+              <button class="chip emotion-chip emotion-chip--negative" data-emotion="Overwhelmed" type="button" aria-pressed="false"><span class="material-icons-round chip-icon" aria-hidden="true">cloud</span>Overwhelmed</button>
+              <button class="chip emotion-chip emotion-chip--negative" data-emotion="Lonely" type="button" aria-pressed="false"><span class="material-icons-round chip-icon" aria-hidden="true">person_off</span>Lonely</button>
+              <button class="chip emotion-chip emotion-chip--negative" data-emotion="Exhausted" type="button" aria-pressed="false"><span class="material-icons-round chip-icon" aria-hidden="true">battery_alert</span>Exhausted</button>
+              <button class="chip emotion-chip emotion-chip--negative" data-emotion="Frustrated" type="button" aria-pressed="false"><span class="material-icons-round chip-icon" aria-hidden="true">mood_bad</span>Frustrated</button>
             </div>
           </fieldset>
+
           <fieldset class="field-group checkin-fieldset">
-            <legend class="field-label">Sleep quality last night</legend>
-            <div class="chip-group chip-group--full" role="group" aria-label="Sleep quality">
-              <button class="chip chip--full" data-sleep="poor" type="button" aria-pressed="false">Poor</button>
-              <button class="chip chip--full" data-sleep="fair" type="button" aria-pressed="false">Fair</button>
-              <button class="chip chip--full" data-sleep="good" type="button" aria-pressed="false">Good</button>
-              <button class="chip chip--full" data-sleep="great" type="button" aria-pressed="false">Great</button>
+            <legend class="field-label">How stressed do you feel today?</legend>
+            <div class="grad-btn-group" data-field="stress_level" role="radiogroup" aria-label="Stress level">
+              <button class="grad-btn" data-value="1" type="button" aria-pressed="false"><span class="material-icons-round grad-btn-icon" aria-hidden="true">sentiment_very_satisfied</span><span class="grad-btn-lbl">Not stressed</span></button>
+              <button class="grad-btn" data-value="2" type="button" aria-pressed="false"><span class="material-icons-round grad-btn-icon" aria-hidden="true">sentiment_satisfied</span><span class="grad-btn-lbl">Slightly</span></button>
+              <button class="grad-btn" data-value="3" type="button" aria-pressed="false"><span class="material-icons-round grad-btn-icon" aria-hidden="true">sentiment_neutral</span><span class="grad-btn-lbl">Moderate</span></button>
+              <button class="grad-btn" data-value="4" type="button" aria-pressed="false"><span class="material-icons-round grad-btn-icon" aria-hidden="true">sentiment_dissatisfied</span><span class="grad-btn-lbl">Very</span></button>
+              <button class="grad-btn" data-value="5" type="button" aria-pressed="false"><span class="material-icons-round grad-btn-icon" aria-hidden="true">sentiment_very_dissatisfied</span><span class="grad-btn-lbl">Extremely</span></button>
             </div>
           </fieldset>
-          <div class="field-group">
-            <label class="field-label" for="stress-slider">Stress level</label>
-            <input type="range" id="stress-slider" min="0" max="10" value="5" class="range-slider stress-slider-colored" aria-label="Stress level 0 = very stressed, 10 = calm">
-            <div class="range-ticks" aria-hidden="true"><span>Very Stressed</span><span>Moderate</span><span>Calm</span></div>
-          </div>
-          <div class="wellness-score-row" id="wellness-score-row" style="display:none;" aria-live="polite">
-            <div class="wellness-score-card">
-              <div class="wellness-score-header">
-                <span class="material-icons-round wellness-score-icon" aria-hidden="true">self_improvement</span>
-                <div class="wellness-score-title-block">
-                  <p class="wellness-score-title">Wellness Score</p>
-                  <p class="wellness-score-subtitle">Based on your inputs today</p>
-                </div>
-                <span class="wellness-score-badge" id="wellness-score-value">—</span>
-              </div>
-              <div class="wellness-score-bar-wrap">
-                <div class="wellness-score-bar" id="wellness-score-bar" style="width:0%"></div>
-              </div>
-              <div class="wellness-score-breakdown" id="wellness-score-breakdown">
-                <div class="wsb-row"><span class="wsb-label">Mood</span><span class="wsb-dots" id="wsb-mood"></span></div>
-                <div class="wsb-row"><span class="wsb-label">Stress</span><span class="wsb-dots" id="wsb-stress"></span></div>
-                <div class="wsb-row"><span class="wsb-label">Energy</span><span class="wsb-dots" id="wsb-energy"></span></div>
-                <div class="wsb-row"><span class="wsb-label">Sleep</span><span class="wsb-dots" id="wsb-sleep"></span></div>
+
+          <fieldset class="field-group checkin-fieldset">
+            <legend class="field-label">How often did you worry about things today?</legend>
+            <div class="grad-btn-group" data-field="worry_level" role="radiogroup" aria-label="Worry level">
+              <button class="grad-btn" data-value="1" type="button" aria-pressed="false"><span class="material-icons-round grad-btn-icon" aria-hidden="true">check_circle</span><span class="grad-btn-lbl">Never</span></button>
+              <button class="grad-btn" data-value="2" type="button" aria-pressed="false"><span class="material-icons-round grad-btn-icon" aria-hidden="true">schedule</span><span class="grad-btn-lbl">Rarely</span></button>
+              <button class="grad-btn" data-value="3" type="button" aria-pressed="false"><span class="material-icons-round grad-btn-icon" aria-hidden="true">more_horiz</span><span class="grad-btn-lbl">Sometimes</span></button>
+              <button class="grad-btn" data-value="4" type="button" aria-pressed="false"><span class="material-icons-round grad-btn-icon" aria-hidden="true">warning</span><span class="grad-btn-lbl">Often</span></button>
+              <button class="grad-btn" data-value="5" type="button" aria-pressed="false"><span class="material-icons-round grad-btn-icon" aria-hidden="true">error</span><span class="grad-btn-lbl">Constantly</span></button>
+            </div>
+          </fieldset>
+
+          <fieldset class="field-group checkin-fieldset">
+            <legend class="field-label">How often did you keep thinking about the same problem today?</legend>
+            <div class="grad-btn-group" data-field="thought_loop_level" role="radiogroup" aria-label="Thought loop level">
+              <button class="grad-btn" data-value="1" type="button" aria-pressed="false"><span class="material-icons-round grad-btn-icon" aria-hidden="true">check_circle</span><span class="grad-btn-lbl">Never</span></button>
+              <button class="grad-btn" data-value="2" type="button" aria-pressed="false"><span class="material-icons-round grad-btn-icon" aria-hidden="true">schedule</span><span class="grad-btn-lbl">Rarely</span></button>
+              <button class="grad-btn" data-value="3" type="button" aria-pressed="false"><span class="material-icons-round grad-btn-icon" aria-hidden="true">more_horiz</span><span class="grad-btn-lbl">Sometimes</span></button>
+              <button class="grad-btn" data-value="4" type="button" aria-pressed="false"><span class="material-icons-round grad-btn-icon" aria-hidden="true">warning</span><span class="grad-btn-lbl">Often</span></button>
+              <button class="grad-btn" data-value="5" type="button" aria-pressed="false"><span class="material-icons-round grad-btn-icon" aria-hidden="true">error</span><span class="grad-btn-lbl">Constantly</span></button>
+            </div>
+          </fieldset>
+
+          <fieldset class="field-group checkin-fieldset">
+            <legend class="field-label">How much energy did you have today?</legend>
+            <div class="grad-btn-group" data-field="energy_level" role="radiogroup" aria-label="Energy level">
+              <button class="grad-btn" data-value="5" type="button" aria-pressed="false"><span class="material-icons-round grad-btn-icon" aria-hidden="true">bolt</span><span class="grad-btn-lbl">Very energetic</span></button>
+              <button class="grad-btn" data-value="4" type="button" aria-pressed="false"><span class="material-icons-round grad-btn-icon" aria-hidden="true">battery_full</span><span class="grad-btn-lbl">Energetic</span></button>
+              <button class="grad-btn" data-value="3" type="button" aria-pressed="false"><span class="material-icons-round grad-btn-icon" aria-hidden="true">battery_5_bar</span><span class="grad-btn-lbl">Normal</span></button>
+              <button class="grad-btn" data-value="2" type="button" aria-pressed="false"><span class="material-icons-round grad-btn-icon" aria-hidden="true">battery_2_bar</span><span class="grad-btn-lbl">Tired</span></button>
+              <button class="grad-btn" data-value="1" type="button" aria-pressed="false"><span class="material-icons-round grad-btn-icon" aria-hidden="true">battery_alert</span><span class="grad-btn-lbl">Exhausted</span></button>
+            </div>
+          </fieldset>
+
+          <fieldset class="field-group checkin-fieldset">
+            <legend class="field-label">How connected did you feel with other people today?</legend>
+            <div class="grad-btn-group" data-field="social_connection_level" role="radiogroup" aria-label="Social connection level">
+              <button class="grad-btn" data-value="5" type="button" aria-pressed="false"><span class="material-icons-round grad-btn-icon" aria-hidden="true">groups</span><span class="grad-btn-lbl">Very connected</span></button>
+              <button class="grad-btn" data-value="4" type="button" aria-pressed="false"><span class="material-icons-round grad-btn-icon" aria-hidden="true">group</span><span class="grad-btn-lbl">Connected</span></button>
+              <button class="grad-btn" data-value="3" type="button" aria-pressed="false"><span class="material-icons-round grad-btn-icon" aria-hidden="true">person</span><span class="grad-btn-lbl">Neutral</span></button>
+              <button class="grad-btn" data-value="2" type="button" aria-pressed="false"><span class="material-icons-round grad-btn-icon" aria-hidden="true">person_outline</span><span class="grad-btn-lbl">Disconnected</span></button>
+              <button class="grad-btn" data-value="1" type="button" aria-pressed="false"><span class="material-icons-round grad-btn-icon" aria-hidden="true">person_off</span><span class="grad-btn-lbl">Very lonely</span></button>
+            </div>
+          </fieldset>
+
+          <div class="challenge-preview" id="challenge-preview" style="display:none;" aria-live="polite">
+            <div class="challenge-preview-header">
+              <span class="material-icons-round challenge-preview-icon" aria-hidden="true">monitor_heart</span>
+              <div>
+                <p class="challenge-preview-title">Today's Assessment</p>
+                <p class="challenge-preview-subtitle">Based on your responses</p>
               </div>
             </div>
+            <div class="challenge-dimensions" id="challenge-dimensions"></div>
+            <div class="challenge-alerts" id="challenge-alerts"></div>
           </div>
+
           <button class="btn-filled btn-full" id="save-checkin" type="button"><span class="material-icons-round" aria-hidden="true">save</span>Save Check-In</button>
         </div>
         <section aria-label="Check-in history">
@@ -231,12 +244,12 @@
           </div>
           <div class="itab-panel active" id="itab-overview">
             <div class="insights-summary-grid" id="insights-summary" aria-label="Summary statistics"></div>
-            <div class="card"><h2 class="card-title">7-Day Mood Chart</h2><div class="chart-wrap" role="img" aria-label="7-day mood chart"><canvas id="mood-chart" width="600" height="200"></canvas></div></div>
+            <div class="card"><h2 class="card-title">7-Day Wellness Trend</h2><div class="chart-wrap" role="img" aria-label="7-day wellness trend chart"><canvas id="mood-chart" width="600" height="200"></canvas></div></div>
             <div class="card"><h2 class="card-title">Emotional Patterns</h2><div id="emotional-patterns"></div></div>
           </div>
           <div class="itab-panel" id="itab-mood">
-            <div class="card"><h2 class="card-title">30-Day Mood Trend</h2><div class="chart-wrap" role="img" aria-label="30-day mood trend chart"><canvas id="mood-chart-30" width="600" height="200"></canvas></div></div>
-            <div class="card"><h2 class="card-title">Mood Distribution</h2><div class="chart-wrap chart-wrap--sm" role="img" aria-label="Mood distribution bar chart"><canvas id="mood-dist-chart" width="300" height="300"></canvas></div></div>
+            <div class="card"><h2 class="card-title">30-Day Wellness Trend</h2><div class="chart-wrap" role="img" aria-label="30-day wellness trend chart"><canvas id="mood-chart-30" width="600" height="200"></canvas></div></div>
+            <div class="card"><h2 class="card-title">Emotion Frequency</h2><div class="chart-wrap chart-wrap--sm" role="img" aria-label="Emotion frequency bar chart"><canvas id="mood-dist-chart" width="300" height="300"></canvas></div></div>
             <div class="card"><h2 class="card-title">Weekly Averages</h2><div id="weekly-averages"></div></div>
           </div>
           <div class="itab-panel" id="itab-report">
@@ -271,9 +284,9 @@
       <div class="bnav-icon-wrap"><span class="material-icons-round bnav-icon" aria-hidden="true">sentiment_satisfied</span></div>
     </a>
     <a href="wellness.html" class="bnav-item bnav-center" aria-label="Wellness">
-      <span class="bnav-fab" aria-hidden="true"><span class="material-icons-round" aria-hidden="true">spa</span></span>
+      <span class="bnav-fab" aria-hidden="true"><span class="material-icons-round" aria-hidden="true">extension</span></span>
     </a>
-    <a href="journal.html" class="bnav-item" aria-label="Journal">
+    <a href="diary.html" class="bnav-item" aria-label="Diary">
       <div class="bnav-icon-wrap"><span class="material-icons-round bnav-icon" aria-hidden="true">menu_book</span></div>
     </a>
   </nav>

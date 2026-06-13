@@ -1,5 +1,20 @@
 export function todayStr() { return new Date().toISOString().slice(0, 10); }
 
+export function getCurrentWeekDates() {
+  const days = [];
+  const today = new Date();
+  const day = today.getDay();
+  const diff = day === 0 ? -6 : 1 - day;
+  const start = new Date(today);
+  start.setDate(today.getDate() + diff);
+  for (let i = 0; i < 7; i++) {
+    const d = new Date(start);
+    d.setDate(start.getDate() + i);
+    days.push(d.toISOString().slice(0, 10));
+  }
+  return days;
+}
+
 export function formatDateDisplay(str) {
   if (!str) return '';
   const d = new Date(str + 'T12:00:00');

@@ -1,3 +1,260 @@
+.field-hint {
+  font-size: 0.8rem;
+  color: var(--md-on-surface-variant);
+  margin-bottom: 0.75rem;
+}
+
+.emotion-chip-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(7.5rem, 1fr));
+  gap: 0.5rem;
+}
+
+.page-checkin .emotion-chip {
+  justify-content: center;
+  min-height: 2.5rem;
+  padding: 0.5rem 0.75rem;
+  text-align: center;
+}
+
+.page-checkin .checkin-fieldset {
+  gap: 1rem;
+}
+
+.page-checkin .checkin-fieldset .grad-btn-group {
+  margin-top: 0.35rem;
+}
+
+.emotion-chip--positive.active {
+  background: var(--md-success-container);
+  color: var(--md-on-success-container);
+  border-color: transparent;
+}
+
+.emotion-chip--negative.active {
+  background: var(--md-error-container);
+  color: var(--md-on-error-container);
+  border-color: transparent;
+}
+
+.grad-btn-group {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0.5rem;
+}
+
+.grad-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.85rem 0.35rem;
+  border: 1.5px solid var(--md-outline-variant);
+  border-radius: var(--radius-lg);
+  background: var(--md-surface-container);
+  cursor: pointer;
+  transition: all var(--transition);
+  min-width: 0;
+}
+
+.grad-btn:hover {
+  border-color: var(--md-primary);
+  background: var(--md-primary-container);
+}
+
+.grad-btn.active {
+  background: var(--md-primary-container);
+  border-color: var(--md-primary);
+  box-shadow: var(--elevation-1);
+}
+
+.grad-btn-icon {
+  font-size: 1.45rem;
+  color: var(--md-on-surface-variant);
+}
+
+.grad-btn.active .grad-btn-icon {
+  color: var(--md-on-primary-container);
+}
+
+.grad-btn-val {
+  display: none;
+}
+
+.grad-btn-lbl {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--md-on-surface-variant);
+  text-align: center;
+  line-height: 1.25;
+}
+
+.challenge-preview {
+  background: var(--md-surface-container);
+  border: 1.5px solid var(--md-outline-variant);
+  border-radius: var(--radius-xl);
+  padding: 1.25rem;
+  margin-bottom: 1.125rem;
+}
+
+.challenge-preview-header {
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+  margin-bottom: 1rem;
+}
+
+.challenge-preview-icon {
+  font-size: 2rem;
+  color: var(--md-primary);
+}
+
+.challenge-preview-title {
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--md-on-surface);
+}
+
+.challenge-preview-subtitle {
+  font-size: 0.75rem;
+  color: var(--md-on-surface-variant);
+}
+
+.challenge-dimensions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.challenge-dim-row {
+  display: grid;
+  grid-template-columns: auto 1fr auto auto;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  background: var(--md-surface);
+  border-radius: var(--radius-lg);
+}
+
+.challenge-dim-icon {
+  font-size: 1.1rem;
+  color: var(--md-primary);
+}
+
+.challenge-dim-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--md-on-surface);
+}
+
+.challenge-dim-score {
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: var(--md-on-surface);
+  font-family: var(--font-display);
+}
+
+.challenge-dim-severity {
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 0.15rem 0.5rem;
+  border-radius: var(--radius-full);
+}
+
+.challenge-dim-severity--low { background: var(--md-success-container); color: var(--md-on-success-container); }
+.challenge-dim-severity--mild { background: var(--md-warning-container); color: var(--md-on-warning-container); }
+.challenge-dim-severity--moderate { background: #FFF3E0; color: #E65100; }
+.challenge-dim-severity--high { background: var(--md-error-container); color: var(--md-on-error-container); }
+
+.challenge-alerts {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.challenge-alert {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.625rem 0.875rem;
+  border-radius: var(--radius-lg);
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.challenge-alert .material-icons-round {
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+.challenge-alert--ok {
+  background: var(--md-success-container);
+  color: var(--md-on-success-container);
+}
+
+.challenge-alert--warn {
+  background: var(--md-warning-container);
+  color: var(--md-on-warning-container);
+}
+
+.checkin-mood-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-top: 0.25rem;
+}
+
+.checkin-emotion-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  background: var(--md-surface-container);
+  padding: 0.15rem 0.5rem;
+  border-radius: var(--radius-full);
+  color: var(--md-on-surface-variant);
+}
+
+.checkin-emotion-tag .material-icons-round {
+  font-size: 0.85rem;
+}
+
+.checkin-summary {
+  font-size: 0.78rem;
+  color: var(--md-on-surface-variant);
+  margin-top: 0.25rem;
+}
+
+@media (max-width: 600px) {
+  .grad-btn-group {
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0.35rem;
+  }
+  .grad-btn-lbl {
+    font-size: 0.6rem;
+  }
+  .grad-btn {
+    padding: 0.65rem 0.2rem;
+  }
+  .grad-btn-icon {
+    font-size: 1.3rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .grad-btn-group {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .emotion-chip-grid {
+    grid-template-columns: repeat(auto-fill, minmax(6.5rem, 1fr));
+  }
+}
+
 .mood-emoji-grid {
   display: flex;
   justify-content: space-between;
@@ -465,7 +722,18 @@
   cursor: not-allowed;
 }
 
-/* Add spacing between insights tab bar and content */
+
 .page-checkin .tab-bar {
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.page-checkin .itab-panel > .insights-summary-grid,
+.page-checkin .itab-panel > .card:first-child {
+  margin-top: 0.25rem;
+}
+
+.page-checkin .grad-btn:focus-visible,
+.page-checkin .emotion-chip:focus-visible {
+  outline: 3px solid var(--md-primary);
+  outline-offset: 2px;
 }

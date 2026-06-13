@@ -34,7 +34,7 @@ export function initSettings() {
   });
   document.getElementById('export-data') && document.getElementById('export-data').addEventListener('click', () => {
     const data = {};
-    ['checkins','habits','journals','notes','todos','calendarEvents','pomodoro_sessions','gratitude_entries','flashcard_decks','profile_name','profile_gender','theme'].forEach(k => {
+    ['checkins','habits','diarys','notes','todos','calendarEvents','pomodoro_sessions','gratitude_entries','flashcard_decks','profile_name','profile_gender','theme'].forEach(k => {
       data[k] = getStorage(k, null);
     });
     const blob = new Blob([JSON.stringify(data, null, 2)],{type:'application/json'});

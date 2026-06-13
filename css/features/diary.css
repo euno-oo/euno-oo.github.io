@@ -1,3 +1,20 @@
+.diary-prompt-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.diary-prompt-chip {
+  font-size: 0.78rem;
+}
+
+.diary-item-title {
+  font-weight: 700;
+  color: var(--md-on-surface);
+  font-size: 0.95rem;
+  margin-bottom: 0.15rem;
+}
+
 .editor-toolbar {
   display: flex;
   gap: 0.25rem;
@@ -278,17 +295,17 @@
   margin-bottom: 1.25rem;
 }
 
-.journal-textarea {
+.diary-textarea {
   min-height: 200px;
 }
 
-.journal-history {
+.diary-history {
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
 }
 
-.journal-item {
+.diary-item {
   background: var(--md-surface);
   border: 1px solid var(--md-outline-variant);
   border-radius: var(--radius-xl);
@@ -298,12 +315,12 @@
   box-shadow: var(--elevation-1);
 }
 
-.journal-item:hover {
+.diary-item:hover {
   border-color: var(--md-primary);
   box-shadow: var(--elevation-2);
 }
 
-.journal-item-date {
+.diary-item-date {
   font-size: 0.7rem;
   color: var(--md-on-surface-variant);
   font-weight: 700;
@@ -312,7 +329,7 @@
   margin-bottom: 0.375rem;
 }
 
-.journal-item-preview {
+.diary-item-preview {
   font-size: 0.875rem;
   color: var(--md-on-surface-variant);
   overflow: hidden;
@@ -323,19 +340,19 @@
   -webkit-box-orient: vertical;
 }
 
-.journal-item-header {
+.diary-item-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-bottom: 0.375rem;
 }
 
-.journal-item-actions {
+.diary-item-actions {
   display: flex;
   gap: 0.25rem;
 }
 
-.journal-action-btn {
+.diary-action-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -349,17 +366,17 @@
   transition: all var(--transition);
 }
 
-.journal-action-btn.edit:hover {
+.diary-action-btn.edit:hover {
   background: var(--md-primary-container);
   color: var(--md-on-primary-container);
 }
 
-.journal-action-btn.del:hover {
+.diary-action-btn.del:hover {
   background: var(--md-error-container);
   color: var(--md-on-error-container);
 }
 
-.journal-action-btn .material-icons-round {
+.diary-action-btn .material-icons-round {
   font-size: 1rem;
 }
 

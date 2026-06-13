@@ -2,157 +2,166 @@ import { getStorage, setStorage } from '../core/storage.js';
 import { todayStr, formatDateDisplay } from '../utils/dateUtils.js';
 import { showToast } from '../utils/notifications.js';
 import { sanitize, sanitizeNum } from '../utils/helpers.js';
-import { renderMoodDot } from '../utils/ui.js';
-import { MOOD_LABELS } from '../core/constants.js';
+import { WELLNESS_LEVEL_LABELS } from '../core/constants.js';
 import { updateHomeDashboard } from './home.js';
 import { addCoins } from '../shop/shop.js';
+import { renderInsights } from '../insights/insights.js';
+import {
+  calculateScores,
+  detectChallenges,
+  getSeverity,
+  DIMENSION_META,
+  EMOTION_OPTIONS
+} from './checkinScoring.js';
+import { renderWellnessDot } from '../utils/ui.js';
 
-export function getCurrentWeekDates() {
-  const days = [], today = new Date(), day = today.getDay();
-  const diff = day === 0 ? -6 : 1 - day;
-  const start = new Date(today); start.setDate(today.getDate()+diff);
-  for (let i = 0; i < 7; i++) { const d = new Date(start); d.setDate(start.getDate()+i); days.push(d.toISOString().slice(0,10)); }
-  return days;
-}
+const GRAD_FIELDS = ['stress_level', 'worry_level', 'thought_loop_level', 'energy_level', 'social_connection_level'];
+const MAX_EMOTIONS = 3;
 
 export function initCheckin() {
-  let selectedMood = 0, selectedEnergy = '', selectedSleep = '';
-  const moodGrid = document.getElementById('mood-emoji-grid');
-  const moodLabel = document.getElementById('selected-mood-label');
-  const moodSlider = document.getElementById('mood-slider');
-  const finetuneGroup = document.getElementById('mood-finetune-group');
-  const finetuneZoneLabel = document.getElementById('mood-finetune-zone-label');
-  const finetuneCenterLabel = document.getElementById('mood-finetune-center-label');
-  const sliderDots = document.getElementById('mood-slider-dots');
-  const stressSlider = document.getElementById('stress-slider');
-  const thoughts = document.getElementById('checkin-thoughts');
-  const thoughtsCount = document.getElementById('thoughts-count');
-  const wellnessRow = document.getElementById('wellness-score-row');
-  const wellnessValue = document.getElementById('wellness-score-value');
-  const wellnessBar = document.getElementById('wellness-score-bar');
+  const state = {
+    moods: [],
+    stress_level: 0,
+    worry_level: 0,
+    thought_loop_level: 0,
+    energy_level: 0,
+    social_connection_level: 0
+  };
 
-  const ZONE_CENTERS = { 1:1, 2:3, 3:5, 4:7, 5:9 };
-
-  function sliderValToMood(val) {
-    return Math.ceil(val / 2);
-  }
-
-  function updateSliderDots(mood) {
-    if (!sliderDots) return;
-    sliderDots.innerHTML = [1,2,3,4,5].map(m => {
-      const active = m === mood ? ' active' : '';
-      return `<span class="msd-dot msd-dot--${m}${active}"></span>`;
-    }).join('');
-  }
-
-  function updateSliderColor(val) {
-    if (!moodSlider) return;
-    const pct = ((val - 1) / 9) * 100;
-    moodSlider.style.background = `linear-gradient(to right, var(--md-mood-${Math.min(sliderValToMood(val),5)}) ${pct}%, var(--md-secondary-container) ${pct}%)`;
-  }
-
-  function syncSliderToMood(mood) {
-    const center = ZONE_CENTERS[mood];
-    if (moodSlider) { moodSlider.value = center; updateSliderColor(center); }
-    if (finetuneGroup) finetuneGroup.style.display = '';
-    if (finetuneZoneLabel) finetuneZoneLabel.textContent = '— ' + (MOOD_LABELS[mood] || '');
-    if (finetuneCenterLabel) finetuneCenterLabel.textContent = MOOD_LABELS[mood] || '';
-    updateSliderDots(mood);
-    updateWellnessScore();
-  }
-
-  function updateWellnessScore() {
-    if (!wellnessRow || !wellnessValue || !wellnessBar) return;
-    if (!selectedMood) { wellnessRow.style.display = 'none'; return; }
-    const sliderVal = moodSlider ? parseInt(moodSlider.value) : ZONE_CENTERS[selectedMood];
-    const stressVal = stressSlider ? parseInt(stressSlider.value) : 5;
-    const energyScore = { low: 1, medium: 2, high: 3 }[selectedEnergy] || 2;
-    const sleepScore = { poor: 1, fair: 2, good: 3, great: 4 }[selectedSleep] || 2;
-    const raw = sliderVal * 3 + stressVal * 2 + energyScore * 2 + sleepScore * 2;
-    const score = Math.round((raw / 64) * 100);
-    wellnessRow.style.display = '';
-    wellnessValue.textContent = score + ' / 100';
-    wellnessBar.style.width = score + '%';
-    const barColor = score >= 70 ? 'var(--md-mood-4)' : score >= 45 ? 'var(--md-mood-3)' : 'var(--md-mood-2)';
-    wellnessBar.style.background = barColor;
-
-    function renderDots(filled, max, color) {
-      let html = '';
-      for (let i = 0; i < max; i++) {
-        html += `<span class="wsb-dot${i < filled ? ' filled' : ''}" style="${i < filled ? 'background:' + color : ''}"></span>`;
-      }
-      return html;
-    }
-    const moodDots = Math.round(sliderVal / 2);
-    const stressDots = Math.round(stressVal / 2);
-    const energyDots = energyScore;
-    const sleepDots = sleepScore;
-
-    const wsbMood = document.getElementById('wsb-mood');
-    const wsbStress = document.getElementById('wsb-stress');
-    const wsbEnergy = document.getElementById('wsb-energy');
-    const wsbSleep = document.getElementById('wsb-sleep');
-    if (wsbMood) wsbMood.innerHTML = renderDots(moodDots, 5, barColor);
-    if (wsbStress) wsbStress.innerHTML = renderDots(stressDots, 5, stressDots <= 1 ? 'var(--md-mood-1)' : stressDots <= 3 ? 'var(--md-mood-3)' : 'var(--md-mood-4)');
-    if (wsbEnergy) wsbEnergy.innerHTML = renderDots(energyDots, 3, energyDots === 1 ? 'var(--md-mood-2)' : energyDots === 2 ? 'var(--md-mood-3)' : 'var(--md-mood-4)');
-    if (wsbSleep) wsbSleep.innerHTML = renderDots(sleepDots, 4, sleepDots <= 1 ? 'var(--md-mood-2)' : sleepDots <= 2 ? 'var(--md-mood-3)' : 'var(--md-mood-4)');
-  }
-
-  moodGrid && moodGrid.querySelectorAll('.mood-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      moodGrid.querySelectorAll('.mood-btn').forEach(b => { b.classList.remove('selected'); b.setAttribute('aria-pressed','false'); });
-      btn.classList.add('selected'); btn.setAttribute('aria-pressed','true');
-      selectedMood = parseInt(btn.dataset.mood);
-      if (moodLabel) moodLabel.textContent = btn.dataset.label;
-      syncSliderToMood(selectedMood);
-    });
-  });
-
-  moodSlider && moodSlider.addEventListener('input', () => {
-    const val = parseInt(moodSlider.value);
-    const newMood = sliderValToMood(val);
-    updateSliderColor(val);
-    updateSliderDots(newMood);
-    if (newMood !== selectedMood && newMood >= 1 && newMood <= 5) {
-      selectedMood = newMood;
-      if (moodLabel) moodLabel.textContent = MOOD_LABELS[selectedMood];
-      if (finetuneZoneLabel) finetuneZoneLabel.textContent = '— ' + MOOD_LABELS[selectedMood];
-      if (finetuneCenterLabel) finetuneCenterLabel.textContent = MOOD_LABELS[selectedMood];
-      moodGrid && moodGrid.querySelectorAll('.mood-btn').forEach(b => {
-        const active = parseInt(b.dataset.mood) === selectedMood;
-        b.classList.toggle('selected', active);
-        b.setAttribute('aria-pressed', String(active));
-      });
-    }
-    updateWellnessScore();
-  });
-
-  thoughts && thoughts.addEventListener('input', () => { if (thoughtsCount) thoughtsCount.textContent = thoughts.value.length + ' / 500'; });
-
-  document.querySelectorAll('[data-energy]').forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('[data-energy]').forEach(b => { b.classList.remove('active'); b.setAttribute('aria-pressed','false'); });
-      btn.classList.add('active'); btn.setAttribute('aria-pressed','true'); selectedEnergy = btn.dataset.energy;
-      updateWellnessScore();
-    });
-  });
-  document.querySelectorAll('[data-sleep]').forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('[data-sleep]').forEach(b => { b.classList.remove('active'); b.setAttribute('aria-pressed','false'); });
-      btn.classList.add('active'); btn.setAttribute('aria-pressed','true'); selectedSleep = btn.dataset.sleep;
-      updateWellnessScore();
-    });
-  });
-  stressSlider && stressSlider.addEventListener('input', () => {
-    const val = parseInt(stressSlider.value);
-    const pct = (val / 10) * 100;
-    const color = val <= 3 ? 'var(--md-mood-1)' : val <= 6 ? 'var(--md-mood-3)' : 'var(--md-mood-4)';
-    stressSlider.style.background = `linear-gradient(to right, ${color} ${pct}%, var(--md-secondary-container) ${pct}%)`;
-    updateWellnessScore();
-  });
-  if (stressSlider) { stressSlider.style.background = `linear-gradient(to right, var(--md-mood-3) 50%, var(--md-secondary-container) 50%)`; }
-
+  const emotionGrid = document.getElementById('emotion-chip-grid');
+  const emotionHint = document.getElementById('emotion-hint');
+  const preview = document.getElementById('challenge-preview');
+  const dimensionsEl = document.getElementById('challenge-dimensions');
+  const alertsEl = document.getElementById('challenge-alerts');
   const saveBtn = document.getElementById('save-checkin');
+
+  function updateEmotionHint() {
+    if (!emotionHint) return;
+    const count = state.moods.length;
+    if (!count) emotionHint.textContent = 'Select 1 to 3 emotions';
+    else if (count < MAX_EMOTIONS) emotionHint.textContent = `${count} selected — up to ${MAX_EMOTIONS} allowed`;
+    else emotionHint.textContent = `${MAX_EMOTIONS} emotions selected`;
+  }
+
+  function isFormComplete() {
+    return state.moods.length >= 1
+      && state.stress_level >= 1
+      && state.worry_level >= 1
+      && state.thought_loop_level >= 1
+      && state.energy_level >= 1
+      && state.social_connection_level >= 1;
+  }
+
+  function updatePreview() {
+    if (!preview || !dimensionsEl || !alertsEl) return;
+    if (!isFormComplete()) {
+      preview.style.display = 'none';
+      return;
+    }
+    const scores = calculateScores(state);
+    const challenges = detectChallenges(scores);
+    preview.style.display = '';
+
+    const dims = ['stress', 'anxiety', 'burnout', 'overthinking', 'loneliness'];
+    dimensionsEl.innerHTML = dims.map(dim => {
+      const key = dim + '_score';
+      const score = scores[key];
+      const severity = getSeverity(score, dim);
+      const meta = DIMENSION_META[dim];
+      const sevClass = severity.toLowerCase();
+      return `<div class="challenge-dim-row">
+        <span class="material-icons-round challenge-dim-icon" aria-hidden="true">${meta.icon}</span>
+        <span class="challenge-dim-label">${meta.label}</span>
+        <span class="challenge-dim-score">${score}</span>
+        <span class="challenge-dim-severity challenge-dim-severity--${sevClass}">${severity}</span>
+      </div>`;
+    }).join('');
+
+    if (!challenges.length) {
+      alertsEl.innerHTML = `<div class="challenge-alert challenge-alert--ok"><span class="material-icons-round" aria-hidden="true">check_circle</span>No significant challenges detected today.</div>`;
+    } else {
+      alertsEl.innerHTML = challenges.map(c => {
+        const meta = DIMENSION_META[c];
+        return `<div class="challenge-alert challenge-alert--warn"><span class="material-icons-round" aria-hidden="true">info</span>${meta.label} challenge detected — consider using wellness tools.</div>`;
+      }).join('');
+    }
+  }
+
+  emotionGrid && emotionGrid.querySelectorAll('[data-emotion]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const emotion = btn.dataset.emotion;
+      const idx = state.moods.indexOf(emotion);
+      if (idx >= 0) {
+        state.moods.splice(idx, 1);
+        btn.classList.remove('active');
+        btn.setAttribute('aria-pressed', 'false');
+      } else {
+        if (state.moods.length >= MAX_EMOTIONS) {
+          showToast(`You can select up to ${MAX_EMOTIONS} emotions.`, 'error');
+          return;
+        }
+        state.moods.push(emotion);
+        btn.classList.add('active');
+        btn.setAttribute('aria-pressed', 'true');
+      }
+      updateEmotionHint();
+      updatePreview();
+    });
+  });
+
+  document.querySelectorAll('.grad-btn-group').forEach(group => {
+    const field = group.dataset.field;
+    if (!GRAD_FIELDS.includes(field)) return;
+
+    function selectGradBtn(btn) {
+      group.querySelectorAll('.grad-btn').forEach(b => {
+        b.classList.remove('active');
+        b.setAttribute('aria-pressed', 'false');
+      });
+      btn.classList.add('active');
+      btn.setAttribute('aria-pressed', 'true');
+      state[field] = parseInt(btn.dataset.value, 10);
+      updatePreview();
+    }
+
+    group.querySelectorAll('.grad-btn').forEach(btn => {
+      const lbl = btn.querySelector('.grad-btn-lbl');
+      if (lbl) btn.setAttribute('aria-label', lbl.textContent.trim());
+
+      btn.addEventListener('click', () => selectGradBtn(btn));
+    });
+
+    group.addEventListener('keydown', (e) => {
+      const buttons = [...group.querySelectorAll('.grad-btn')];
+      const idx = buttons.indexOf(document.activeElement);
+      if (idx < 0) return;
+      let next = idx;
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') next = Math.min(idx + 1, buttons.length - 1);
+      else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') next = Math.max(idx - 1, 0);
+      else if (e.key === 'Home') next = 0;
+      else if (e.key === 'End') next = buttons.length - 1;
+      else return;
+      e.preventDefault();
+      selectGradBtn(buttons[next]);
+      buttons[next].focus();
+    });
+  });
+
+  if (emotionGrid) {
+    emotionGrid.addEventListener('keydown', (e) => {
+      const buttons = [...emotionGrid.querySelectorAll('[data-emotion]')];
+      const idx = buttons.indexOf(document.activeElement);
+      if (idx < 0) return;
+      let next = idx;
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') next = Math.min(idx + 1, buttons.length - 1);
+      else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') next = Math.max(idx - 1, 0);
+      else if (e.key === 'Home') next = 0;
+      else if (e.key === 'End') next = buttons.length - 1;
+      else return;
+      e.preventDefault();
+      buttons[next].focus();
+    });
+  }
 
   function applyCheckinLock() {
     const checkins = getStorage('checkins', []);
@@ -185,6 +194,23 @@ export function initCheckin() {
     }
   }
 
+  function resetForm() {
+    state.moods = [];
+    GRAD_FIELDS.forEach(f => { state[f] = 0; });
+    emotionGrid && emotionGrid.querySelectorAll('[data-emotion]').forEach(b => {
+      b.classList.remove('active');
+      b.setAttribute('aria-pressed', 'false');
+    });
+    document.querySelectorAll('.grad-btn-group').forEach(group => {
+      group.querySelectorAll('.grad-btn').forEach(b => {
+        b.classList.remove('active');
+        b.setAttribute('aria-pressed', 'false');
+      });
+    });
+    if (preview) preview.style.display = 'none';
+    updateEmotionHint();
+  }
+
   applyCheckinLock();
 
   saveBtn && saveBtn.addEventListener('click', () => {
@@ -193,57 +219,69 @@ export function initCheckin() {
       showToast('You\'ve already checked in today. Come back tomorrow!', 'error');
       return;
     }
-    if (!selectedMood) { showToast('Please select a mood first.', 'error'); return; }
-    const stressVal = stressSlider ? sanitizeNum(stressSlider.value, 0, 10) : 5;
-    const sliderVal = moodSlider ? sanitizeNum(moodSlider.value, 1, 10) : ZONE_CENTERS[selectedMood];
-    const energyScore = { low: 1, medium: 2, high: 3 }[selectedEnergy] || 2;
-    const sleepScore = { poor: 1, fair: 2, good: 3, great: 4 }[selectedSleep] || 2;
-    const raw = sliderVal * 3 + stressVal * 2 + energyScore * 2 + sleepScore * 2;
-    const wellnessScore = Math.round((raw / 64) * 100);
+    if (state.moods.length < 1) { showToast('Please select at least one emotion.', 'error'); return; }
+    if (!state.stress_level) { showToast('Please answer the stress question.', 'error'); return; }
+    if (!state.worry_level) { showToast('Please answer the worry question.', 'error'); return; }
+    if (!state.thought_loop_level) { showToast('Please answer the thought loop question.', 'error'); return; }
+    if (!state.energy_level) { showToast('Please answer the energy question.', 'error'); return; }
+    if (!state.social_connection_level) { showToast('Please answer the social connection question.', 'error'); return; }
+
+    const scores = calculateScores(state);
+    const challenges = detectChallenges(scores);
     const entry = {
-      date: todayStr(), mood: sanitizeNum(selectedMood, 1, 5),
-      moodSlider: sliderVal,
-      stress: stressVal,
-      energy: ['low','medium','high'].includes(selectedEnergy) ? selectedEnergy : '',
-      sleep: ['poor','fair','good','great'].includes(selectedSleep) ? selectedSleep : '',
-      thoughts: thoughts ? thoughts.value.trim().slice(0, 500) : '',
-      wellnessScore,
+      date: todayStr(),
+      moods: [...state.moods],
+      stress_level: sanitizeNum(state.stress_level, 1, 5),
+      worry_level: sanitizeNum(state.worry_level, 1, 5),
+      thought_loop_level: sanitizeNum(state.thought_loop_level, 1, 5),
+      energy_level: sanitizeNum(state.energy_level, 1, 5),
+      social_connection_level: sanitizeNum(state.social_connection_level, 1, 5),
+      scores,
+      challenges,
       timestamp: Date.now()
     };
-    let checkins = getStorage('checkins', []);
+
+    const checkins = getStorage('checkins', []);
     checkins.push(entry);
     setStorage('checkins', checkins);
     addCoins(10, 'Daily Check-In');
     showToast('Check-in saved! Great job keeping your streak!', 'success');
-    moodGrid && moodGrid.querySelectorAll('.mood-btn').forEach(b => { b.classList.remove('selected'); b.setAttribute('aria-pressed','false'); });
-    selectedMood = 0; selectedEnergy = ''; selectedSleep = '';
-    document.querySelectorAll('[data-energy]').forEach(b => { b.classList.remove('active'); b.setAttribute('aria-pressed','false'); });
-    document.querySelectorAll('[data-sleep]').forEach(b => { b.classList.remove('active'); b.setAttribute('aria-pressed','false'); });
-    if (moodLabel) moodLabel.textContent = '';
-    if (finetuneGroup) finetuneGroup.style.display = 'none';
-    if (wellnessRow) wellnessRow.style.display = 'none';
-    if (thoughts) thoughts.value = '';
-    if (thoughtsCount) thoughtsCount.textContent = '0 / 500';
-    if (moodSlider) { moodSlider.value = 5; moodSlider.style.background = ''; }
-    if (stressSlider) { stressSlider.value = 5; stressSlider.style.background = `linear-gradient(to right, var(--md-mood-3) 50%, var(--md-secondary-container) 50%)`; }
-    renderCheckinHistory(); updateHomeDashboard();
+    resetForm();
+    renderCheckinHistory();
+    updateHomeDashboard();
+    renderInsights();
     applyCheckinLock();
   });
+
   renderCheckinHistory();
 }
 
 function renderCheckinHistory() {
   const el = document.getElementById('checkin-history');
   if (!el) return;
-  const checkins = getStorage('checkins',[]).slice(-10).reverse();
-  if (!checkins.length) { el.innerHTML = '<p style="color:var(--md-on-surface-variant);font-size:0.875rem;">No check-ins yet. Start your first one above!</p>'; return; }
-  el.innerHTML = checkins.map(c => `
-    <div class="checkin-item">
-      <div class="checkin-emoji">${renderMoodDot(c.mood)}</div>
+  const checkins = getStorage('checkins', []).slice(-10).reverse();
+  if (!checkins.length) {
+    el.innerHTML = '<p style="color:var(--md-on-surface-variant);font-size:0.875rem;">No check-ins yet. Start your first one above!</p>';
+    return;
+  }
+  el.innerHTML = checkins.map(c => {
+    const moods = c.moods || [];
+    const moodTags = moods.map(m => {
+      const opt = EMOTION_OPTIONS.find(e => e.id === m);
+      const icon = opt ? opt.icon : 'mood';
+      return `<span class="checkin-emotion-tag"><span class="material-icons-round" aria-hidden="true">${icon}</span>${sanitize(m)}</span>`;
+    }).join('');
+    const challengeCount = (c.challenges || []).length;
+    const summary = challengeCount
+      ? `${challengeCount} challenge${challengeCount > 1 ? 's' : ''} detected`
+      : 'No challenges detected';
+    return `<div class="checkin-item">
+      <div class="checkin-emoji">${renderWellnessDot(c)}</div>
       <div class="checkin-info">
         <div class="checkin-date">${sanitize(formatDateDisplay(c.date))}</div>
-        <div class="checkin-mood-name">${sanitize(MOOD_LABELS[c.mood]||'')}</div>
-        ${c.thoughts ? `<div class="checkin-thoughts">${sanitize(c.thoughts.slice(0,80))}${c.thoughts.length>80?'…':''}</div>` : ''}
+        <div class="checkin-mood-tags">${moodTags}</div>
+        <div class="checkin-summary">${sanitize(summary)}</div>
       </div>
-    </div>`).join('');
+    </div>`;
+  }).join('');
 }

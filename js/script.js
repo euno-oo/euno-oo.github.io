@@ -5,19 +5,13 @@ import { initOnboarding } from './features/onboarding.js';
 import { initTheme } from './features/theme.js';
 import { initHome, updateHomeDashboard } from './features/home.js';
 import { initCheckin } from './features/checkin.js';
-import { initJournalEditor } from './journal/journal.js';
-import { initNotesEditor } from './notes/notes.js';
-import { initTodo } from './todo/todo.js';
-import { initHabits } from './habits/habits.js';
-import { initCalendar } from './calendar/calendar.js';
-import { initFlashcards } from './flashcards/flashcards.js';
-import { initMusic } from './music/music.js';
-import { initPomodoro } from './pomodoro/pomodoro.js';
+import { initDiaryEditor } from './diary/diary.js';
+
 import { initWellness } from './wellness/wellness.js';
-import { initInsights, renderInsights } from './insights/insights.js';
+import { initInsights } from './insights/insights.js';
 import { initSettings } from './settings/settings.js';
 import { initShop, renderShop, updateCoinDisplay } from './shop/shop.js';
-import { initStreakCalendar } from './streak/streakCalendar.js';
+import { initStreakCalendar, openStreakCalendar, closeStreakCalendar } from './streak/streakCalendar.js';
 import { initCountdown } from './countdown/countdown.js';
 import { getStorage, setStorage } from './core/storage.js';
 import { showToast } from './utils/notifications.js';
@@ -68,14 +62,8 @@ document.addEventListener('DOMContentLoaded', () => {
   initOnboarding();
   initMobileDrawer();
   initCheckin();
-  initJournal();
+  initDiary();
   initStreakCard();
-  initTodo();
-  initHabits();
-  initCalendar();
-  initFlashcards();
-  initMusic();
-  initPomodoro();
   initWellness();
   initInsights();
   initSettings();
@@ -112,10 +100,17 @@ function initMobileDrawer() {
   hamburger && hamburger.addEventListener('click', openMobileDrawer);
   drawerScrim && drawerScrim.addEventListener('click', window.closeMobileDrawer);
   drawerClose && drawerClose.addEventListener('click', window.closeMobileDrawer);
-  document.addEventListener('keydown', e => { if (e.key === 'Escape') { window.closeMobileDrawer(); closeDatePicker(); closeTimePicker(); } });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+      window.closeMobileDrawer?.();
+      closeDatePicker();
+      closeTimePicker();
+      closeStreakCalendar();
+    }
+  });
 }
 
-function initJournal() {
+function initDiary() {
   const tabs = document.querySelectorAll('.tab[data-tab]');
   tabs.forEach(t => {
     t.addEventListener('click', () => {
@@ -139,64 +134,33 @@ function initJournal() {
     }
   }
   
-  initNotesEditor();
-  initJournalEditor();
+  initDiaryEditor();
 }
 
 function initStreakCard() {
   if (!document.getElementById('home-streak-card')) return;
-  
+
   const streakCard = document.getElementById('home-streak-card');
-  const streakDialog = document.getElementById('streak-calendar-dialog');
-  if (streakCard && streakDialog) {
-    streakCard.addEventListener('click', () => {
-      streakDialog.setAttribute('aria-hidden', 'false');
-      streakDialog.style.display = 'flex';
-    });
+  if (streakCard) {
+    streakCard.addEventListener('click', (e) => openStreakCalendar(e.currentTarget));
     streakCard.addEventListener('keydown', (e) => {
       if (e.key === 'Enter' || e.key === ' ') {
         e.preventDefault();
-        streakDialog.setAttribute('aria-hidden', 'false');
-        streakDialog.style.display = 'flex';
+        openStreakCalendar(e.currentTarget);
       }
     });
   }
 
-  const habitsCard = document.getElementById('home-habits-card');
-  if (habitsCard) {
-    habitsCard.addEventListener('click', () => {
-      window.location.href = 'journal.html#habits';
-    });
-    habitsCard.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        window.location.href = 'journal.html#habits';
-      }
-    });
-  }
 
-  const focusCard = document.getElementById('home-focus-card');
-  if (focusCard) {
-    focusCard.addEventListener('click', () => {
-      window.location.href = 'study.html';
+  const diaryCard = document.getElementById('home-diary-card');
+  if (diaryCard) {
+    diaryCard.addEventListener('click', () => {
+      window.location.href = 'diary.html';
     });
-    focusCard.addEventListener('keydown', (e) => {
+    diaryCard.addEventListener('keydown', (e) => {
       if (e.key === 'Enter' || e.key === ' ') {
         e.preventDefault();
-        window.location.href = 'study.html';
-      }
-    });
-  }
-
-  const journalCard = document.getElementById('home-journal-card');
-  if (journalCard) {
-    journalCard.addEventListener('click', () => {
-      window.location.href = 'journal.html';
-    });
-    journalCard.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        window.location.href = 'journal.html';
+        window.location.href = 'diary.html';
       }
     });
   }

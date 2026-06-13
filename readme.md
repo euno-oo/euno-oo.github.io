@@ -1,6 +1,6 @@
 # Euno
 
-Euno is a comprehensive student productivity application designed to help students manage their academic and personal well being through integrated tools for tracking habits, journaling, studying, and wellness activities.
+Euno is a comprehensive student wellness application designed to help students manage their emotional wellbeing through integrated tools for daily mental health check-ins, diarying, and wellness activities.
 
 ## Demo
 
@@ -9,21 +9,19 @@ Visit the live demo at https://rainier-ps.github.io/Euno/
 ## Features
 
 ### Home Dashboard
-Personalized greeting with time based welcome message, mood preview, quick statistics, weekly mood visualization, and coin balance display.
+Personalized greeting with time-based welcome message, adaptive hero message based on today's check-in assessment, quick statistics, weekly wellness visualization, and coin balance display.
 
-### Daily Check In
-Track your daily mood with emoji selection and slider, energy level, sleep hours, stress level, and thoughts entry. The system calculates a wellness score and tracks your streak. Includes insights with summary statistics, mood charts for 7 day and 30 day periods, distribution analysis, habit consistency charts, wellness streaks, emotional patterns, weekly averages, and PDF report generation.
+### Daily Check-In
+Six-question mental health assessment covering emotions (multi-select up to 3), stress level, worry frequency, thought loops, energy, and social connection. Responses are scored across five dimensions (stress, anxiety, burnout, overthinking, loneliness) with challenge detection and severity levels. Includes a live assessment preview, streak tracking, and insights with summary statistics, 7-day and 30-day wellness trend charts, emotion frequency analysis, emotional patterns, weekly averages, and PDF report generation.
 
-### Journal System
-Journal with markdown editor, labels, reminders, search and sort functionality, and draft auto save. Habit tracker with weekly grid, completion tracking, metrics, and CSV export.
+### Diary System
+Daily diary with title, long-form content, optional writing prompts, markdown editor, labels, search and sort functionality, and draft auto-save.
 
 ### Wellness
-Breathing exercises with 4-7-8, Box, and Calm techniques with visual feedback. Gratitude journal with 3 daily entries and history. Self care challenges with daily micro challenges and completion tracking. Reflection prompts with rotating prompts for journaling.
-
-
+Breathing exercises with 4-7-8, Box, and Calm techniques with visual feedback. Gratitude diary with 3 daily entries and history. Self-care challenges with daily micro-challenges and completion tracking. Reflection prompts for diarying.
 
 ### Shop
-EunoCoins system with item purchasing, inventory management, and coin history. Power ups include streak freeze, double coins, lucky spin, and focus boost.
+EunoCoins system with item purchasing, inventory management, and coin history. Power-ups include streak freeze, double coins, lucky spin, and focus boost.
 
 ### Settings
 Profile management with name and gender. Theme selection with light, dark, and system options. Data export and import. Data clearing. Onboarding restart.
@@ -44,4 +42,4 @@ All rights reserved. This project is not open source.
 
 ## Documentation
 
-For detailed technical documentation including architecture, module structure, and implementation details, see the [Blueprint](docs/Blueprint.md).
+For detailed technical documentation including architecture, module structure, scoring formulas, and implementation details, see the [Blueprint](docs/Blueprint.md).

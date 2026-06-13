@@ -34,6 +34,11 @@
   transition: transform var(--transition), box-shadow var(--transition);
 }
 
+a.stat-card {
+  text-decoration: none;
+  color: inherit;
+}
+
 .stat-card:hover {
   transform: translateY(-2px);
   box-shadow: var(--elevation-2);
@@ -59,8 +64,12 @@
 .stat-card--habits .stat-icon { color: var(--md-success); }
 .stat-card--focus .stat-icon-wrap { background: var(--md-primary-container); }
 .stat-card--focus .stat-icon { color: var(--md-on-primary-container); }
-.stat-card--journal .stat-icon-wrap { background: var(--md-tertiary-container); }
-.stat-card--journal .stat-icon { color: var(--md-on-tertiary-container); }
+.stat-card--diary .stat-icon-wrap { background: var(--md-tertiary-container); }
+.stat-card--diary .stat-icon { color: var(--md-on-tertiary-container); }
+.stat-card--breathing .stat-icon-wrap { background: var(--md-secondary-container); }
+.stat-card--breathing .stat-icon { color: var(--md-on-secondary-container); }
+.stat-card--mood .stat-icon-wrap { background: var(--md-primary-container); }
+.stat-card--mood .stat-icon { color: var(--md-on-primary-container); }
 
 [data-theme="dark"] .stat-card--streak .stat-icon-wrap { background: rgba(230,81,0,0.2); }
 [data-theme="dark"] .stat-card--streak .stat-icon { color: #FFB74D; }

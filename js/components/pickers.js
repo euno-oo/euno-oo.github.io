@@ -1,5 +1,6 @@
 import { todayStr, formatDateDisplay } from '../utils/dateUtils.js';
 import { sanitizeDate } from '../utils/helpers.js';
+import { openOverlayDialog, closeOverlayDialog } from '../utils/ui.js';
 
 let dpCallback = null, dpCurrentDate = null;
 const _g = typeof window !== 'undefined' ? window : globalThis;
@@ -32,13 +33,13 @@ function openDatePicker(initialDate, callback) {
   dpCallback = callback;
   const dialog = document.getElementById('date-picker-dialog');
   if (!dialog) return;
-  dialog.setAttribute('aria-hidden','false');
+  openOverlayDialog(dialog);
   renderDPCalendar();
 }
 
 function closeDatePicker() {
   const dialog = document.getElementById('date-picker-dialog');
-  if (dialog) dialog.setAttribute('aria-hidden','true');
+  closeOverlayDialog(dialog);
   dpCallback = null;
 }
 
@@ -429,7 +430,7 @@ function openTimePicker(initialTime, callback) {
   }
   tpMode='hour';
   const dialog=document.getElementById('time-picker-dialog');
-  if(dialog){dialog.style.display='';dialog.setAttribute('aria-hidden','false');}
+  if(dialog) openOverlayDialog(dialog);
   updateTPSegments(); updateTPPeriod(); updateTPLabel(); renderTPClock();
 }
 
@@ -441,7 +442,7 @@ function closeTimePicker() {
     if(seg){seg.classList.remove('editing'); const sp=seg.querySelector('span'); if(sp)sp.style.display='';}
   });
   const dialog=document.getElementById('time-picker-dialog');
-  if(dialog)dialog.setAttribute('aria-hidden','true');
+  closeOverlayDialog(dialog);
   tpCallback=null;
 }
 

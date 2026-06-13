@@ -16,6 +16,10 @@
   height: 100%;
 }
 
+#spotlight-hole {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
 .onboarding-tooltip {
   position: absolute;
   background: var(--md-surface);
@@ -27,6 +31,7 @@
   z-index: 401;
   pointer-events: auto;
   animation: tooltip-enter 0.3s cubic-bezier(0.2, 0, 0, 1);
+  transition: top 0.3s cubic-bezier(0.4, 0, 0.2, 1), left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 @keyframes tooltip-enter {
@@ -40,7 +45,7 @@
   }
 }
 
-.onboarding-tooltip-title {
+.onboarding-tooltip__title {
   font-family: var(--font-display);
   font-size: 1.125rem;
   font-weight: 700;
@@ -49,20 +54,61 @@
   letter-spacing: -0.01em;
 }
 
-.onboarding-tooltip-body {
+.onboarding-tooltip__body {
   font-size: 0.9rem;
   color: var(--md-on-surface-variant);
   line-height: 1.6;
   margin-bottom: 1rem;
 }
 
-.onboarding-tooltip-actions {
+.onboarding-tooltip__actions {
   display: flex;
   gap: 0.75rem;
   justify-content: space-between;
   align-items: center;
   padding-top: 0.75rem;
   margin-top: 0.5rem;
+}
+
+.onboarding-tooltip__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.onboarding-tooltip__icon {
+  font-size: 1.5rem;
+  color: var(--md-primary);
+}
+
+.onboarding-tooltip__step-label {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--md-on-surface-variant);
+}
+
+.onboarding-tooltip__dots {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 1rem;
+}
+
+.ob-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--md-outline-variant);
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.ob-dot.active {
+  background: var(--md-primary);
+  width: 24px;
+  border-radius: 4px;
 }
 
 .onboarding-skip-btn {
