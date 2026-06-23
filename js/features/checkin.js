@@ -14,6 +14,7 @@ import {
   EMOTION_OPTIONS
 } from './checkinScoring.js';
 import { renderWellnessDot } from '../utils/ui.js';
+import { refreshFromWellnessData } from '../pet/main.js';
 
 const GRAD_FIELDS = ['stress_level', 'worry_level', 'thought_loop_level', 'energy_level', 'social_connection_level'];
 const MAX_EMOTIONS = 3;
@@ -429,6 +430,9 @@ export function initCheckin() {
     updateHomeDashboard();
     renderInsights();
     applyCheckinLock();
+    if (typeof refreshFromWellnessData === 'function') {
+      refreshFromWellnessData();
+    }
   });
 
   renderCheckinHistory();

@@ -470,3 +470,43 @@
 .privacy-content a {
   color: var(--md-primary);
 }
+
+.data-import-zone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1.25rem 1rem;
+  margin-bottom: 1rem;
+  border: 1.5px dashed var(--md-outline);
+  border-radius: var(--radius-lg);
+  background: var(--md-surface-container-low);
+  text-align: center;
+  transition: border-color var(--transition), background var(--transition);
+}
+
+.data-import-zone.is-dragover {
+  border-color: var(--md-primary);
+  background: var(--md-primary-container);
+}
+
+.data-import-zone__icon {
+  font-size: 2rem;
+  color: var(--md-primary);
+}
+
+.data-import-zone__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--md-on-surface);
+}
+
+.data-import-zone__hint {
+  margin: 0 0 0.25rem;
+  font-size: 0.82rem;
+  color: var(--md-on-surface-variant);
+  max-width: 28rem;
+  line-height: 1.45;
+}

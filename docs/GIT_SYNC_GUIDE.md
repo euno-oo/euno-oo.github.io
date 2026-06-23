@@ -4,7 +4,7 @@ This guide provides quick commands for syncing the Euno project between local an
 
 ---
 
-## 📋 Table of Contents
+##  Table of Contents
 1. [Local to Remote (Push Local Changes)](#local-to-remote-push-local-changes)
 2. [Remote to Local (Pull Remote Changes)](#remote-to-local-pull-remote-changes)
 3. [Full Sync (Both Directions)](#full-sync-both-directions)
@@ -13,7 +13,7 @@ This guide provides quick commands for syncing the Euno project between local an
 
 ---
 
-## 🔄 Local to Remote (Push Local Changes)
+##  Local to Remote (Push Local Changes)
 
 Use this when you've made changes locally and want to upload them to GitHub.
 
@@ -54,7 +54,7 @@ git add -A && git commit -m "Docs: Updated API documentation" && git push origin
 
 ---
 
-## 🔄 Remote to Local (Pull Remote Changes)
+##  Remote to Local (Pull Remote Changes)
 
 Use this when team members have pushed changes and you want to update your local files.
 
@@ -92,7 +92,7 @@ git add . && git commit -m "Merge conflicts resolved"
 
 ---
 
-## 🔄 Full Sync (Both Directions)
+##  Full Sync (Both Directions)
 
 ### Sync Local to Remote (Your Local is Source of Truth)
 ```bash
@@ -126,7 +126,7 @@ git clean -fd
 
 ---
 
-## 📊 Repository Status
+##  Repository Status
 
 ### Check Current Status
 ```bash
@@ -151,17 +151,17 @@ git diff origin/main
 
 ---
 
-## 📌 Important Notes
+##  Important Notes
 
 ### Rules for This Project
-✅ **DO:**
+ **DO:**
 - Always commit before pulling
 - Use clear, descriptive commit messages
 - Pull before starting new work
 - Test changes locally before pushing
 - Keep the main branch stable and production-ready
 
-❌ **DON'T:**
+ **DON'T:**
 - Create new branches (use main only)
 - Force push unless specifically needed
 - Commit without meaningful messages
@@ -206,7 +206,7 @@ git restore .
 
 ---
 
-## 🚀 Quick Reference Card
+##  Quick Reference Card
 
 ```
 PUSH (Local → Remote):

@@ -1,6 +1,4 @@
-/**
- * Utility functions for Euno Mini Games
- */
+
 
 function getStorage(key, def) {
   try {
@@ -17,9 +15,7 @@ function setStorage(key, val) {
   } catch (e) {}
 }
 
-/**
- * Save highscore for a specific game and return true if it's a new highscore.
- */
+
 function saveHighScore(gameKey, score) {
   const currentHigh = getStorage('highscore_' + gameKey, 0);
   if (score > currentHigh) {
@@ -29,16 +25,12 @@ function saveHighScore(gameKey, score) {
   return false;
 }
 
-/**
- * Get current highscore
- */
+
 function getHighScore(gameKey) {
   return getStorage('highscore_' + gameKey, 0);
 }
 
-/**
- * Award StudyCoins to the user.
- */
+
 function awardStudyCoins(amount, reason) {
   const doubleActive = getStorage('double_coins_active') === new Date().toLocaleDateString('en-CA');
   const finalAmount = doubleActive ? amount * 2 : amount;
@@ -58,16 +50,14 @@ function awardStudyCoins(amount, reason) {
   return finalAmount;
 }
 
-// Attach to window so they are globally accessible
+
 window.EunoGameUtils = {
   saveHighScore,
   getHighScore,
   awardStudyCoins
 };
 
-/**
- * Global Theme Sync
- */
+
 function syncGlobalTheme() {
   const t = getStorage('theme', 'system');
   const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -81,7 +71,7 @@ function syncGlobalTheme() {
     document.body.classList.remove('dark-theme');
   }
 
-  // Update theme toggle icons if present
+  
   document.querySelectorAll('#theme-toggle .material-symbols-outlined, #theme-toggle .material-symbols-rounded, .theme-toggle .material-symbols-outlined, .theme-toggle .material-symbols-rounded').forEach(icon => {
     icon.textContent = isDark ? 'light_mode' : 'dark_mode';
   });
@@ -96,9 +86,27 @@ function toggleGlobalTheme() {
   syncGlobalTheme();
 }
 
-// Apply on load
+
 syncGlobalTheme();
+function initGameIcons() {
+  const root = document.documentElement;
+  const ready = () => root.classList.add('icons-ready');
+  if (!document.fonts || !document.fonts.load) {
+    ready();
+    return;
+  }
+  Promise.race([
+    Promise.allSettled([
+      document.fonts.load('24px "Material Icons Round"'),
+      document.fonts.load('24px "Material Symbols Outlined"'),
+      document.fonts.load('24px "Material Symbols Rounded"')
+    ]),
+    new Promise((resolve) => setTimeout(resolve, 1200))
+  ]).then(ready);
+}
+
 function initGameUtils() {
+  initGameIcons();
   syncGlobalTheme();
   const toggles = document.querySelectorAll('#theme-toggle, .theme-toggle');
   toggles.forEach(btn => btn.addEventListener('click', toggleGlobalTheme));

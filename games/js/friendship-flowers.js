@@ -29,7 +29,7 @@ const el = {
     progressBar: document.getElementById('progress-indicator'),
     progressText: document.getElementById('progress-text'),
     progressTrack: document.getElementById('progress-bar-container'),
-//     themeToggle: document.getElementById('theme-toggle'),
+
     completionOverlay: document.getElementById('completion-overlay'),
     modalCloseBtn: document.getElementById('modal-close-btn'),
     carouselTrack: document.getElementById('carousel-track'),
@@ -45,7 +45,7 @@ function initializeApp() {
     renderCarousel();
     renderPrompts();
     setupEventListeners();
-    // loadSavedTheme();
+    
 }
 
 function renderGardenGrid() {
@@ -226,7 +226,7 @@ function checkWinCondition() {
             let msg = "Garden flourishing! All parameters are stable. Connection metrics complete.";
             if (window.EunoGameUtils) {
                 const earned = window.EunoGameUtils.awardStudyCoins(10, 'Completed Friendship Flowers');
-                // Since this game doesn't have a numeric score, we just count wins as highscores
+                
                 const currentHighscore = window.EunoGameUtils.getHighScore('friendship_flowers');
                 window.EunoGameUtils.saveHighScore('friendship_flowers', currentHighscore + 1);
                 msg += `\n\n+${earned} StudyCoins Earned! (Total Completions: ${currentHighscore + 1})`;
@@ -254,7 +254,7 @@ function handleReset() {
 function setupEventListeners() {
     el.actionBtn.addEventListener('click', handleExecuteAction);
     el.resetBtn.addEventListener('click', handleReset);
-//     el.themeToggle.addEventListener('click', toggleTheme);
+
 
     el.modalCloseBtn.addEventListener('click', () => {
         el.completionOverlay.classList.add('hidden');

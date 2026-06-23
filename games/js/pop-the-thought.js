@@ -84,7 +84,7 @@ class ThoughtEngine {
   }
 
   setStatus(running) {
-    // No-op as status card is removed
+    
   }
 
   openHelp() {

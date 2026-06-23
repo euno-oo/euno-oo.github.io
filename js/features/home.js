@@ -3,7 +3,7 @@ import { greetingByTime, todayStr } from '../utils/dateUtils.js';
 import { WELLNESS_LEVEL_LABELS } from '../core/constants.js';
 import { renderWellnessDot } from '../utils/ui.js';
 import { sanitize } from '../utils/helpers.js';
-import { isCheckinPositive, getCheckinScores, detectChallenges, getCheckinWellnessLevel } from './checkinScoring.js';
+import { getCheckinScores, detectChallenges, getCheckinWellnessLevel } from './checkinScoring.js';
 import { getCurrentWeekDates } from '../utils/dateUtils.js';
 
 export function initHome() { updateHomeDashboard(); }
@@ -52,43 +52,11 @@ export function updateHomeDashboard() {
   if (goldenBadgeEl) goldenBadgeEl.style.display = themeUnlocked ? 'flex' : 'none';
   if (goldenBadgeMobileEl) goldenBadgeMobileEl.style.display = themeUnlocked ? 'flex' : 'none';
 
-  const typingEl = document.getElementById('hero-typing-text');
-  if (typingEl) {
-    if (todayCheckin) {
-      const positive = isCheckinPositive(todayCheckin);
-      const text1 = positive
-        ? "You're doing well today. Keep taking care of yourself!"
-        : "I'm here with you. Let's explore some wellness activities together.";
-      typeText(typingEl, text1, 40, () => {
-        setTimeout(() => {
-          typeText(typingEl, "Mind sharing something in your diary? It's just between us.", 40);
-        }, 5000);
-      });
-    } else {
-      typeText(typingEl, "Hi! My name is Euno. It's time for your daily mental health check-in.", 40);
-    }
-  }
-
   const qaCheckinBtn = document.querySelector('.qa-card[data-page="checkin"] .qa-label');
   if (qaCheckinBtn) qaCheckinBtn.textContent = todayCheckin ? 'Done' : 'Log Mood';
 
   renderWeekMoodsHome(checkins);
   renderInsightTeaser(checkins);
-}
-
-function typeText(element, text, speed = 50, callback = null) {
-  element.textContent = '';
-  let i = 0;
-  clearInterval(element.typingInterval);
-  element.typingInterval = setInterval(() => {
-    if (i < text.length) {
-      element.textContent += text.charAt(i);
-      i++;
-    } else {
-      clearInterval(element.typingInterval);
-      if (callback) callback();
-    }
-  }, speed);
 }
 
 export function calcCheckinStreak(checkins) {

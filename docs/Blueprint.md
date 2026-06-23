@@ -1,6 +1,6 @@
 # Euno Blueprint
 
-> **Status:** Multi-page website with modular CSS and ES modules. Entry point is `index.html` at project root. This document describes the **current as-built** codebase — not a future target architecture.
+> **Status:** Multi-page website with modular CSS and ES modules. Entry point is `index.html` at project root. This document describes the **current as-built** codebase - not a future target architecture.
 
 ## Feature Inventory
 
@@ -222,7 +222,7 @@ Each HTML page loads `css/index.css` (modular CSS), jsPDF CDN, and `<script type
 | `shop/shop.js` | `addCoins`, `updateCoinDisplay`, `initShop`, `renderShop`, `calcCheckinStreakWithFreezes` |
 | `settings/settings.js` | `initSettings` |
 | `streak/streakCalendar.js` | `initStreakCalendar` |
-| `migrations/migrateDiaryReminders.js` | Side-effect only — runs one-time migration on import |
+| `migrations/migrateDiaryReminders.js` | Side-effect only - runs one-time migration on import |
 
 ## Cross-Feature Imports (Actual)
 
@@ -240,12 +240,12 @@ Each HTML page loads `css/index.css` (modular CSS), jsPDF CDN, and `<script type
 Implemented in `js/features/checkinScoring.js`.
 
 ### Questions
-1. **Emotions** (`moods: string[]`) — multi-select chips, 1–3 selections from 12 options (6 positive, 6 negative)
-2. **Stress** (`stress_level: 1–5`) — graduated buttons
-3. **Worry** (`worry_level: 1–5`) — graduated buttons
-4. **Thought loops** (`thought_loop_level: 1–5`) — graduated buttons
-5. **Energy** (`energy_level: 1–5`, 5 = very energetic) — graduated buttons
-6. **Social connection** (`social_connection_level: 1–5`, 5 = very connected) — graduated buttons
+1. **Emotions** (`moods: string[]`) - multi-select chips, 1–3 selections from 12 options (6 positive, 6 negative)
+2. **Stress** (`stress_level: 1–5`) - graduated buttons
+3. **Worry** (`worry_level: 1–5`) - graduated buttons
+4. **Thought loops** (`thought_loop_level: 1–5`) - graduated buttons
+5. **Energy** (`energy_level: 1–5`, 5 = very energetic) - graduated buttons
+6. **Social connection** (`social_connection_level: 1–5`, 5 = very connected) - graduated buttons
 
 ### Score dimensions
 Each check-in produces five scores: `stress_score`, `anxiety_score`, `burnout_score`, `overthinking_score`, `loneliness_score`. Emotion selections and graduated-button answers each contribute points per the spec.
@@ -263,7 +263,7 @@ Each check-in produces five scores: `stress_score`, `anxiety_score`, `burnout_sc
 Per-dimension ranges: Low, Mild, Moderate, High (see `getSeverity()` in `checkinScoring.js`).
 
 ### Home dashboard messaging
-The hero typing animation uses `isCheckinPositive()` — positive when no challenges are detected, supportive otherwise.
+The hero typing animation uses `isCheckinPositive()` - positive when no challenges are detected, supportive otherwise.
 
 ### Legacy data
 Older check-ins using the previous `mood`/`stress`/`energy`/`sleep` format are adapted at read time via `normalizeCheckinEntry()`.
@@ -289,7 +289,7 @@ Older check-ins using the previous `mood`/`stress`/`energy`/`sleep` format are a
 - `stableSort(arr, cmp)`: Stable array sorting
 
 ### Navigation (`script.js`)
-- `initNavigation()`, `navigateTo(page)` — inline in entry point
+- `initNavigation()`, `navigateTo(page)` - inline in entry point
 
 ### Feature init exports
 Each feature module exports `init*` (and render helpers where needed). See **Module Responsibilities** table above for file locations. Private helpers stay unexported within each file.
@@ -459,9 +459,9 @@ Each feature module exports `init*` (and render helpers where needed). See **Mod
 
 These IDs/classes are not in `index.html` but are created by JS:
 
-- `checkin-done-banner` — after saving check-in (`features/checkin.js`)
-- `add-event-day-btn` — day view in calendar (`calendar/calendar.js`)
-- `ob-dot` — onboarding step dots (`features/onboarding.js`)
+- `checkin-done-banner` - after saving check-in (`features/checkin.js`)
+- `add-event-day-btn` - day view in calendar (`calendar/calendar.js`)
+- `ob-dot` - onboarding step dots (`features/onboarding.js`)
 - List item classes: `note-item`, `diary-item`, `todo-item`, `checkin-item`, `week-mood-item`, etc.
 
 ## Coding Standards (current)
@@ -471,4 +471,4 @@ These IDs/classes are not in `index.html` but are created by JS:
 - `getStorage()` / `setStorage()` for all persistence
 - `debounce()` for draft auto-save and search inputs
 - Theme via `data-theme="dark"` on `<html>`
-- Coin earning via direct `import { addCoins } from '../shop/shop.js'` — not via `window`
+- Coin earning via direct `import { addCoins } from '../shop/shop.js'` - not via `window`

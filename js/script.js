@@ -7,16 +7,31 @@ import { initHome, updateHomeDashboard } from './features/home.js';
 import { initCheckin } from './features/checkin.js';
 import { initDiaryEditor } from './diary/diary.js';
 
-import { initWellness } from './wellness/wellness.js';
+import { initializePet } from './pet/main.js';
 import { initInsights } from './insights/insights.js';
 import { initSettings } from './settings/settings.js';
 import { initShop, renderShop, updateCoinDisplay } from './shop/shop.js';
 import { initStreakCalendar, openStreakCalendar, closeStreakCalendar } from './streak/streakCalendar.js';
 import { initCountdown } from './countdown/countdown.js';
+import { initIcons } from './core/icons.js';
 import { getStorage, setStorage } from './core/storage.js';
 import { showToast } from './utils/notifications.js';
 
-
+function showProfilePromptToast() {
+  const toast = document.createElement('div');
+  toast.className = 'toast info';
+  toast.textContent = 'Complete your profile in Settings to personalize your experience. ';
+  const link = document.createElement('a');
+  link.href = 'settings.html';
+  link.textContent = 'Go to Settings';
+  link.style.cssText = 'color:inherit;text-decoration:underline;margin-left:0.5rem;';
+  toast.appendChild(link);
+  const c = document.getElementById('toast-container');
+  if (c) {
+    c.appendChild(toast);
+    setTimeout(() => { toast.style.animation = 'toastOut 0.25s ease forwards'; setTimeout(() => toast.remove(), 250); }, 5000);
+  }
+}
 function checkFirstTimeProfile() {
   const profileName = getStorage('profile_name', '');
   const profilePromptShown = getStorage('profile_prompt_shown', false);
@@ -26,31 +41,13 @@ function checkFirstTimeProfile() {
     setStorage('profile_prompt_shown', true);
     
     if (onboardingDone) {
-      setTimeout(() => {
-        const toast = document.createElement('div');
-        toast.className = 'toast info';
-        toast.innerHTML = 'Complete your profile in Settings to personalize your experience. <a href="settings.html" style="color:inherit;text-decoration:underline;margin-left:0.5rem;">Go to Settings</a>';
-        const c = document.getElementById('toast-container');
-        if (c) {
-          c.appendChild(toast);
-          setTimeout(() => { toast.style.animation = 'toastOut 0.25s ease forwards'; setTimeout(() => toast.remove(), 250); }, 5000);
-        }
-      }, 1000);
+      setTimeout(showProfilePromptToast, 1000);
     } else {
       const checkInterval = setInterval(() => {
         const done = getStorage('onboarding_done', false);
         if (done) {
           clearInterval(checkInterval);
-          setTimeout(() => {
-            const toast = document.createElement('div');
-            toast.className = 'toast info';
-            toast.innerHTML = 'Complete your profile in Settings to personalize your experience. <a href="settings.html" style="color:inherit;text-decoration:underline;margin-left:0.5rem;">Go to Settings</a>';
-            const c = document.getElementById('toast-container');
-            if (c) {
-              c.appendChild(toast);
-              setTimeout(() => { toast.style.animation = 'toastOut 0.25s ease forwards'; setTimeout(() => toast.remove(), 250); }, 5000);
-            }
-          }, 1000);
+          setTimeout(showProfilePromptToast, 1000);
         }
       }, 500);
     }
@@ -58,13 +55,14 @@ function checkFirstTimeProfile() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+  initIcons();
   initTheme();
   initOnboarding();
   initMobileDrawer();
   initCheckin();
   initDiary();
   initStreakCard();
-  initWellness();
+  initializePet('#euno-app');
   initInsights();
   initSettings();
   initDatePicker();

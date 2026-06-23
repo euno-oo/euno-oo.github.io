@@ -1,9 +1,10 @@
 import { getStorage, setStorage } from '../core/storage.js';
-import { todayStr } from '../utils/dateUtils.js';
 import { showToast } from '../utils/notifications.js';
 import { applyTheme, updateThemeBtns } from '../features/theme.js';
 import { initOnboarding } from '../features/onboarding.js';
 import { updateHomeDashboard } from '../features/home.js';
+import { downloadBackup, importBackupFile } from '../core/dataSync.js';
+import { refreshFromWellnessData } from '../pet/main.js';
 
 export function initSettings() {
   const nameInput = document.getElementById('settings-name');
@@ -33,16 +34,48 @@ export function initSettings() {
     });
   });
   document.getElementById('export-data') && document.getElementById('export-data').addEventListener('click', () => {
-    const data = {};
-    ['checkins','habits','diarys','notes','todos','calendarEvents','pomodoro_sessions','gratitude_entries','flashcard_decks','profile_name','profile_gender','theme'].forEach(k => {
-      data[k] = getStorage(k, null);
-    });
-    const blob = new Blob([JSON.stringify(data, null, 2)],{type:'application/json'});
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a'); a.href=url; a.download=`euno-backup-${todayStr()}.json`;
-    document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url);
+    downloadBackup();
     showToast('Data exported!','success');
   });
+
+  const importInput = document.getElementById('import-data-file');
+  const importBtn = document.getElementById('import-data-btn');
+  const importZone = document.getElementById('import-data-zone');
+
+  async function handleImportFile(file) {
+    if (!file) return;
+    try {
+      const count = await importBackupFile(file);
+      applyTheme(getStorage('theme', 'system'));
+      updateThemeBtns(getStorage('theme', 'system'));
+      updateHomeDashboard();
+      if (typeof refreshFromWellnessData === 'function') refreshFromWellnessData();
+      showToast(`Backup restored (${count} items). Syncing…`, 'success');
+      setTimeout(() => location.reload(), 800);
+    } catch (err) {
+      showToast(err.message || 'Import failed.', 'error');
+    } finally {
+      if (importInput) importInput.value = '';
+    }
+  }
+
+  importBtn && importBtn.addEventListener('click', () => importInput && importInput.click());
+  importInput && importInput.addEventListener('change', () => handleImportFile(importInput.files && importInput.files[0]));
+
+  if (importZone) {
+    importZone.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      importZone.classList.add('is-dragover');
+    });
+    importZone.addEventListener('dragleave', () => importZone.classList.remove('is-dragover'));
+    importZone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      importZone.classList.remove('is-dragover');
+      const file = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0];
+      handleImportFile(file);
+    });
+  }
+
   document.getElementById('clear-data') && document.getElementById('clear-data').addEventListener('click', () => {
     if (!confirm('Clear ALL data? This cannot be undone.')) return;
     try { localStorage.clear(); } catch {}

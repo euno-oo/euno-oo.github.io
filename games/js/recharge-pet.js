@@ -20,8 +20,8 @@ const elProgressBar = document.getElementById('progress-bar-fill');
 const elProgressPercent = document.getElementById('progress-percentage');
 const elActionCount = document.getElementById('action-count');
 const elHighscoreSummaryVal = document.getElementById('highscore-summary-val');
-const elPetMouth = document.getElementById('axolotl-mouth');
 const elPetContainer = document.getElementById('axolotl-pet');
+const elPetFaceCurrent = document.getElementById('pet-face-current');
 const elPetStatusBadge = document.getElementById('pet-status-badge');
 const elHitContainer = document.getElementById('combat-text-container');
 
@@ -34,9 +34,21 @@ const elModalStatsTurns = document.getElementById('modal-stats-turns');
 const elHighscoreValue = document.getElementById('highscore-value');
 const elRestartBtn = document.getElementById('restart-btn');
 
+const PET_FACE_SRC = {
+    low: '../images/Burnout.avif',
+    medium: '../images/Final.avif',
+    high: '../images/Default.avif'
+};
+
+const PET_FACE_ALT = {
+    low: 'Burnout expression Euno',
+    medium: 'Neutral flat-smile Euno',
+    high: 'Happy Euno'
+};
+
 function init() {
     setupEventListeners();
-    // initTheme();
+    
     resetGame();
 }
 
@@ -92,25 +104,25 @@ function processTurn(delta) {
 }
 
 function triggerFeedback(delta) {
-    elPetContainer.classList.remove('idle-animation', 'react-gain', 'react-lose');
-    void elPetContainer.offsetWidth;
-
-    if (delta >= 0) {
-        elPetContainer.classList.add('react-gain');
-    } else {
-        elPetContainer.classList.add('react-lose');
-    }
-
-    setTimeout(() => {
-        elPetContainer.classList.add('idle-animation');
-    }, 400);
-
     const hitTxt = document.createElement('div');
     hitTxt.className = `pop-text ${delta >= 0 ? 'text-gain' : 'text-lose'}`;
     hitTxt.textContent = `${delta >= 0 ? '+' : ''}${delta}`;
 
     elHitContainer.appendChild(hitTxt);
     setTimeout(() => hitTxt.remove(), 750);
+}
+
+function setPetFace(state) {
+    const nextSrc = PET_FACE_SRC[state];
+    if (!nextSrc || elPetFaceCurrent.getAttribute('src') === nextSrc) return;
+
+    elPetFaceCurrent.src = nextSrc;
+    elPetFaceCurrent.alt = PET_FACE_ALT[state];
+}
+
+function setPetStateClass(stateClass) {
+    elPetContainer.classList.remove('state-low', 'state-medium', 'state-high');
+    elPetContainer.classList.add(stateClass);
 }
 
 function updateUI() {
@@ -123,25 +135,27 @@ function updateUI() {
 
     if (currentEnergy < 40) {
         elProgressBar.classList.add('color-state-danger');
-        elPetContainer.className = 'axolotl-vector state-low';
+        setPetStateClass('state-low');
+        setPetFace('low');
         elPetStatusBadge.textContent = 'Tired';
         elPetStatusBadge.className = 'badge badge--danger pet-status-chip';
-        elPetMouth.setAttribute('d', 'M44 58 Q50 52 56 58');
     } else if (currentEnergy < 75) {
         elProgressBar.classList.add('color-state-warning');
-        elPetContainer.className = 'axolotl-vector state-medium';
+        setPetStateClass('state-medium');
+        setPetFace('medium');
         elPetStatusBadge.textContent = 'Stable';
         elPetStatusBadge.className = 'badge badge--warning pet-status-chip';
-        elPetMouth.setAttribute('d', 'M44 56 Q50 56 56 56');
     } else {
         elProgressBar.classList.add('color-state-success');
-        elPetContainer.className = 'axolotl-vector state-high';
+        setPetStateClass('state-high');
+        setPetFace('high');
         elPetStatusBadge.textContent = 'Happy';
         elPetStatusBadge.className = 'badge badge--success pet-status-chip';
-        elPetMouth.setAttribute('d', 'M44 54 Q50 62 56 54');
     }
 
-    const storedBest = localStorage.getItem('m3-pet-highscore');
+    const storedBest = window.EunoGameUtils
+        ? window.EunoGameUtils.getHighScore('recharge_pet')
+        : Number.parseInt(localStorage.getItem('highscore_recharge_pet') || '0', 10);
     elHighscoreSummaryVal.textContent = storedBest ? `${storedBest} t` : '--';
 }
 
@@ -171,7 +185,9 @@ function endGame(isWin) {
         elModalDesc.textContent = 'Critical threshold reached. Energy exhaustion sequence terminated life metrics.';
     }
 
-    const storedBest = localStorage.getItem('m3-pet-highscore');
+    const storedBest = window.EunoGameUtils
+        ? window.EunoGameUtils.getHighScore('recharge_pet')
+        : Number.parseInt(localStorage.getItem('highscore_recharge_pet') || '0', 10);
     elHighscoreValue.textContent = storedBest ? `${storedBest} turns` : '--';
 
     elModal.classList.remove('hidden');
@@ -181,6 +197,7 @@ function endGame(isWin) {
 function resetGame() {
     currentEnergy = START_ENERGY;
     turnCount = 0;
+    elPetContainer.classList.remove('is-changing-expression');
     elHitContainer.innerHTML = '';
     elModal.classList.add('hidden');
     updateUI();

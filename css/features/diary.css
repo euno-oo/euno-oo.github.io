@@ -426,6 +426,15 @@
 }
 
 @media (max-width: 600px) {
+  .diary-prompt-grid {
+    flex-direction: column;
+  }
+
+  .diary-prompt-grid .diary-prompt-chip {
+    width: 100%;
+    justify-content: center;
+  }
+
   .notes-header-row { flex-direction: column; align-items: flex-start; }
   .editor-container.split-mode { flex-direction: column; }
   .editor-container.split-mode .notes-editor-textarea { border-right: none; border-bottom: 1px solid var(--md-outline-variant); }

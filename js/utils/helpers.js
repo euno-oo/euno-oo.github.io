@@ -3,6 +3,19 @@ export function sanitize(str) {
   return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
 }
 
+function safeUrl(url, { imagesOnly = false } = {}) {
+  if (typeof url !== 'string') return '';
+  const trimmed = url.trim();
+  if (!trimmed) return '';
+  if (/^javascript:/i.test(trimmed) || /^vbscript:/i.test(trimmed)) return '';
+  if (trimmed.startsWith('data:')) {
+    return imagesOnly && /^data:image\//i.test(trimmed) ? trimmed : '';
+  }
+  if (/^https?:\/\//i.test(trimmed)) return imagesOnly ? '' : trimmed;
+  if (trimmed.startsWith('//')) return '';
+  return trimmed;
+}
+
 export function sanitizeNum(n, min, max) {
   const v = parseInt(n, 10);
   if (isNaN(v)) return min;
@@ -27,7 +40,13 @@ export function parseMarkdown(md) {
     codeBlocks.push(`<pre><code>${code}</code></pre>`);
     return `\n@@CODEBLOCK_${codeBlocks.length - 1}@@\n`;
   });
-  html = html.replace(/!\[([^\]]*)\]\(data:image[^)]+\)/g, (m, alt, src) => `<img alt="${alt}" src="${m.slice(m.indexOf('(')+1, -1)}">`).replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img alt="$1" src="$2">').replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>').replace(/^### (.+)$/gm,'<h3>$1</h3>').replace(/^## (.+)$/gm,'<h2>$1</h2>').replace(/^# (.+)$/gm,'<h1>$1</h1>').replace(/\*\*\*(.+?)\*\*\*/g,'<strong><em>$1</em></strong>').replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>').replace(/\*(.+?)\*/g,'<em>$1</em>').replace(/`([^`]+)`/g,'<code>$1</code>').replace(/^> (.+)$/gm,'<blockquote>$1</blockquote>').replace(/^---+$/gm,'<hr>').replace(/^\d+\. (.+)$/gm,'<li class="ol-item">$1</li>').replace(/^[-*] (.+)$/gm,'<li class="ul-item">$1</li>');
+  html = html.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, (_, alt, src) => {
+    const safeSrc = safeUrl(src, { imagesOnly: true });
+    return safeSrc ? `<img alt="${alt}" src="${safeSrc}">` : '';
+  }).replace(/\[([^\]]+)\]\(([^)]+)\)/g, (_, label, href) => {
+    const safeHref = safeUrl(href);
+    return safeHref ? `<a href="${safeHref}" target="_blank" rel="noopener noreferrer">${label}</a>` : label;
+  }).replace(/^### (.+)$/gm,'<h3>$1</h3>').replace(/^## (.+)$/gm,'<h2>$1</h2>').replace(/^# (.+)$/gm,'<h1>$1</h1>').replace(/\*\*\*(.+?)\*\*\*/g,'<strong><em>$1</em></strong>').replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>').replace(/\*(.+?)\*/g,'<em>$1</em>').replace(/`([^`]+)`/g,'<code>$1</code>').replace(/^> (.+)$/gm,'<blockquote>$1</blockquote>').replace(/^---+$/gm,'<hr>').replace(/^\d+\. (.+)$/gm,'<li class="ol-item">$1</li>').replace(/^[-*] (.+)$/gm,'<li class="ul-item">$1</li>');
   html = html.replace(/(<li class="ol-item">.*?<\/li>(\n|$))+/g, m => '<ol>' + m.replace(/ class="ol-item"/g,'') + '</ol>');
   html = html.replace(/(<li class="ul-item">.*?<\/li>(\n|$))+/g, m => '<ul>' + m.replace(/ class="ul-item"/g,'') + '</ul>');
   html = html.split('\n').map(line => {

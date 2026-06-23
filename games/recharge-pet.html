@@ -4,7 +4,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, vertical-align=baseline">
-  <title>Recharge the Pet</title>
+  <title>Recharge the Pet - Euno</title>
+  <link rel="icon" href="../images/Default.avif" type="image/avif">
+  <link rel="icon" href="../images/Default.png" type="image/png">
+  <link rel="apple-touch-icon" href="../images/Default.png">
+  <link rel="stylesheet" href="../css/icons.css">
   <link rel="stylesheet" href="css/recharge-pet.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,6 +16,20 @@
     href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=DM+Sans:wght@400;500;700&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap"
     rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+
+  <meta name="description" content="Help Euno recover energy in this wellness mini-game for burnout support and balanced choices.">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+  <meta name="theme-color" content="#6750A4">
+  <link rel="canonical" href="https://rainier-ps.github.io/Euno/games/recharge-pet.html">
+  <meta property="og:title" content="Recharge the Pet - Euno">
+  <meta property="og:description" content="Help Euno recover energy in this wellness mini-game for burnout support and balanced choices.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://rainier-ps.github.io/Euno/games/recharge-pet.html">
+  <meta property="og:image" content="https://rainier-ps.github.io/Euno/images/Default.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Recharge the Pet - Euno">
+  <meta name="twitter:description" content="Help Euno recover energy in this wellness mini-game for burnout support and balanced choices.">
+  <meta name="twitter:image" content="https://rainier-ps.github.io/Euno/images/Default.png">
 </head>
 
 <body>
@@ -39,26 +57,8 @@
           <div class="pet-scenery">
             <div id="combat-text-container" class="damage-layer"></div>
 
-            <div id="axolotl-pet" class="axolotl-vector state-low idle-animation">
-              <svg viewBox="0 0 100 100" aria-hidden="true">
-                <path class="gill gill-l1" d="M30 40 C14 34 14 44 30 46" stroke="currentColor" stroke-width="3.5"
-                  stroke-linecap="round" fill="none" />
-                <path class="gill gill-l2" d="M28 49 C10 45 10 55 28 54" stroke="currentColor" stroke-width="3.5"
-                  stroke-linecap="round" fill="none" />
-                <path class="gill gill-l3" d="M30 58 C14 56 14 66 30 62" stroke="currentColor" stroke-width="3.5"
-                  stroke-linecap="round" fill="none" />
-                <path class="gill gill-r1" d="M70 40 C86 34 86 44 70 46" stroke="currentColor" stroke-width="3.5"
-                  stroke-linecap="round" fill="none" />
-                <path class="gill gill-r2" d="M72 49 C90 45 90 55 72 54" stroke="currentColor" stroke-width="3.5"
-                  stroke-linecap="round" fill="none" />
-                <path class="gill gill-r3" d="M70 58 C86 56 86 66 70 62" stroke="currentColor" stroke-width="3.5"
-                  stroke-linecap="round" fill="none" />
-                <ellipse cx="50" cy="51" rx="22" ry="17.5" fill="currentColor" />
-                <circle cx="41.5" cy="49" r="2.5" fill="var(--inverse-surface)" />
-                <circle cx="58.5" cy="49" r="2.5" fill="var(--inverse-surface)" />
-                <path id="axolotl-mouth" d="M44 57 Q50 54 56 57" stroke="var(--inverse-surface)" stroke-width="2.5"
-                  stroke-linecap="round" fill="none" />
-              </svg>
+            <div id="axolotl-pet" class="pet-face-stage state-low" aria-label="Euno's energy expression">
+              <img id="pet-face-current" class="pet-face-img" src="../images/Burnout.avif" width="320" height="320" alt="Burnout expression Euno" decoding="async" loading="eager" fetchpriority="high">
             </div>
 
             <span id="pet-status-badge" class="badge badge--danger pet-status-chip">Tired</span>
