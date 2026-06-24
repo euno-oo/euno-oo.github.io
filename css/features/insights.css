@@ -7,20 +7,24 @@
 
 .chart-wrap {
   width: 100%;
-  height: 200px;
+  height: 220px;
   position: relative;
+  overflow: hidden;
 }
 
 .chart-wrap canvas {
   display: block;
   width: 100%;
+  min-width: auto;
   height: 100%;
+  box-sizing: border-box;
 }
 
 .chart-wrap--sm {
-  height: 280px;
-  max-width: 400px;
+  height: 320px;
+  max-width: 100%;
   margin: 0 auto;
+  padding-bottom: 0.75rem;
 }
 
 .insights-chart {
