@@ -2,10 +2,12 @@
   position: fixed;
   inset: 0;
   z-index: 400;
+  display: none;
   pointer-events: none;
 }
 
 .onboarding-overlay.active {
+  display: block;
   pointer-events: auto;
 }
 

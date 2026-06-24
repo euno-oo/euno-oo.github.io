@@ -2,17 +2,20 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  -webkit-tap-highlight-color: transparent;
 }
 
 html {
   font-size: 16px;
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
+  min-height: 100dvh;
+  background-color: var(--md-surface-container-low, #F7F2FA);
 }
 
 body {
   font-family: var(--font-body);
-  background: var(--md-surface-container-low);
+  background-color: var(--md-surface-container-low, #F7F2FA);
   color: var(--md-on-surface);
   line-height: 1.6;
   overflow-x: hidden;

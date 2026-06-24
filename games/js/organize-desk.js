@@ -71,10 +71,13 @@ function init() {
     startTimer();
 }
 
-const CATEGORY_ORDER = ['books', 'papers', 'pens', 'notes'];
-
-function sortedItems() {
-    return [...ITEMS].sort((a, b) => CATEGORY_ORDER.indexOf(a.category) - CATEGORY_ORDER.indexOf(b.category));
+function shuffleItems(items) {
+    const copy = [...items];
+    for (let i = copy.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+    }
+    return copy;
 }
 
 function updateDeskCount() {
@@ -85,7 +88,7 @@ function updateDeskCount() {
 
 function renderItems() {
     itemPool.innerHTML = '';
-    sortedItems().forEach(item => itemPool.appendChild(buildItemEl(item)));
+    shuffleItems(ITEMS).forEach(item => itemPool.appendChild(buildItemEl(item)));
     updateDeskCount();
 }
 
