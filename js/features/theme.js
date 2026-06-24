@@ -9,8 +9,18 @@ export function initTheme() {
 export function applyTheme(t) {
   const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
   const isDark = t === 'dark' || (t === 'system' && prefersDark);
-  if (isDark) document.documentElement.setAttribute('data-theme','dark');
-  else document.documentElement.removeAttribute('data-theme');
+
+  if (isDark) {
+    document.documentElement.setAttribute('data-theme', 'dark');
+  } else {
+    document.documentElement.removeAttribute('data-theme');
+  }
+
+  const badge = document.getElementById('wcb');
+  if (badge) {
+    badge.classList.toggle('wcb-d', isDark);
+  }
+
   setStorage('theme', t);
 }
 
