@@ -8,8 +8,8 @@ import { getCurrentWellnessState, deriveHighConditions } from "./wellnessAdapter
 import { PET_STATES, getState, setCurrentState, setExpression } from "./petState.js";
 import { statusLabelFor } from "./petRenderer.js";
 
-const ROTATION_INTERVAL_MS = 5000;
-const REFLECTION_DURATION_MS = 5 * 60 * 1000;
+const ROTATION_INTERVAL_MS = 3000;
+const DEFAULT_HOLD_MS = 1500;
 
 let petCardRef = null;
 let speechBubbleRef = null;
@@ -47,7 +47,6 @@ export function showMessage(message, expression) {
 function showDefault() {
   stopReflection();
   setCurrentState(PET_STATES.DEFAULT);
-
   setExpression("happy");
   paint("happy", DEFAULT_MESSAGE);
 }
@@ -55,7 +54,6 @@ function showDefault() {
 function showFinal() {
   stopReflection();
   setCurrentState(PET_STATES.FINAL);
-
   setExpression("neutral");
   paint("neutral", FINAL_MESSAGE);
 }
@@ -89,9 +87,10 @@ export function startReflection(conditions) {
     state.reflectionRotationTimer = window.setInterval(rotateReflection, ROTATION_INTERVAL_MS);
   }
 
+  const totalDuration = queue.length * ROTATION_INTERVAL_MS;
   state.reflectionTimer = window.setTimeout(() => {
     showFinal();
-  }, REFLECTION_DURATION_MS);
+  }, totalDuration);
 }
 
 export function stopReflection() {
@@ -110,14 +109,19 @@ export function stopReflection() {
 
 export function refreshFromWellnessData() {
   const wellnessState = getCurrentWellnessState();
+
+  if (!wellnessState.hasTodayCheckin) {
+    showDefault();
+    return;
+  }
+
   const highConditions = deriveHighConditions(wellnessState);
 
   if (highConditions.length) {
-    startReflection(highConditions);
-  } else if (wellnessState.hasTodayCheckin) {
-    showFinal();
-  } else {
     showDefault();
+    window.setTimeout(() => startReflection(highConditions), DEFAULT_HOLD_MS);
+  } else {
+    showFinal();
   }
 }
 

@@ -422,6 +422,15 @@
   margin-top: 1.5rem;
 }
 
+.credits-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.credits-link:hover {
+  text-decoration: underline;
+}
+
 .version-tag {
   font-size: 0.78rem;
   color: var(--md-on-surface-variant);

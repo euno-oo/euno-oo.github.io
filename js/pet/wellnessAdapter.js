@@ -12,7 +12,7 @@ export function getCurrentWellnessState() {
     const latest = checkins[checkins.length - 1];
     const hasTodayCheckin = latest.date === todayStr();
     return {
-      scores: latest.scores || {},
+      scores: hasTodayCheckin ? (latest.scores || {}) : {},
       hasTodayCheckin
     };
   }
