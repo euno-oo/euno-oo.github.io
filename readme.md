@@ -2,6 +2,9 @@
 
 A student wellness and study companion app built to support mental health, daily check-ins, journaling, and emotional self-awareness.
 
+## Demo
+Visit the live site: [Euno](https://rainier-ps.github.io/Euno/)
+
 ## The Team
 
 **Project Initiator**
