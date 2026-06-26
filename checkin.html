@@ -148,10 +148,8 @@
           <span class="mobile-page-title">Check-In</span>
           <button class="streak-cal-btn" id="streak-cal-btn" aria-label="View streak calendar" type="button" style="margin-left:auto;">
             <span class="material-icons-round" aria-hidden="true">calendar_month</span>
+          </button>
         </div>
-        <button id="full-info-fab" class="btn-filled" style="position: fixed; bottom: 90px; right: 24px; z-index: 90; border-radius: 9999px; width: 56px; height: 56px; padding: 0; display: flex; justify-content: center; align-items: center; box-shadow: 0 4px 12px rgba(0,0,0,0.2);" aria-label="Understanding Your Check-In Results" title="Understanding Check-In Results">
-          <span class="material-icons-round" aria-hidden="true" style="margin: 0; font-size: 28px;">info</span>
-        </button>
         <header class="page-header checkin-page-header">
           <div class="checkin-header-text">
             <h1 class="page-title">Daily Check-In</h1>
@@ -418,6 +416,10 @@
 </div>
 
 <div id="toast-container" class="toast-container" role="region" aria-label="Notifications" aria-live="assertive" aria-atomic="false"></div>
+
+<button id="full-info-fab" aria-label="Understanding Your Check-In Results" title="Understanding Check-In Results">
+  <span class="material-icons-round" aria-hidden="true">info</span>
+</button>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script type="module" src="js/script.js"></script>

@@ -578,3 +578,39 @@
   .grad-btn { padding: 8px 2px; }
   .grad-btn__icon { font-size: 18px; }
 }
+
+#full-info-fab {
+  position: fixed;
+  bottom: 90px;
+  right: 24px;
+  z-index: 90;
+  width: 56px;
+  height: 56px;
+  border-radius: 9999px;
+  border: none;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--primary, #6750A4);
+  color: #fff;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  transition: box-shadow 200ms ease, transform 200ms ease;
+}
+
+#full-info-fab:hover {
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.28);
+  transform: translateY(-2px);
+}
+
+#full-info-fab .material-icons-round {
+  font-size: 28px;
+  margin: 0;
+}
+
+@media (min-width: 601px) {
+  #full-info-fab {
+    bottom: 32px;
+  }
+}
