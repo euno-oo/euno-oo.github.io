@@ -1,15 +1,15 @@
 const CONFIG = {
     totalCells: 9,
     prompts: [
-        { id: 1, text: "Send a supportive message to a colleague", icon: "chat_bubble", level: 5 },
-        { id: 2, text: "Thank someone who helped you recently", icon: "handshake", level: 4 },
-        { id: 3, text: "Reach out to an old friend or contact", icon: "call", level: 5 },
-        { id: 4, text: "Offer help with a small task", icon: "volunteer_activism", level: 4 },
-        { id: 5, text: "Compliment a peer on their work", icon: "workspace_premium", level: 5 },
-        { id: 6, text: "Share a fond memory with family", icon: "history", level: 5 },
-        { id: 7, text: "Listen fully without interrupting", icon: "hearing", level: 4 },
-        { id: 8, text: "Write a heartfelt note of appreciation", icon: "description", level: 4 },
-        { id: 9, text: "Invite someone for a casual coffee break", icon: "coffee", level: 4 }
+        { id: 1, text: "Send an encouraging message to a classmate", icon: "chat_bubble", level: 4 },
+        { id: 2, text: "Thank a friend or teacher who helped you today", icon: "handshake", level: 4 },
+        { id: 3, text: "Message a friend you haven't talked to in a while", icon: "call", level: 5 },
+        { id: 4, text: "Help a classmate with homework or carry something", icon: "volunteer_activism", level: 4 },
+        { id: 5, text: "Compliment someone's presentation, artwork, or assignment", icon: "workspace_premium", level: 5 },
+        { id: 6, text: "Tell a family member about the best part of your day", icon: "history", level: 4 },
+        { id: 7, text: "Let a friend finish talking before you respond", icon: "hearing", level: 3 },
+        { id: 8, text: "Write a short thank-you note or text to someone", icon: "description", level: 4 },
+        { id: 9, text: "Invite a friend to eat together during lunch or recess", icon: "coffee", level: 4 }
     ],
     flowerIcons: ["local_florist", "yard", "nature", "psychology", "filter_vintage"]
 };
@@ -221,7 +221,7 @@ function updateProgressIndicators() {
 }
 
 function checkWinCondition() {
-    if (activeFlowers.every(f => f >= 100)) {
+    if (state.completedActions.length >= CONFIG.totalCells) {
         setTimeout(() => {
             let msg = "Garden flourishing! All parameters are stable. Connection metrics complete.";
             if (window.EunoGameUtils) {

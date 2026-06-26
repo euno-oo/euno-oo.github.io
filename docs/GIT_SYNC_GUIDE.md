@@ -144,7 +144,7 @@ git diff origin/main
 ```
 
 ### Current Repository Info
-- **Repository URL:** https://github.com/Rainier-PS/Euno.git
+- **Repository URL:** https://github.com/euno-oo/euno-oo.github.io.git
 - **Active Branch:** main
 - **Total Branches:** 1 (main only)
 - **Default Branch:** main

@@ -6,13 +6,16 @@ class ThoughtEngine {
     this.isPaused = false;
     this.elements = [];
     this.bestScore = 0;
+    this.thoughtsPassed = 0;
 
-    this.initialSpawnInterval = 2200;
-    this.currentSpawnInterval = 2200;
-    this.minimumSpawnInterval = 750;
-    this.baseSpeedFactor = 1.3;
-    this.accelerationRate = 0.035;
-    this.difficultyStepMultiplier = 0.96;
+    this.initialSpawnInterval = 1500;
+    this.currentSpawnInterval = 1500;
+    this.minimumSpawnInterval = 450;
+    this.baseSpeedFactor = 1.6;
+    this.accelerationRate = 0.05;
+    this.difficultyStepMultiplier = 0.94;
+    this.positiveSpawnChance = 0.3;
+    this.maxPositiveChance = 0.45;
 
     this.canvas = document.getElementById('canvas');
     this.startScreen = document.getElementById('start-screen');
@@ -34,21 +37,48 @@ class ThoughtEngine {
     this.previousFrameTime = 0;
     this.accumulatedSpawnTime = 0;
 
-    this.thoughtPool = [
-      "What if I fail?",
-      "What if they dislike me?",
-      "What if I embarrass myself?",
-      "What if something goes wrong?",
-      "What if I make a mistake?",
-      "Am I falling behind?",
-      "I should be doing more.",
-      "What if this isn't enough?",
-      "Am I ready for this?",
-      "Unresolved priorities exist."
+    this.negativeThoughts = [
+      { text: "What if I fail?", icon: "warning" },
+      { text: "Everyone is judging me.", icon: "visibility" },
+      { text: "I'm not good enough.", icon: "thumb_down" },
+      { text: "I'll never get this right.", icon: "block" },
+      { text: "They probably don't like me.", icon: "mood_bad" },
+      { text: "I always mess things up.", icon: "error" },
+      { text: "I'm going to embarrass myself.", icon: "sentiment_dissatisfied" },
+      { text: "I'll never be as good as them.", icon: "trending_down" },
+      { text: "Something bad will happen.", icon: "dangerous" },
+      { text: "I can't do anything right.", icon: "cancel" }
+    ];
+
+    this.positiveThoughts = [
+      { text: "I can do my best.", icon: "check_circle" },
+      { text: "Everyone makes mistakes.", icon: "group" },
+      { text: "One step at a time.", icon: "footprint" },
+      { text: "I am learning and improving.", icon: "trending_up" },
+      { text: "I don't have to be perfect.", icon: "spa" },
+      { text: "I've handled difficult things before.", icon: "shield" },
+      { text: "It's okay to ask for help.", icon: "handshake" },
+      { text: "I am enough.", icon: "favorite" },
+      { text: "This feeling will pass.", icon: "sunny" },
+      { text: "I can try again tomorrow.", icon: "restart_alt" }
     ];
 
     this.loadBestScore();
     this.bindEvents();
+
+    // Hide FAB on load — start screen overlay is active
+    if (this.helpFab) this.helpFab.classList.add('is-hidden');
+  }
+
+  pickRandomThought() {
+    const usePositive = Math.random() < this.positiveSpawnChance;
+    const pool = usePositive ? this.positiveThoughts : this.negativeThoughts;
+    const entry = pool[Math.floor(Math.random() * pool.length)];
+    return {
+      text: entry.text,
+      icon: entry.icon,
+      isPositive: usePositive
+    };
   }
 
   loadBestScore() {
@@ -83,14 +113,10 @@ class ThoughtEngine {
     if (desktopLives) desktopLives.textContent = val;
   }
 
-  setStatus(running) {
-    
-  }
-
   openHelp() {
     if (!this.isRunning) return;
     this.isPaused = true;
-    this.setStatus(false);
+    if (this.helpFab) this.helpFab.classList.add('is-hidden');
     this.helpScreen.classList.add('active');
     if (this.helpClose) this.helpClose.focus();
   }
@@ -99,7 +125,7 @@ class ThoughtEngine {
     this.helpScreen.classList.remove('active');
     this.isPaused = false;
     if (this.isRunning) {
-      this.setStatus(true);
+      if (this.helpFab) this.helpFab.classList.remove('is-hidden');
       if (this.helpFab) this.helpFab.focus();
       this.previousFrameTime = performance.now();
       requestAnimationFrame(ts => this.executionLoop(ts));
@@ -141,18 +167,19 @@ class ThoughtEngine {
     this.setScore(0);
     this.setLives(5);
     this.currentSpawnInterval = this.initialSpawnInterval;
-    this.baseSpeedFactor = 1.3;
+    this.baseSpeedFactor = 1.6;
+    this.positiveSpawnChance = 0.3;
+    this.thoughtsPassed = 0;
     this.elements = [];
     this.canvas.querySelectorAll('.thought-balloon').forEach(b => b.remove());
 
     this.startScreen.classList.remove('active');
     this.gameOverScreen.classList.remove('active');
     if (this.helpScreen) this.helpScreen.classList.remove('active');
-    if (this.helpFab) this.helpFab.style.display = '';
+    if (this.helpFab) this.helpFab.classList.remove('is-hidden');
 
     this.isRunning = true;
     this.isPaused = false;
-    this.setStatus(true);
     this.previousFrameTime = performance.now();
     this.accumulatedSpawnTime = 0;
 
@@ -182,26 +209,32 @@ class ThoughtEngine {
   }
 
   spawnThought() {
-    const text = this.thoughtPool[Math.floor(Math.random() * this.thoughtPool.length)];
+    const thought = this.pickRandomThought();
 
     const node = document.createElement('div');
-    node.className = 'thought-balloon';
+    node.className = `thought-balloon ${thought.isPositive ? 'positive' : 'negative'}`;
     node.setAttribute('role', 'button');
     node.setAttribute('tabindex', '0');
-    node.setAttribute('aria-label', `${text} — tap or press Space to dismiss`);
+    node.setAttribute('aria-label', `${thought.isPositive ? 'Positive' : 'Negative'} thought: ${thought.text} — ${thought.isPositive ? 'let it pass, do not pop' : 'tap or press Space to dismiss'}`);
+
+    const icon = document.createElement('span');
+    icon.className = 'material-symbols-outlined thought-icon';
+    icon.textContent = thought.icon;
+    icon.setAttribute('aria-hidden', 'true');
+    node.appendChild(icon);
 
     const label = document.createElement('span');
     label.className = 'thought-text';
-    label.textContent = text;
+    label.textContent = thought.text;
     node.appendChild(label);
 
-    const maxLeft = Math.max(0, this.canvas.clientWidth - 168);
+    const maxLeft = Math.max(0, this.canvas.clientWidth - 180);
     node.style.left = `${Math.random() * maxLeft}px`;
 
     this.canvas.appendChild(node);
 
-    const speed = this.baseSpeedFactor + Math.random() * 0.8;
-    const obj = { domNode: node, y: -110, velocity: speed };
+    const speed = this.baseSpeedFactor + Math.random() * 1.0;
+    const obj = { domNode: node, y: -130, velocity: speed, isPositive: thought.isPositive };
 
     node.addEventListener('pointerdown', e => {
       e.preventDefault();
@@ -226,20 +259,63 @@ class ThoughtEngine {
       t.y += t.velocity * step;
       t.domNode.style.transform = `translateY(${-t.y}px)`;
 
-      if (t.y > this.canvas.clientHeight + 120) {
+      if (t.y > this.canvas.clientHeight + 130) {
         if (t.domNode.parentNode) this.canvas.removeChild(t.domNode);
         this.elements.splice(i, 1);
-        this.loseLife();
+        if (t.isPositive) {
+          // Positive thought escaped — no penalty (correct action)
+        } else {
+          // Negative thought escaped — penalty (missed it)
+          this.loseLife();
+        }
       }
     }
   }
 
   popThought(obj) {
+    if (obj.isPositive) {
+      // Popping a positive thought — lose a life (wrong action!)
+      this.triggerWrongPop(obj);
+    } else {
+      // Popping a negative thought — correct! Gain points
+      this.triggerCorrectPop(obj);
+    }
+  }
+
+  triggerCorrectPop(obj) {
     this.setScore(this.score + 100);
-    if (document.activeElement === obj.domNode) this.canvas.focus();
-    if (obj.domNode.parentNode) this.canvas.removeChild(obj.domNode);
-    const idx = this.elements.indexOf(obj);
-    if (idx > -1) this.elements.splice(idx, 1);
+    this.thoughtsPassed++;
+
+    // Increase positive spawn chance as game progresses
+    if (this.thoughtsPassed % 5 === 0) {
+      this.positiveSpawnChance = Math.min(this.maxPositiveChance, this.positiveSpawnChance + 0.02);
+    }
+
+    const node = obj.domNode;
+    node.style.animation = 'popCorrect 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards';
+    node.style.pointerEvents = 'none';
+
+    if (document.activeElement === node) this.canvas.focus();
+    setTimeout(() => {
+      if (node.parentNode) this.canvas.removeChild(node);
+      const idx = this.elements.indexOf(obj);
+      if (idx > -1) this.elements.splice(idx, 1);
+    }, 300);
+  }
+
+  triggerWrongPop(obj) {
+    this.loseLife();
+
+    const node = obj.domNode;
+    node.style.animation = 'popWrong 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards';
+    node.style.pointerEvents = 'none';
+
+    if (document.activeElement === node) this.canvas.focus();
+    setTimeout(() => {
+      if (node.parentNode) this.canvas.removeChild(node);
+      const idx = this.elements.indexOf(obj);
+      if (idx > -1) this.elements.splice(idx, 1);
+    }, 400);
   }
 
   loseLife() {
@@ -250,20 +326,20 @@ class ThoughtEngine {
   haltEngine() {
     this.isRunning = false;
     this.isPaused = false;
-    this.setStatus(false);
     this.finalScoreDisplay.textContent = this.score;
     this.gameOverScreen.classList.add('active');
-    if (this.helpFab) this.helpFab.style.display = 'none';
+    if (this.helpFab) this.helpFab.classList.add('is-hidden');
 
-    const isNew = this.saveBestScore(this.score);        if (this.rewardMsg) {
-          if (this.score > 0) {
-            this.rewardMsg.innerHTML = isNew
-              ? '<span class="reward-highlight">New personal best!</span>'
-              : '';
-          } else {
-            this.rewardMsg.innerHTML = '';
-          }
-        }
+    const isNew = this.saveBestScore(this.score);
+    if (this.rewardMsg) {
+      if (this.score > 0) {
+        this.rewardMsg.innerHTML = isNew
+          ? '<span class="reward-highlight">New personal best!</span>'
+          : '';
+      } else {
+        this.rewardMsg.innerHTML = '';
+      }
+    }
 
     this.restartBtn.focus();
   }
