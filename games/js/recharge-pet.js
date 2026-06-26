@@ -175,8 +175,6 @@ function endGame(isWin) {
                 localStorage.setItem('highscore_recharge_pet', JSON.stringify(turnCount));
                 elModalDesc.innerHTML += '<br><strong>New Best Time!</strong>';
             }
-            const earned = window.EunoGameUtils.awardStudyCoins(10, 'Recharged Pet in ' + turnCount + ' turns');
-            elModalDesc.innerHTML += `<br><br><strong style="color:var(--md-sys-color-primary)">+${earned} StudyCoins Earned!</strong>`;
         }
     } else {
         elModalIconWrapper.className = 'dialog-icon-wrapper fail';

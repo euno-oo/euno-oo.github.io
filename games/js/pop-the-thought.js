@@ -255,21 +255,15 @@ class ThoughtEngine {
     this.gameOverScreen.classList.add('active');
     if (this.helpFab) this.helpFab.style.display = 'none';
 
-    const isNew = this.saveBestScore(this.score);
-
-    if (this.rewardMsg) {
-      if (this.score > 0) {
-        this.rewardMsg.innerHTML = isNew
-          ? '<span class="reward-highlight">New personal best!</span>'
-          : '';
-        if (window.EunoGameUtils) {
-          const earned = window.EunoGameUtils.awardStudyCoins(10, 'Played Pop The Thought');
-          this.rewardMsg.innerHTML += ` <span class="reward-highlight">+${earned} StudyCoins</span>`;
+    const isNew = this.saveBestScore(this.score);        if (this.rewardMsg) {
+          if (this.score > 0) {
+            this.rewardMsg.innerHTML = isNew
+              ? '<span class="reward-highlight">New personal best!</span>'
+              : '';
+          } else {
+            this.rewardMsg.innerHTML = '';
+          }
         }
-      } else {
-        this.rewardMsg.innerHTML = '';
-      }
-    }
 
     this.restartBtn.focus();
   }

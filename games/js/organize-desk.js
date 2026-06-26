@@ -349,12 +349,10 @@ function showToast(msg, type) {
 }
 
 function showSuccess() {
-    let msg = 'Workspace sequence organized structurally. Optimal order achieved.';
+    let msg = 'Workspace organized! All items sorted correctly.';
     if (window.EunoGameUtils) {
-        const earned = window.EunoGameUtils.awardStudyCoins(10, 'Organized Desk');
         const currentHighscore = window.EunoGameUtils.getHighScore('organize_desk');
         window.EunoGameUtils.saveHighScore('organize_desk', currentHighscore + 1);
-        msg += ` +${earned} StudyCoins!`;
     }
     showToast(msg, 'success');
     

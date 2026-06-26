@@ -1,85 +1,79 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://rainier-ps.github.io/Euno/index.html</loc>
+    <loc>https://euno-oo.github.io/index.html</loc>
     <lastmod>2026-06-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://rainier-ps.github.io/Euno/checkin.html</loc>
+    <loc>https://euno-oo.github.io/checkin.html</loc>
     <lastmod>2026-06-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://rainier-ps.github.io/Euno/diary.html</loc>
+    <loc>https://euno-oo.github.io/diary.html</loc>
     <lastmod>2026-06-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://rainier-ps.github.io/Euno/games.html</loc>
+    <loc>https://euno-oo.github.io/games.html</loc>
     <lastmod>2026-06-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://rainier-ps.github.io/Euno/games/control-or-let-go.html</loc>
+    <loc>https://euno-oo.github.io/games/control-or-let-go.html</loc>
     <lastmod>2026-06-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://rainier-ps.github.io/Euno/games/friendship-flowers.html</loc>
+    <loc>https://euno-oo.github.io/games/friendship-flowers.html</loc>
     <lastmod>2026-06-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://rainier-ps.github.io/Euno/games/organize-desk.html</loc>
+    <loc>https://euno-oo.github.io/games/organize-desk.html</loc>
     <lastmod>2026-06-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://rainier-ps.github.io/Euno/games/pop-the-thought.html</loc>
+    <loc>https://euno-oo.github.io/games/pop-the-thought.html</loc>
     <lastmod>2026-06-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://rainier-ps.github.io/Euno/games/recharge-pet.html</loc>
+    <loc>https://euno-oo.github.io/games/recharge-pet.html</loc>
     <lastmod>2026-06-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://rainier-ps.github.io/Euno/shop.html</loc>
-    <lastmod>2026-06-13</lastmod>
-    <changefreq>bi-weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://rainier-ps.github.io/Euno/settings.html</loc>
+    <loc>https://euno-oo.github.io/settings.html</loc>
     <lastmod>2026-06-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://rainier-ps.github.io/Euno/about.html</loc>
+    <loc>https://euno-oo.github.io/about.html</loc>
     <lastmod>2026-06-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://rainier-ps.github.io/Euno/privacy.html</loc>
+    <loc>https://euno-oo.github.io/privacy.html</loc>
     <lastmod>2026-06-13</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
-    <loc>https://rainier-ps.github.io/Euno/credits.html</loc>
+    <loc>https://euno-oo.github.io/credits.html</loc>
     <lastmod>2026-06-13</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>

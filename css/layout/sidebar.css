@@ -51,27 +51,6 @@
   letter-spacing: -0.02em;
 }
 
-.sidebar-coins {
-  font-size: 0.75rem;
-  font-weight: 700;
-  color: var(--md-on-surface-variant);
-  margin-left: auto;
-  padding: 0.25rem 0.5rem;
-  background: var(--md-surface-container);
-  border-radius: var(--radius-full);
-  display: flex;
-  align-items: center;
-  gap: 0.25rem;
-}
-
-.sidebar-coin-icon {
-  font-size: 1rem;
-  color: var(--md-primary);
-  line-height: 1;
-  vertical-align: middle;
-  flex-shrink: 0;
-}
-
 .sidebar-nav {
   flex: 1;
   display: flex;

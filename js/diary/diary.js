@@ -5,7 +5,6 @@
   import { openDatePicker } from '../components/pickers.js';
   import { setDraftStatus, applyMarkdown, insertAtCursor, setEditorMode } from './editor.js';
   import { updateHomeDashboard } from '../features/home.js';
-  import { addCoins } from '../shop/shop.js';
   import { DIARY_PROMPTS } from '../core/constants.js';
 
   let _diaryState = { query: '', sort: 'date-desc' };
@@ -236,7 +235,7 @@
         diaryMeta[entryId].updated_at = Date.now();
         setStorage('diary_meta', diaryMeta);
         try { localStorage.removeItem('diary_draft_' + date); } catch {}
-        addCoins(8, 'Diary Entry');
+
       }
 
       if (jLabelInput) jLabelInput.value = '';

@@ -5,7 +5,7 @@
 ## Feature Inventory
 
 ### Core Features
-- **Home Dashboard**: Greeting display, mood preview, quick stats, weekly mood visualization, coin balance display
+- **Home Dashboard**: Greeting display, mood preview, quick stats, weekly mood visualization
 - **Daily Check-In**: Six-question mental health assessment (emotion multi-select, stress, worry, thought loops, energy, social connection), multi-dimensional scoring (stress, anxiety, burnout, overthinking, loneliness), challenge detection with severity levels, live assessment preview, streak tracking, insights (summary statistics, wellness trend charts, emotion frequency, emotional patterns, PDF report generation)
 - **Diary System**:
   - Diary Entries: Title, long-form content, optional writing prompts, markdown editor, labels, reminders, search/sort, draft auto-save
@@ -14,7 +14,6 @@
   - Gratitude Diary: 3 daily entries with history
   - Self-Care Challenges: Daily micro-challenges with completion tracking
   - Reflection Prompts: Rotating prompts for diarying
-- **Shop**: StudyCoins system, item purchasing, inventory management, coin history, power-ups (streak freeze, double coins, lucky spin, focus boost)
 - **Settings**: Profile (name, gender), theme selection (light/dark/system), data export/import, data clearing, onboarding restart
 - **Onboarding**: Interactive tour with spotlight highlighting, step navigation
 - **Navigation**: Sidebar navigation (desktop), mobile drawer, bottom navigation bar, page routing
@@ -29,7 +28,6 @@
 ### Background Services
 - Reminder System: Browser notifications for notes/diarys, 60-second polling
 - Draft Auto-Save: Debounced localStorage writes for notes/diarys
-- Coin Earning: Daily check-in rewards, habit completion bonuses
 - Streak Calculation: With freeze support for missed days
 
 ## Dependency Map
@@ -39,8 +37,7 @@
 Home Dashboard
   ├─ Check-in data (mood, streaks)
   ├─ Diary data (recent entries count)
-  ├─ Habit data (completion tracking)
-  └─ Coins (balance display)
+  └─ Habit data (completion tracking)
 
 Diary System
   ├─ Date/Time Pickers (for deadlines/reminders)
@@ -59,12 +56,6 @@ Wellness
   ├─ Storage (gratitude entries, challenge progress)
   ├─ Timer utilities (breathing exercise phases)
   └─ Date utilities (challenge daily keys)
-
-Shop
-  ├─ Check-in data (coin earning on completion)
-  ├─ Storage (coins, inventory, history)
-  ├─ Streak calculation (freeze usage)
-  └─ Random number generation (lucky spin prizes)
 
 Settings
   ├─ Storage (profile, theme)
@@ -89,7 +80,6 @@ Navigation
 - **Date/Time Utilities**: Check-in, Diary, Reminders
 - **Markdown Parser**: Diary
 - **Notification System**: Reminders, Toast messages
-- **Coin System**: Check-in, Habits, Shop
 - **Sanitization**: All user input rendering
 
 ## Current Directory Structure
@@ -103,7 +93,6 @@ Euno/
 ├── diary.html            # Diary page
 ├── privacy.html            # Privacy policy page
 ├── settings.html           # Settings page
-├── shop.html               # Shop page
 ├── wellness.html           # Wellness page
 ├── readme.md               # Project readme
 ├── docs/
@@ -134,7 +123,6 @@ Euno/
 │   │   ├── pickers.css     # Date/time picker component styles
 │   │   ├── habits.css      # Habit tracker feature styles
 │   │   ├── wellness.css    # Wellness (breathing, gratitude, challenges) feature styles
-│   │   ├── shop.css        # Shop/inventory feature styles
 │   │   ├── settings.css    # Settings page styles
 │   │   ├── onboarding.css  # Onboarding overlay styles
 │   │   └── index.css       # Features module entry point
@@ -158,13 +146,12 @@ Euno/
 │   │   ├── diary.html    # Diary page content
 │   │   ├── privacy.html    # Privacy policy page content
 │   │   ├── settings.html   # Settings page content
-│   │   ├── shop.html       # Shop page content
 │   │   └── wellness.html   # Wellness page content
 │   ├── head.html           # Head section (meta tags, fonts, CSS)
 │   └── scripts.html        # Script section (jsPDF CDN, main script)
 └── js/
     ├── core/
-    │   ├── constants.js    # MOOD_*, SHOP_ITEMS, ONBOARDING_STEPS, BREATH_PATTERNS, etc.
+    │   ├── constants.js    # MOOD_*, ONBOARDING_STEPS, BREATH_PATTERNS, etc.
     │   └── storage.js      # getStorage, setStorage
     ├── utils/
     │   ├── helpers.js      # sanitize*, parseMarkdown, debounce, matchesQuery, stableSort
@@ -184,7 +171,6 @@ Euno/
     │   └── editor.js       # Shared markdown editor helpers
     ├── habits/habits.js
     ├── wellness/wellness.js
-    ├── shop/shop.js
     ├── settings/settings.js
     ├── streak/streakCalendar.js
     └── migrations/migrateDiaryReminders.js
@@ -202,7 +188,7 @@ Each HTML page loads `css/index.css` (modular CSS), jsPDF CDN, and `<script type
 
 | Module | Key exports |
 |--------|-------------|
-| `core/constants.js` | Mood/shop/onboarding/breath constants |
+| `core/constants.js` | Mood/onboarding/breath constants |
 | `core/storage.js` | `getStorage`, `setStorage` |
 | `utils/helpers.js` | Sanitize, markdown, debounce, search/sort |
 | `utils/dateUtils.js` | Date/time formatting |
@@ -219,7 +205,6 @@ Each HTML page loads `css/index.css` (modular CSS), jsPDF CDN, and `<script type
 | `diary/diary.js` | `initDiaryEditor` |
 | `habits/habits.js` | `initHabits`, `renderHabits` |
 | `wellness/wellness.js` | `initWellness` |
-| `shop/shop.js` | `addCoins`, `updateCoinDisplay`, `initShop`, `renderShop`, `calcCheckinStreakWithFreezes` |
 | `settings/settings.js` | `initSettings` |
 | `streak/streakCalendar.js` | `initStreakCalendar` |
 | `migrations/migrateDiaryReminders.js` | Side-effect only - runs one-time migration on import |
@@ -228,8 +213,6 @@ Each HTML page loads `css/index.css` (modular CSS), jsPDF CDN, and `<script type
 
 - `checkin.js` → `home.js`, `insights.js`, `checkinScoring.js`
 - `habits.js`, `diary.js`, `checkin.js`, `settings.js` → `home.js`
-- `checkin.js`, `habits.js`, `diary.js` → `shop.js` (for `addCoins`)
-- `streakCalendar.js` → `shop.js`
 - `onboarding.js` → `home.js`
 - `settings.js` → `onboarding.js`
 - `checkin.js` → `checkinScoring.js`, `insights.js`
@@ -338,7 +321,6 @@ Each feature module exports `init*` (and render helpers where needed). See **Mod
 - `BREATH_PATTERNS`: Object mapping pattern names to phase arrays
 - `CHALLENGES`: Array of challenge objects
 - `REFLECTION_PROMPTS`: Array of reflection prompt strings
-- `SHOP_ITEMS`: Array of shop item objects
 
 ### State Ownership
 - **Notes/Diary/To-Do State**: Owned by respective feature modules, shared search/sort pattern
@@ -351,7 +333,6 @@ Each feature module exports `init*` (and render helpers where needed). See **Mod
 
 ### Shared DOM Elements (Global)
 - `toast-container`: Toast notification container
-- `sidebar`, `sidebar-coins`, `sidebar-coin-count`: Desktop navigation + coin badge
 - `bottom-nav`: Mobile bottom navigation
 - `mobile-drawer`, `drawer-scrim`, `drawer-panel`, `drawer-close`: Mobile drawer
 - `app`: Main app container (hidden until onboarding completes)
@@ -369,7 +350,6 @@ Each feature module exports `init*` (and render helpers where needed). See **Mod
 - **Pomodoro**: Timer display, mode buttons, controls, settings
 - **Wellness**: Breathing ring, gratitude inputs, challenges grid, reflection prompt
 - **Insights**: Chart canvases, summary elements, report form
-- **Shop**: Shop grid, inventory list, coin history
 - **Settings**: Profile inputs, theme buttons, data buttons
 - **Onboarding**: Overlay, spotlight, tooltip, navigation buttons
 - **Date Picker**: Dialog, calendar, year grid, buttons
@@ -407,7 +387,6 @@ Each feature module exports `init*` (and render helpers where needed). See **Mod
 - **Pomodoro**: Mode buttons, start/pause/reset buttons, duration input
 - **Wellness**: Breathing type buttons, start/stop buttons, gratitude save, challenge items, new prompt button
 - **Insights**: Tab buttons, generate report button
-- **Shop**: Buy buttons, use buttons
 - **Settings**: Save profile button, theme buttons, export/clear/restart buttons
 - **Date Picker**: Month navigation, day selection, year selection, OK/Cancel buttons
 - **Time Picker**: Segment buttons, period buttons, OK/Cancel buttons, clock numbers
@@ -431,12 +410,11 @@ Each feature module exports `init*` (and render helpers where needed). See **Mod
 - **Flashcards**: `flashcard_decks`, `current_deck_idx`
 - **Pomodoro**: `pomodoro_sessions`
 - **Wellness**: `gratitude_entries`, `challenges_done_{date}`
-- **Shop**: `coins_balance`, `coins_history`, `inventory`, `streak_freezes`
 - **Reminders**: `note_reminders` (migrated from `diary_reminders`)
 
 ### Storage Patterns
-- **Simple Values**: Strings, numbers (theme, profile_name, profile_gender, coins_balance)
-- **Arrays**: Lists of objects (checkins, notes, todos, habits, flashcard_decks, pomodoro_sessions, gratitude_entries, coins_history, note_reminders)
+- **Simple Values**: Strings, numbers (theme, profile_name, profile_gender)
+- **Arrays**: Lists of objects (checkins, notes, todos, habits, flashcard_decks, pomodoro_sessions, gratitude_entries, note_reminders)
 - **Objects**: Key-value maps (diarys, diary_meta, calendarEvents, inventory)
 - **Dynamic Keys**: Per-date drafts (`diary_draft_{date}`), per-day challenges (`challenges_done_{date}`)
 
@@ -471,4 +449,3 @@ These IDs/classes are not in `index.html` but are created by JS:
 - `getStorage()` / `setStorage()` for all persistence
 - `debounce()` for draft auto-save and search inputs
 - Theme via `data-theme="dark"` on `<html>`
-- Coin earning via direct `import { addCoins } from '../shop/shop.js'` - not via `window`

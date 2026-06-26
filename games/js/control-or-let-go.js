@@ -16,7 +16,7 @@
         { id: 12, text: "What someone thinks of me", isControl: false },
         { id: 13, text: "The weather tomorrow", isControl: false },
         { id: 14, text: "A mistake I made three years ago", isControl: false },
-        { id: 15, text: "Whether a company accepts my application", isControl: false },
+        { id: 15, text: "Whether a university accepts my application", isControl: false },
         { id: 16, text: "The traffic conditions on the highway", isControl: false },
         { id: 17, text: "An unexpected delay on my flight", isControl: false },
         { id: 18, text: "How other people choose to behave", isControl: false },
@@ -242,8 +242,7 @@
             
             if (window.EunoGameUtils) {
                 const newHigh = window.EunoGameUtils.saveHighScore('control_or_let_go', score);
-                const earned = window.EunoGameUtils.awardStudyCoins(10, 'Played: Control or Let Go');
-                endMessage.innerHTML = endMessage.textContent + `<br><br><strong style="color:var(--md-sys-color-primary)">+${earned} StudyCoins Earned!</strong> Final Score: ${score}` + (newHigh ? " <em>(New Highscore!)</em>" : "");
+                endMessage.innerHTML = endMessage.textContent + `<br><br><strong style="color:var(--md-sys-color-primary)">Final Score: ${score}</strong>` + (newHigh ? " <em>(New Highscore!)</em>" : "");
             }
         } else {
             endIcon.textContent = 'report';

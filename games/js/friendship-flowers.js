@@ -225,11 +225,9 @@ function checkWinCondition() {
         setTimeout(() => {
             let msg = "Garden flourishing! All parameters are stable. Connection metrics complete.";
             if (window.EunoGameUtils) {
-                const earned = window.EunoGameUtils.awardStudyCoins(10, 'Completed Friendship Flowers');
-                
                 const currentHighscore = window.EunoGameUtils.getHighScore('friendship_flowers');
                 window.EunoGameUtils.saveHighScore('friendship_flowers', currentHighscore + 1);
-                msg += `\n\n+${earned} StudyCoins Earned! (Total Completions: ${currentHighscore + 1})`;
+                msg += `\n\nTotal Completions: ${currentHighscore + 1}`;
             }
             alert(msg);
             handleReset();

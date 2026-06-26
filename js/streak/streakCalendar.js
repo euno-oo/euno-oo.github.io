@@ -1,5 +1,4 @@
 import { getStorage } from '../core/storage.js';
-import { calcCheckinStreakWithFreezes } from '../shop/shop.js';
 import { openOverlayDialog, closeOverlayDialog } from '../utils/ui.js';
 
 let streakCalMonth = new Date().getMonth();
@@ -49,8 +48,41 @@ export function closeStreakCalendar() {
 
 function renderStreakCalendar() {
   const checkins = getStorage('checkins', []);
-  const { current, longest } = calcCheckinStreakWithFreezes(checkins);
-  const freezes = new Set(getStorage('streak_freezes', []));
+  const today = new Date().toISOString().slice(0, 10);
+  const sorted = [...checkins].map(c => c.date).sort().reverse();
+  
+  // Calculate current streak
+  let current = 0;
+  const yesterday = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
+  if (sorted.length > 0 && (sorted[0] === today || sorted[0] === yesterday)) {
+    current = 1;
+    for (let i = 1; i < sorted.length; i++) {
+      const prev = new Date(sorted[i-1]);
+      const cur = new Date(sorted[i]);
+      const diff = (prev - cur) / (1000 * 60 * 60 * 24);
+      if (diff === 1) current++;
+      else break;
+    }
+  }
+  
+  // Calculate longest streak
+  let longest = 0;
+  let streak = 0;
+  let prevDate = null;
+  for (const date of sorted) {
+    if (prevDate === null) {
+      streak = 1;
+    } else {
+      const prev = new Date(prevDate);
+      const cur = new Date(date);
+      const diff = (prev - cur) / (1000 * 60 * 60 * 24);
+      if (diff === 1) streak++;
+      else streak = 1;
+    }
+    prevDate = date;
+    longest = Math.max(longest, streak);
+  }
+  
   const checkDates = new Set(checkins.map(c => c.date));
 
   const curEl = document.getElementById('streak-cal-current');
@@ -65,7 +97,7 @@ function renderStreakCalendar() {
   const daysEl = document.getElementById('streak-cal-days');
   if (!daysEl) return;
 
-  const today = new Date().toISOString().slice(0, 10);
+
   const firstDay = new Date(streakCalYear, streakCalMonth, 1).getDay();
   const daysInMonth = new Date(streakCalYear, streakCalMonth + 1, 0).getDate();
 
@@ -75,15 +107,13 @@ function renderStreakCalendar() {
     const ds = `${streakCalYear}-${String(streakCalMonth + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
     const isToday = ds === today;
     const isChecked = checkDates.has(ds);
-    const isFrozen = freezes.has(ds);
     const isFuture = ds > today;
     let cls = 'streak-cal-day';
     if (isChecked) cls += ' checked';
-    if (isFrozen && !isChecked) cls += ' frozen';
     if (isToday) cls += ' today';
     if (isFuture) cls += ' future';
-    const title = isChecked ? 'Checked in' : isFrozen ? 'Streak Freeze used' : '';
-    html += `<div class="${cls}" title="${title}">${d}${isFrozen && !isChecked ? '<span class="material-icons-round" style="font-size:0.65rem;vertical-align:middle;margin-left:1px">ac_unit</span>' : ''}</div>`;
+    const title = isChecked ? 'Checked in' : '';
+    html += `<div class="${cls}" title="${title}">${d}</div>`;
   }
   daysEl.innerHTML = html;
 }

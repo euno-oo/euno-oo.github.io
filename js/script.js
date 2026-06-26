@@ -10,7 +10,6 @@ import { initDiaryEditor } from './diary/diary.js';
 import { initializePet } from './pet/main.js';
 import { initInsights } from './insights/insights.js';
 import { initSettings } from './settings/settings.js';
-import { initShop, renderShop, updateCoinDisplay } from './shop/shop.js';
 import { initStreakCalendar, openStreakCalendar, closeStreakCalendar } from './streak/streakCalendar.js';
 import { initCountdown } from './countdown/countdown.js';
 import { initIcons } from './core/icons.js';
@@ -64,10 +63,8 @@ document.addEventListener('DOMContentLoaded', () => {
   initDatePicker();
   initTimePicker();
   initHome();
-  initShop();
   initStreakCalendar();
   initCountdown();
-  updateCoinDisplay();
   checkFirstTimeProfile();
   if (typeof Notification !== 'undefined' && Notification.permission === 'default') {
   }

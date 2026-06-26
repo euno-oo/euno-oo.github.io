@@ -1,7 +1,7 @@
 User-agent: *
 Allow: /
 Disallow: /private/
-Sitemap: https://rainier-ps.github.io/Euno/sitemap.xml
+Sitemap: https://euno-oo.github.io/sitemap.xml
 
 User-agent: Googlebot
 Allow: /

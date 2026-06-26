@@ -4,7 +4,6 @@ import { showToast } from '../utils/notifications.js';
 import { sanitize, sanitizeNum } from '../utils/helpers.js';
 import { WELLNESS_LEVEL_LABELS } from '../core/constants.js';
 import { updateHomeDashboard } from './home.js';
-import { addCoins } from '../shop/shop.js';
 import { renderInsights } from '../insights/insights.js';
 import {
   calculateScores,
@@ -431,7 +430,6 @@ export function initCheckin() {
     const checkins = getStorage('checkins', []);
     checkins.push(entry);
     setStorage('checkins', checkins);
-    addCoins(10, 'Daily Check-In');
     showToast('Check-in saved! Great job keeping your streak!', 'success');
     resetForm();
     renderCheckinHistory();

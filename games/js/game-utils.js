@@ -31,30 +31,9 @@ function getHighScore(gameKey) {
 }
 
 
-function awardStudyCoins(amount, reason) {
-  const doubleActive = getStorage('double_coins_active') === new Date().toLocaleDateString('en-CA');
-  const finalAmount = doubleActive ? amount * 2 : amount;
-
-  const currentBal = getStorage('coins_balance', 0);
-  const newBal = Math.max(0, currentBal + finalAmount);
-  setStorage('coins_balance', newBal);
-
-  const hist = getStorage('coins_history', []);
-  hist.unshift({
-    amount: finalAmount,
-    reason: reason,
-    timestamp: Date.now()
-  });
-  setStorage('coins_history', hist.slice(0, 100));
-
-  return finalAmount;
-}
-
-
 window.EunoGameUtils = {
   saveHighScore,
-  getHighScore,
-  awardStudyCoins
+  getHighScore
 };
 
 

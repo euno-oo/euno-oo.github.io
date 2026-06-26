@@ -17,13 +17,7 @@ export const DATA_KEYS = [
   'profile_prompt_shown',
   'theme',
   'onboarding_done',
-  'coins_balance',
-  'coins_history',
-  'inventory',
-  'streak_freezes',
-  'double_coins_active',
-  'theme_unlocked',
-  'focus_boost_unlocked'
+
 ];
 
 const MAX_IMPORT_BYTES = 25 * 1024 * 1024;
@@ -88,18 +82,12 @@ function sanitizeImportedValue(key, value) {
   if (key === 'profile_prompt_shown' || key === 'onboarding_done' || key === 'theme_unlocked' || key === 'focus_boost_unlocked') {
     return Boolean(value);
   }
-  if (key === 'coins_balance') {
-    return clampNum(value, 0, 999999);
-  }
-  if (key === 'double_coins_active') {
-    return typeof value === 'string' ? value.slice(0, 10) : null;
-  }
-  if (key === 'checkins' || key === 'habits' || key === 'coins_history' || key === 'streak_freezes' ||
+  if (key === 'checkins' || key === 'habits' ||
       key === 'pomodoro_sessions' || key === 'gratitude_entries' || key === 'flashcard_decks' ||
       key === 'notes' || key === 'todos' || key === 'calendarEvents') {
     return Array.isArray(value) ? value.slice(0, 5000) : [];
   }
-  if (key === 'diarys' || key === 'diary_meta' || key === 'inventory') {
+  if (key === 'diarys' || key === 'diary_meta') {
     return value && typeof value === 'object' && !Array.isArray(value) ? value : {};
   }
   if (key.startsWith('diary_draft_')) {

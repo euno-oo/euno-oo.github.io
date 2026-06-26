@@ -103,10 +103,4 @@ export const REFLECTION_PROMPTS = [
   'What are you most grateful for in your life today?'
 ];
 
-export const SHOP_ITEMS = [
-  { id: 'streak_freeze',  matIcon: 'ac_unit',            color: 'var(--md-primary)',   name: 'Streak Freeze',        desc: 'Protects your check-in streak for 1 missed day. Used automatically.', price: 50,  maxOwn: 5  },
-  { id: 'double_coins',   matIcon: 'currency_exchange',  color: 'var(--md-primary)',   name: 'Double Coins (1 day)', desc: 'Earn 2× StudyCoins for all activities today.',                         price: 30,  maxOwn: 10 },
-  { id: 'lucky_spin',     matIcon: 'casino',             color: 'var(--md-primary)',   name: 'Lucky Spin',           desc: 'Spin to win 5–100 bonus StudyCoins instantly.',                        price: 20,  maxOwn: 99 },
-  { id: 'focus_boost',    matIcon: 'bolt',               color: 'var(--md-primary)',   name: 'Focus Boost',          desc: 'Unlock a 45-minute Pomodoro preset for power study sessions.',         price: 40,  maxOwn: 99 },
-  { id: 'theme_unlock',   matIcon: 'workspace_premium',  color: 'var(--md-primary)',   name: 'Golden Theme Badge',   desc: 'A shiny golden badge on your dashboard to show off your dedication.',  price: 100, maxOwn: 1  }
-];
+
