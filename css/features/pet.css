@@ -448,7 +448,7 @@
 }
 .preview-dim__sev--low      { background: var(--success-cont); color: var(--success); }
 .preview-dim__sev--mild     { background: var(--warn-cont);    color: var(--warn); }
-.preview-dim__sev--moderate { background: #FDE8D0;             color: var(--sev-moderate); }
+.preview-dim__sev--moderate { background: #FFF0E0;             color: var(--sev-moderate); }
 .preview-dim__sev--high     { background: var(--error-cont);   color: var(--error); }
 
 .preview-alert {

@@ -66,7 +66,6 @@ class ThoughtEngine {
     this.loadBestScore();
     this.bindEvents();
 
-    // Hide FAB on load — start screen overlay is active
     if (this.helpFab) this.helpFab.classList.add('is-hidden');
   }
 
@@ -262,10 +261,7 @@ class ThoughtEngine {
       if (t.y > this.canvas.clientHeight + 130) {
         if (t.domNode.parentNode) this.canvas.removeChild(t.domNode);
         this.elements.splice(i, 1);
-        if (t.isPositive) {
-          // Positive thought escaped — no penalty (correct action)
-        } else {
-          // Negative thought escaped — penalty (missed it)
+        if (!t.isPositive) {
           this.loseLife();
         }
       }
@@ -274,10 +270,8 @@ class ThoughtEngine {
 
   popThought(obj) {
     if (obj.isPositive) {
-      // Popping a positive thought — lose a life (wrong action!)
       this.triggerWrongPop(obj);
     } else {
-      // Popping a negative thought — correct! Gain points
       this.triggerCorrectPop(obj);
     }
   }
@@ -286,7 +280,6 @@ class ThoughtEngine {
     this.setScore(this.score + 100);
     this.thoughtsPassed++;
 
-    // Increase positive spawn chance as game progresses
     if (this.thoughtsPassed % 5 === 0) {
       this.positiveSpawnChance = Math.min(this.maxPositiveChance, this.positiveSpawnChance + 0.02);
     }

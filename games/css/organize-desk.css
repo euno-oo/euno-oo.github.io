@@ -49,9 +49,9 @@
     --surface-highest: #E6E0E9;
 
     --color-on-surface: #1C1B1F;
-    --color-on-surface-variant: #49454F;
-    --color-outline: #79747E;
-    --color-outline-variant: #C4C6D0;
+    --color-on-surface-variant: #3C3844;
+    --color-outline: #6B6773;
+    --color-outline-variant: #CAC4D0;
 
     --desk-bg: #F0EDF5;
 }
@@ -81,8 +81,8 @@
     --surface-highest: #36343B;
 
     --color-on-surface: #E6E1E5;
-    --color-on-surface-variant: #CAC4D0;
-    --color-outline: #938F99;
+    --color-on-surface-variant: #D0CBD8;
+    --color-outline: #A09BA7;
     --color-outline-variant: #49454F;
 
     --desk-bg: #100F14;

@@ -61,6 +61,25 @@ a {
   border: 0;
 }
 
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 16px;
+  background: var(--md-primary);
+  color: var(--md-on-primary);
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  z-index: 9999;
+  text-decoration: none;
+  font-family: var(--font-body);
+  transition: top 0.1s;
+}
+
+.skip-link:focus {
+  top: 8px;
+}
+
 ::-webkit-scrollbar { width: 6px; height: 6px; }
 ::-webkit-scrollbar-thumb { background: var(--md-outline); border-radius: var(--radius-full); }
 ::-webkit-scrollbar-track { background: transparent; }

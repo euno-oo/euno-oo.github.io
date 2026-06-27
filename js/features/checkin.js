@@ -161,7 +161,6 @@ export function initCheckin() {
     dialog.classList.add('active');
     dialog.setAttribute('aria-hidden', 'false');
 
-    // Hide the info FAB while overlay is open
     const fab = document.getElementById('full-info-fab');
     if (fab) fab.style.display = 'none';
   }
@@ -176,7 +175,6 @@ export function initCheckin() {
       dialog.setAttribute('aria-hidden', 'true');
     }
 
-    // Re-show the info FAB when overlay is closed
     const fab = document.getElementById('full-info-fab');
     if (fab) fab.style.display = '';
   }

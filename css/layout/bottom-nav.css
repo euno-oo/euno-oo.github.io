@@ -59,23 +59,6 @@
   color: var(--md-on-secondary-container);
 }
 
-.bnav-fab {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 52px;
-  height: 36px;
-  background: var(--md-primary-container);
-  border-radius: var(--radius-full);
-  color: var(--md-on-primary-container);
-  font-size: 1.375rem;
-  transition: background var(--transition), transform var(--transition);
-}
-
-.bnav-center.active .bnav-fab {
-  background: var(--md-primary);
-  color: var(--md-on-primary);
-}
 
 .bnav-label {
   display: none;

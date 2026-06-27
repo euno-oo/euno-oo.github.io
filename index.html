@@ -38,6 +38,7 @@
 
 </head>
 <body style="background-color: var(--md-surface-container-low, #F7F2FA); min-height: 100dvh;">
+  <a class="skip-link" href="#main-content">Skip to main content</a>
 
   <div id="onboarding-overlay" class="onboarding-overlay" role="dialog" aria-modal="true" aria-label="Welcome to Euno" aria-describedby="onboarding-tooltip-body">
   <svg class="onboarding-mask" id="onboarding-mask" aria-hidden="true" focusable="false">
@@ -178,16 +179,18 @@
   </main>
 
   <nav class="bottom-nav" id="bottom-nav" role="navigation" aria-label="Mobile bottom navigation">
+    <a href="index.html" class="bnav-item active" aria-label="Home">
+      <div class="bnav-icon-wrap"><span class="material-icons-round bnav-icon" aria-hidden="true">home</span></div>
+    </a>
     <a href="checkin.html" class="bnav-item" aria-label="Check-In">
       <div class="bnav-icon-wrap"><span class="material-icons-round bnav-icon" aria-hidden="true">sentiment_satisfied</span></div>
     </a>
-    <a href="games.html" class="bnav-item bnav-center" aria-label="Games">
-      <span class="bnav-fab" aria-hidden="true"><span class="material-icons-round" aria-hidden="true">extension</span></span>
+    <a href="games.html" class="bnav-item" aria-label="Games">
+      <div class="bnav-icon-wrap"><span class="material-icons-round bnav-icon" aria-hidden="true">extension</span></div>
     </a>
     <a href="diary.html" class="bnav-item" aria-label="Diary">
       <div class="bnav-icon-wrap"><span class="material-icons-round bnav-icon" aria-hidden="true">menu_book</span></div>
     </a>
-    
   </nav>
 
 </div>

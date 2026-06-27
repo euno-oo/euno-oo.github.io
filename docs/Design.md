@@ -187,10 +187,10 @@ Primary Text:
 #1C1B1F
 
 Secondary Text:
-#49454F
+#3C3844
 
 Disabled:
-#79747E
+#6B6773
 
 ---
 
@@ -200,10 +200,10 @@ Primary Text:
 #E6E1E5
 
 Secondary Text:
-#CAC4D0
+#D0CBD8
 
 Disabled:
-#938F99
+#A09BA7
 
 ---
 

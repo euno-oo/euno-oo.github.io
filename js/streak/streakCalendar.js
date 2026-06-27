@@ -51,7 +51,6 @@ function renderStreakCalendar() {
   const today = new Date().toISOString().slice(0, 10);
   const sorted = [...checkins].map(c => c.date).sort().reverse();
   
-  // Calculate current streak
   let current = 0;
   const yesterday = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
   if (sorted.length > 0 && (sorted[0] === today || sorted[0] === yesterday)) {
@@ -65,7 +64,6 @@ function renderStreakCalendar() {
     }
   }
   
-  // Calculate longest streak
   let longest = 0;
   let streak = 0;
   let prevDate = null;

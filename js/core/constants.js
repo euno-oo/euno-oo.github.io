@@ -49,7 +49,7 @@ export const ONBOARDING_STEPS = [
     icon: 'extension',
     title: 'Coping Games',
     body: 'Five short interactive games designed to help you manage stress, anxiety, and overthinking.',
-    targetSelector: 'a[href="games.html"].nav-item, a[href="games.html"].bnav-item, .bnav-center',
+    targetSelector: 'a[href="games.html"].nav-item, a[href="games.html"].bnav-item',
     padding: 6
   },
   {

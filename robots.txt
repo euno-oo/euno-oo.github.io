@@ -1,6 +1,5 @@
 User-agent: *
 Allow: /
-Disallow: /private/
 Sitemap: https://euno-oo.github.io/sitemap.xml
 
 User-agent: Googlebot

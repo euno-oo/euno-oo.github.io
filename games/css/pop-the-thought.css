@@ -13,9 +13,9 @@
   --md-surface-high: #ECE6F0;
   --md-surface-highest: #E6E0E9;
   --md-text-primary: #1C1B1F;
-  --md-text-secondary: #49454F;
-  --md-disabled: #79747E;
-  --md-outline-variant: #C4C6D0;
+  --md-text-secondary: #3C3844;
+  --md-disabled: #6B6773;
+  --md-outline-variant: #CAC4D0;
   --md-error: #B3261E;
   --md-error-container: #F9DEDC;
   --md-on-error-container: #410002;
@@ -44,8 +44,8 @@
   --md-surface-high: #2B2930;
   --md-surface-highest: #36343B;
   --md-text-primary: #E6E1E5;
-  --md-text-secondary: #CAC4D0;
-  --md-disabled: #938F99;
+  --md-text-secondary: #D0CBD8;
+  --md-disabled: #A09BA7;
   --md-outline-variant: #49454F;
   --md-error: #F2B8B5;
   --md-error-container: #8C1D18;
@@ -370,7 +370,6 @@ body {
   display: none !important;
 }
 
-/* --- Start screen rules list --- */
 .rules-list {
   display: flex;
   flex-direction: column;
@@ -464,7 +463,6 @@ body {
   gap: 2px;
 }
 
-/* --- Thought type: Negative (must pop) --- */
 .thought-balloon.negative {
   background-color: #FFF5F5;
   border: 2px solid #FECACA;
@@ -527,7 +525,6 @@ body {
   color: #DC2626;
 }
 
-/* --- Thought type: Positive (let pass) --- */
 .thought-balloon.positive {
   background-color: #F0FFF4;
   border: 2px solid #BBF7D0;
@@ -590,7 +587,6 @@ body {
   color: #16A34A;
 }
 
-/* --- Shared balloon elements --- */
 .thought-icon {
   font-size: 20px;
   pointer-events: none;
@@ -636,7 +632,6 @@ body {
   transform: scale(0.95) !important;
 }
 
-/* --- Pop animations --- */
 @keyframes popCorrect {
   0% {
     transform: scale(1);
@@ -864,7 +859,6 @@ body {
   text-align: left;
 }
 
-/* Desktop: start & game-over overlays cover the full viewport below the top bar */
 @media (min-width: 768px) {
   #start-screen,
   #game-over-screen {

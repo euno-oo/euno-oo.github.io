@@ -17,6 +17,8 @@
 - **Settings**: Profile (name, gender), theme selection (light/dark/system), data export/import, data clearing, onboarding restart
 - **Onboarding**: Interactive tour with spotlight highlighting, step navigation
 - **Navigation**: Sidebar navigation (desktop), mobile drawer, bottom navigation bar, page routing
+- **Mini-Games**: 5 interactive coping games (Pop the Thought, Control or Let Go, Friendship Flowers, Organize the Desk, Recharge the Pet)
+- **Virtual Pet**: Euno the pet companion that reflects emotional state based on check-in data
 
 ### Shared UI Components
 - Date Picker: Modal with calendar/year views, manual date selection
@@ -93,7 +95,7 @@ Euno/
 ├── diary.html            # Diary page
 ├── privacy.html            # Privacy policy page
 ├── settings.html           # Settings page
-├── wellness.html           # Wellness page
+├── games.html              # Games hub page
 ├── readme.md               # Project readme
 ├── docs/
 │   └── Blueprint.md        # This documentation
@@ -121,8 +123,8 @@ Euno/
 │   │   ├── checkin.css     # Daily check-in feature styles
 │   │   ├── diary.css     # Diary feature styles
 │   │   ├── pickers.css     # Date/time picker component styles
-│   │   ├── habits.css      # Habit tracker feature styles
-│   │   ├── wellness.css    # Wellness (breathing, gratitude, challenges) feature styles
+│   │   ├── insights.css    # Insights analytics feature styles
+│   │   ├── streak-calendar.css # Streak calendar component styles
 │   │   ├── settings.css    # Settings page styles
 │   │   ├── onboarding.css  # Onboarding overlay styles
 │   │   └── index.css       # Features module entry point
@@ -130,28 +132,16 @@ Euno/
 │   │   ├── responsive.css  # Responsive media queries
 │   │   └── index.css       # Utilities module entry point
 │   └── index.css           # Main CSS entry point
-├── html/
-│   ├── components/
-│   │   ├── dialogs.html    # Dialog components (date picker, time picker, streak calendar, toast)
-│   │   └── onboarding.html # Onboarding overlay component
-│   ├── layout/
-│   │   ├── bottom-nav.html # Bottom navigation component
-│   │   ├── mobile-drawer.html # Mobile drawer navigation component
-│   │   └── sidebar.html    # Sidebar navigation component
-│   ├── pages/
-│   │   ├── about.html      # About page content
-│   │   ├── checkin.html    # Daily check-in page content (includes insights)
-│   │   ├── credits.html    # Credits page content
-│   │   ├── home.html       # Home page content
-│   │   ├── diary.html    # Diary page content
-│   │   ├── privacy.html    # Privacy policy page content
-│   │   ├── settings.html   # Settings page content
-│   │   └── wellness.html   # Wellness page content
-│   ├── head.html           # Head section (meta tags, fonts, CSS)
-│   └── scripts.html        # Script section (jsPDF CDN, main script)
+├── images/                 # Image assets (AVIF + PNG)
+├── games/                  # Mini-game pages
+│   ├── css/                # Game-specific CSS
+│   ├── js/                 # Game-specific JS
+│   └── *.html              # 5 game HTML pages
 └── js/
     ├── core/
     │   ├── constants.js    # MOOD_*, ONBOARDING_STEPS, BREATH_PATTERNS, etc.
+    │   ├── dataSync.js     # Data synchronization utilities
+    │   ├── icons.js        # Icon initialization
     │   └── storage.js      # getStorage, setStorage
     ├── utils/
     │   ├── helpers.js      # sanitize*, parseMarkdown, debounce, matchesQuery, stableSort
@@ -169,18 +159,34 @@ Euno/
     ├── diary/
     │   ├── diary.js      # Diary editor, history, save/load
     │   └── editor.js       # Shared markdown editor helpers
-    ├── habits/habits.js
-    ├── wellness/wellness.js
-    ├── settings/settings.js
-    ├── streak/streakCalendar.js
-    └── migrations/migrateDiaryReminders.js
+    ├── insights/
+    │   └── insights.js     # Trend charts, emotion frequency, PDF report
+    ├── pet/                # Virtual pet companion system
+    │   ├── main.js         # Pet initialization
+    │   ├── petAssets.js    # Pet visual asset definitions
+    │   ├── petEngine.js    # Pet behavior engine
+    │   ├── petMessages.js  # Pet speech/messages
+    │   ├── petRenderer.js  # Pet rendering logic
+    │   ├── petState.js     # Pet state management
+    │   ├── wellnessAdapter.js # Adapter between check-in data and pet state
+    │   └── components/
+    │       ├── navigation.js   # Pet navigation component
+    │       ├── petCard.js      # Pet card component
+    │       └── speechBubble.js # Speech bubble component
+    ├── countdown/
+    │   └── countdown.js   # Countdown timer feature
+    ├── settings/
+    │   └── settings.js    # Profile, theme, data management
+    ├── streak/
+    │   └── streakCalendar.js # Streak calendar dialog
+    └── script.js          # Main entry point (ES module bootstrapper)
 ```
 
 ## Entry Point & Bootstrap
 
 Each HTML page loads `css/index.css` (modular CSS), jsPDF CDN, and `<script type="module" src="js/script.js">`.
 
-`js/script.js` on `DOMContentLoaded` initializes all features. Side-effect imports: `migrateDiaryReminders.js`.
+`js/script.js` on `DOMContentLoaded` initializes all features.
 
 **Still in `js/script.js` (not extracted):** `initNavigation()` (page routing, drawer), `initDiary()` (diary section tabs).
 
@@ -203,16 +209,19 @@ Each HTML page loads `css/index.css` (modular CSS), jsPDF CDN, and `<script type
 | `insights/insights.js` | `initInsights`, `renderInsights` |
 | `diary/editor.js` | `setDraftStatus`, `applyMarkdown`, `insertAtCursor`, `setEditorMode` |
 | `diary/diary.js` | `initDiaryEditor` |
-| `habits/habits.js` | `initHabits`, `renderHabits` |
-| `wellness/wellness.js` | `initWellness` |
 | `settings/settings.js` | `initSettings` |
 | `streak/streakCalendar.js` | `initStreakCalendar` |
-| `migrations/migrateDiaryReminders.js` | Side-effect only - runs one-time migration on import |
+| `countdown/countdown.js` | `initCountdown` |
+| `pet/main.js` | `initializePet` |
+| `pet/petEngine.js` | Pet behavior/animation loop |
+| `pet/petState.js` | Pet emotional state management |
+| `pet/wellnessAdapter.js` | Check-in data → pet state adapter |
+| `core/icons.js` | `initIcons` |
 
 ## Cross-Feature Imports (Actual)
 
 - `checkin.js` → `home.js`, `insights.js`, `checkinScoring.js`
-- `habits.js`, `diary.js`, `checkin.js`, `settings.js` → `home.js`
+- `diary.js`, `checkin.js`, `settings.js` → `home.js`
 - `onboarding.js` → `home.js`
 - `settings.js` → `onboarding.js`
 - `checkin.js` → `checkinScoring.js`, `insights.js`
@@ -279,7 +288,6 @@ Each feature module exports `init*` (and render helpers where needed). See **Mod
 
 ### Reminders & migrations
 - `notes/notes.js`: `scheduleNoteReminder`, `scheduleDiaryReminder`, `checkReminders` (+ 60s interval)
-- `migrations/migrateDiaryReminders.js`: runs once on import
 
 ## Shared State Map
 
@@ -367,7 +375,7 @@ Each feature module exports `init*` (and render helpers where needed). See **Mod
 ### Global Event Listeners
 - `DOMContentLoaded` in `script.js`: Initializes all features
 - `window.matchMedia('(prefers-color-scheme: dark)')` in `features/theme.js`: System theme change
-- `setInterval(checkReminders, 60000)` in `notes/notes.js`: Reminder polling
+- `setInterval(checkReminders, 60000)` in `notes/notes.js`: Reminder polling (if notes module exists)
 
 ### Navigation Events
 - Sidebar nav items: Click to navigate to page
