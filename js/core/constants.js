@@ -39,17 +39,17 @@ export const ONBOARDING_STEPS = [
     padding: 6
   },
   {
-    icon: 'menu_book',
-    title: 'Diary',
-    body: 'Write private entries with full Markdown support. Your thoughts, saved locally and never shared.',
-    targetSelector: 'a[href="diary.html"].nav-item, a[href="diary.html"].bnav-item',
-    padding: 6
-  },
-  {
     icon: 'extension',
     title: 'Coping Games',
     body: 'Five short interactive games designed to help you manage stress, anxiety, and overthinking.',
     targetSelector: 'a[href="games.html"].nav-item, a[href="games.html"].bnav-item',
+    padding: 6
+  },
+  {
+    icon: 'menu_book',
+    title: 'Diary',
+    body: 'Write private entries with full Markdown support. Your thoughts, saved locally and never shared.',
+    targetSelector: 'a[href="diary.html"].nav-item, a[href="diary.html"].bnav-item',
     padding: 6
   },
   {

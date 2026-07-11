@@ -16,11 +16,6 @@ export function applyTheme(t) {
     document.documentElement.removeAttribute('data-theme');
   }
 
-  const badge = document.getElementById('wcb');
-  if (badge) {
-    badge.classList.toggle('wcb-d', isDark);
-  }
-
   setStorage('theme', t);
 }
 
