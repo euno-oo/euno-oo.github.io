@@ -263,6 +263,42 @@ body {
     padding-right: 2px;
 }
 
+@media (min-width: 768px) {
+    .prompts-list {
+        padding-right: 10px;
+    }
+
+    .prompts-list::-webkit-scrollbar {
+        width: 10px;
+    }
+
+    .prompts-list::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    .prompts-list::-webkit-scrollbar-button {
+        display: none;
+    }
+
+    .prompts-list::-webkit-scrollbar-thumb {
+        background-color: var(--md-secondary);
+        border-radius: 9999px;
+        border: 2px solid transparent;
+        background-clip: padding-box;
+    }
+
+    .prompts-list::-webkit-scrollbar-thumb:hover {
+        background-color: var(--md-primary);
+    }
+
+    @supports not selector(::-webkit-scrollbar) {
+        .prompts-list {
+            scrollbar-width: thin;
+            scrollbar-color: var(--md-secondary) transparent;
+        }
+    }
+}
+
 .prompt-card {
     background-color: var(--md-surface-lowest);
     border: 1.5px solid var(--md-outline-variant);

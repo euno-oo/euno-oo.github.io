@@ -186,7 +186,16 @@ export function initOnboarding() {
       tooltip.appendChild(arrowEl);
     }
 
-    const total = ONBOARDING_STEPS.length;
+    const steps = ONBOARDING_STEPS.slice();
+    if (window.matchMedia('(min-width: 961px)').matches) {
+      const gamesIdx = steps.findIndex(s => s.title === 'Coping Games');
+      const diaryIdx = steps.findIndex(s => s.title === 'Diary');
+      if (gamesIdx > -1 && diaryIdx > -1) {
+        [steps[diaryIdx], steps[gamesIdx]] = [steps[gamesIdx], steps[diaryIdx]];
+      }
+    }
+
+    const total = steps.length;
     let current = 0;
     let resizeTimer;
     let _resizeListener = null;
@@ -210,7 +219,7 @@ export function initOnboarding() {
     const freshNext = document.getElementById('onboarding-next');
     const freshSkip = document.getElementById('onboarding-skip');
 
-    dotsEl.innerHTML = ONBOARDING_STEPS.map((_, i) =>
+    dotsEl.innerHTML = steps.map((_, i) =>
       `<button class="ob-dot${i === 0 ? ' active' : ''}" data-i="${i}" role="tab" aria-selected="${i === 0}" aria-label="Step ${i + 1} of ${total}"></button>`
     ).join('');
 
@@ -219,7 +228,7 @@ export function initOnboarding() {
     });
 
     function updateLayout() {
-      const s = ONBOARDING_STEPS[current];
+      const s = steps[current];
       const targetEl = _obTarget(s.targetSelector);
 
       if (targetEl) {
@@ -234,7 +243,7 @@ export function initOnboarding() {
     }
 
     function renderStep(n) {
-      const s = ONBOARDING_STEPS[n];
+      const s = steps[n];
 
       if (iconEl)  iconEl.textContent  = s.icon;
       if (titleEl) titleEl.textContent = s.title;
