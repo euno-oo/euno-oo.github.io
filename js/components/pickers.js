@@ -26,6 +26,20 @@ function initDatePicker() {
   const dialog = document.getElementById('date-picker-dialog');
   const scrim = dialog && dialog.querySelector('.picker-scrim');
   scrim && scrim.addEventListener('click', closeDatePicker);
+  const yearGrid = document.getElementById('dp-year-grid');
+  yearGrid && yearGrid.addEventListener('click', e => {
+    const btn = e.target.closest('.dp-year-btn');
+    if (!btn) return;
+    const d = new Date(dpCurrentDate+'T12:00:00'); d.setFullYear(parseInt(btn.dataset.y));
+    dpCurrentDate = d.toISOString().slice(0,10);
+    const yrView = document.getElementById('dp-year-view');
+    if (yrView) yrView.style.display = 'none';
+    const calView = document.getElementById('dp-calendar-view');
+    if (calView) calView.style.display = '';
+    renderDPCalendar();
+  });
+  const yearView = document.getElementById('dp-year-view');
+  yearView && yearView.addEventListener('scroll', extendDPYearGrid);
 }
 
 function openDatePicker(initialDate, callback) {
@@ -58,7 +72,7 @@ function renderDPCalendar() {
   let html = '';
   for (let i=0; i<fd; i++) html += `<div></div>`;
   for (let day=1; day<=dim; day++) {
-    const ds = `${year}-${String(month+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
+    const ds = `${String(year).padStart(4,'0')}-${String(month+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
     const isSel = ds===dpCurrentDate, isToday=ds===today;
     html += `<button class="dp-day${isSel?' selected':''}${isToday&&!isSel?' today':''}" data-date="${ds}" type="button" aria-label="${ds}">${day}</button>`;
   }
@@ -84,28 +98,46 @@ function toggleDPYearView() {
   }
 }
 
+const DP_YEAR_SPAN = 10;
+let dpYearStart = null, dpYearEnd = null;
+
+function dpYearButtons(start, end, curYear, thisYear) {
+  let html='';
+  for(let y=start; y<=end; y++) {
+    html+=`<button class="dp-year-btn${y===curYear?' selected':''}${y===thisYear?' current-year':''}" data-y="${y}" type="button">${y}</button>`;
+  }
+  return html;
+}
+
 function renderDPYearGrid() {
   const grid = document.getElementById('dp-year-grid');
   if (!grid) return;
   const curYear = new Date(dpCurrentDate+'T12:00:00').getFullYear();
   const thisYear = new Date().getFullYear();
-  let html='';
-  for(let y=thisYear-10; y<=thisYear+10; y++) {
-    html+=`<button class="dp-year-btn${y===curYear?' selected':''}${y===thisYear?' current-year':''}" data-y="${y}" type="button">${y}</button>`;
-  }
-  grid.innerHTML=html;
-  grid.querySelectorAll('.dp-year-btn').forEach(btn=>{
-    btn.addEventListener('click',()=>{
-      const d=new Date(dpCurrentDate+'T12:00:00'); d.setFullYear(parseInt(btn.dataset.y));
-      dpCurrentDate=d.toISOString().slice(0,10);
-      const yrView = document.getElementById('dp-year-view');
-      if (yrView) yrView.style.display = 'none';
-      const calView = document.getElementById('dp-calendar-view');
-      if (calView) calView.style.display = '';
-      renderDPCalendar();
-    });
-  });
+  dpYearStart = Math.max(1, curYear - DP_YEAR_SPAN);
+  dpYearEnd = Math.min(9999, curYear + DP_YEAR_SPAN);
+  grid.innerHTML=dpYearButtons(dpYearStart, dpYearEnd, curYear, thisYear);
   setTimeout(()=>{const sel=grid.querySelector('.selected');if(sel)sel.scrollIntoView({block:'center'});},50);
+}
+
+function extendDPYearGrid() {
+  const view = document.getElementById('dp-year-view');
+  const grid = document.getElementById('dp-year-grid');
+  if (!view || !grid || dpYearStart === null || view.style.display === 'none') return;
+  const curYear = new Date(dpCurrentDate+'T12:00:00').getFullYear();
+  const thisYear = new Date().getFullYear();
+  if (view.scrollTop <= 8 && dpYearStart > 1) {
+    const start = Math.max(1, dpYearStart - DP_YEAR_SPAN);
+    const prevHeight = view.scrollHeight;
+    grid.insertAdjacentHTML('afterbegin', dpYearButtons(start, dpYearStart - 1, curYear, thisYear));
+    view.scrollTop += view.scrollHeight - prevHeight;
+    dpYearStart = start;
+  }
+  if (view.scrollHeight - view.scrollTop - view.clientHeight <= 8 && dpYearEnd < 9999) {
+    const end = Math.min(9999, dpYearEnd + DP_YEAR_SPAN);
+    grid.insertAdjacentHTML('beforeend', dpYearButtons(dpYearEnd + 1, end, curYear, thisYear));
+    dpYearEnd = end;
+  }
 }
 
 let tpCallback = null, tpHour = 12, tpMinute = 0, tpPeriod = 'AM', tpMode = 'hour';

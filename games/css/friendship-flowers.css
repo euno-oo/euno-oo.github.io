@@ -265,7 +265,13 @@ body {
 
 @media (min-width: 768px) {
     .prompts-list {
-        padding-right: 10px;
+        direction: rtl;
+        padding-right: 0;
+        padding-left: 10px;
+    }
+
+    .prompt-card {
+        direction: ltr;
     }
 
     .prompts-list::-webkit-scrollbar {

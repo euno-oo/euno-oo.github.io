@@ -75,7 +75,7 @@
   --theme-btn-hover-color: #21005D;
 }
 
-[data-theme="dark"] {
+html[data-theme="dark"] {
   --md-primary: #D0BCFF;
   --md-primary-hover: #c4a8ff;
   --md-on-primary: #381E72;
